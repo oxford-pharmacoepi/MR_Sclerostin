@@ -1,0 +1,18 @@
+# This file contains a short description of the columns in the
+# meta-analysis summary file, named 'METAANALYSIS1.TBL'
+
+# Marker    - this is the marker name
+# Allele1   - the first allele for this marker in the first file where it occurs
+# Allele2   - the second allele for this marker in the first file where it occurs
+# Freq1       - weighted average of frequency for allele 1 across all studies
+# FreqSE      - corresponding standard error for allele frequency estimate
+# Effect    - overall estimated effect size for allele1
+# StdErr    - overall standard error for effect size estimate
+# P-value   - meta-analysis p-value
+# Direction - summary of effect direction for each study, with one '+' or '-' per study
+
+# Input for this meta-analysis was stored in the files:
+# --> Input File 1 : sc.txt
+# --> Input File 2 : nn.txt
+# --> Input File 3 : ng.txt
+
