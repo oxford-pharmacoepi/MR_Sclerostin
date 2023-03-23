@@ -124,7 +124,7 @@ PhenotypingUKB <- function(outc,pop,ukb){
       
       ukb1 <- NULL
       for (i in 0:33){
-        eval(parse(text = paste0("ukb1 <- ukb1 %>% union_all(ukb1 %>% select(eid,X20002.0.",i,", age_ukb1 = X20009.0.",i,") %>% filter(X20002.0.",i," %in% codes_ukb$UKB.CODE) %>% select(eid, age_ukb1) )")))
+        eval(parse(text = paste0("ukb1 <- ukb1 %>% union_all(ukb %>% select(eid,X20002.0.",i,", age_ukb1 = X20009.0.",i,") %>% filter(X20002.0.",i," %in% codes_ukb$UKB.CODE2) %>% select(eid, age_ukb1) )")))
       }
       ukb1 <- ukb1 %>%
         group_by(eid) %>%
@@ -145,7 +145,7 @@ PhenotypingUKB <- function(outc,pop,ukb){
         select("UKB.CODE3") %>%
         filter(!is.na(UKB.CODE3))
       
-      ukb3 <- searchUKBcode(UKB, codes_ukb$UKB.CODE3) %>%
+      ukb3 <- searchUKBcode(ukb, codes_ukb$UKB.CODE3) %>%
         rename(state_ukb3 = state_ukb)
       
       ukb4 <- ukb %>%
@@ -169,7 +169,6 @@ PhenotypingUKB <- function(outc,pop,ukb){
         mutate(state_ukb = if_else(is.na(state_ukb),0,state_ukb))
       }
     )
-  
 }
 
 searchUKBcode <- function(x, code, varname = "X20003.0.") {

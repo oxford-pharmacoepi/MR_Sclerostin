@@ -1,5 +1,6 @@
 PhenotypingHes <- function(outc,hes){
-  phen <- read.xlsx(here("MR_UKBiobank","BinaryData","PhenotypingR.xlsx"), sheetName = outc)
+  phen <- read.xlsx(here("MR_UKBiobank","BinaryData","PhenotypingR.xlsx"),
+                    sheetName = outc)
   
   hes_codes <- phen %>% 
     select("HES") %>%

@@ -1,2 +1,0 @@
-@ECHO OFF
-CMD /K "SET PATH=%CD%;%PATH%"
