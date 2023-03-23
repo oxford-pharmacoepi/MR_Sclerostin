@@ -6,22 +6,21 @@ path = pwd; path = path(1:end-length('\Figures'));
 names1 = {'eBMD','Cholesterol','LDL','HDL','Triglycerides','Apolipoprotein A',...
     'Apolipoprotein B','C-Reactive protein','Lipoprotein','HbA1c','Glucose'};
 
-% Meta-analysis ----------------------------------------------------------
-names  = {'ebi-a-GCST006979'};
+% gwas ----------------------------------------------------------
+names  = {'eBMD'};
 
-betaM = zeros(length(names),1);
-seM   = zeros(length(names),1);
+betaM = zeros(length(names),1); seM   = zeros(length(names),1);
 
 for i = 1:length(names)
-    t = readtable([path '\MR_metaanalysis\gMR_res.xlsx'],Sheet= names{i});
+    t = readtable([path '\MR_gwas\gMR_res.xlsx'],Sheet= names{i});
 
     betaM(i) = t.Estimate(1);
     seM(i)   = t.SE(1);
 end
 
 % UK Biobank -------------------------------------------------------------
-names  = {'3148-0.0','30690-0.0','30780-0.0','30760-0.0','30870-0.0','30630-0.0',...
-    '30640-0.0','30710-0.0','30790-0.0','30750-0.0','30740-0.0'};
+names  = {'eBMD','Cholesterol','LDL','HDL','Triglycerides','Apo-A',...
+    'Apo-B','CRP','Lipoprotein','HbA1c','Glucose'};
 
 betaUKB = zeros(length(names),1);
 seUKB   = zeros(length(names),1);
@@ -61,53 +60,44 @@ print(f,"Fig4.1.png","-dpng","-r600")
 clear all; close all
 path = pwd; path = path(1:end-length('\Figures'));
 
-names1 = {'Fracture*','MI','CAD','IS','Hypertension','T2DM'};
+names1 = {'Fracture*','CAD','MI','IS','Hypertension','T2DM'};
 
 % Meta-analysis ----------------------------------------------------------
-names  = {'HF','ebi-a-GCST011365','ebi-a-GCST005194','IS','ukb-b-14057','ebi-a-GCST006867'};
-
-oddM = zeros(length(names),1);
-clM  = zeros(length(names),1);
-cuM  = zeros(length(names),1);
+names  = {'HF','CAD','MI','IS','Hypertension','T2DM'};
+oddM = zeros(length(names),1); clM = zeros(length(names),1); cuM = zeros(length(names),1);
 for i = 1:length(names)
-    t = readtable([path '\MR_metaanalysis\gMR_res.xlsx'],Sheet= names{i});
+    t = readtable([path '\MR_gwas\gMR_res.xlsx'],Sheet= names{i});
 
     oddM(i) = t.OR(1);
-    clM(i)   = t.C1(1);
-    cuM(i)   = t.C2(1);
+    clM(i)  = t.CI_LOW_OR(1);
+    cuM(i)  = t.CI_HIGH_OR(1);
 end
 oddM = flip(oddM); clM = flip(clM); cuM = flip(cuM);
 
 % UK Biobank - LOGISTIC --------------------------------------------------
 names  = {'Fracture','MI','CAD','IS','Hypertension','T2DM'};
-
-oddUKB = zeros(length(names),1);
-clUKB  = zeros(length(names),1);
-cuUKB  = zeros(length(names),1);
+oddUKB = zeros(length(names),1); clUKB  = zeros(length(names),1); cuUKB  = zeros(length(names),1);
 for i = 1:length(names)
     t = readtable([path '\MR_UKBiobank\BinaryData\Logistic\MR_res.xlsx'],Sheet= names{i});
 
     oddUKB(i) = t.OR(1);
-    clUKB(i)  = t.C1(1);
-    cuUKB(i)  = t.C2(1);
+    clUKB(i)  = t.CI_LOW_OR(1);
+    cuUKB(i)  = t.CI_HIGH_OR(1);
 end
-oddUKB = flip(oddUKB); clUKB = flip(clUKB); cuUKB = flip(cuUKB); names = flip(names);
+oddUKB = flip(oddUKB); clUKB = flip(clUKB); cuUKB = flip(cuUKB); 
 
 % UK Biobank - SURVIVAL (Birth) ------------------------------------------
 names  = {'Fracture','MI','CAD','IS','Hypertension','T2DM'};
 
-oddUKB_B = zeros(length(names),1);
-clUKB_B  = zeros(length(names),1);
-cuUKB_B  = zeros(length(names),1);
+oddUKB_B = zeros(length(names),1); clUKB_B  = zeros(length(names),1); cuUKB_B  = zeros(length(names),1);
 for i = 1:length(names)
     t = readtable([path '\MR_UKBiobank\BinaryData\SA_Birth\MR_res.xlsx'],Sheet= names{i});
 
     oddUKB_B(i) = t.OR(1);
-    clUKB_B(i)  = t.C1(1);
-    cuUKB_B(i)  = t.C2(1);
+    clUKB_B(i)  = t.CI_LOW_OR(1);
+    cuUKB_B(i)  = t.CI_HIGH_OR(1);
 end
 oddUKB_B = flip(oddUKB_B); clUKB_B = flip(clUKB_B); cuUKB_B = flip(cuUKB_B); 
-
 
 f = figure(2); hold on; grid on; box on;
 f.Position = [680 254 560 844];

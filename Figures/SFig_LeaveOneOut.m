@@ -73,14 +73,14 @@ annotation('textbox',[3*(Dx+mx)+lx 1-uy-Dy-0.95*my Dx 0.03],'Color','k','String'
     'FontSize',12,'VerticalAlignment','middle','HorizontalAlignment','center','BackgroundColor',[220 220 220]./255,'EdgeColor',[220 220 220]./255)
 
 
-print(f,['./SFig_LOO_Continuous.png'],"-dpng","-r300")
+print(f,['./SFig_LOO_Continuous.png'],"-dpng","-r600")
 
 %% Binary data
 clear all; close all
 path = pwd; path = path(1:end-length('\Figures'));
 
 names1 = {'Fracture','CAD','MI','IS','Hypertension','T2DM'};
-namesM  = {'HF','ebi-a-GCST005194','ebi-a-GCST011365','IS','ukb-b-14057','ebi-a-GCST006867'};
+namesM  = {'HF','CAD','MI','IS','Hypertension','T2DM'};
 namesU  = {'Fracture','CAD','MI','IS','Hypertension','T2DM'};
 
 
@@ -94,7 +94,7 @@ order = [2,4,6,1,3,5];
 for i = 1:length(names1)
     f.CurrentAxes = AX(order(i));
 
-    t = readtable([path '\SensitivityAnalysis\LeaveOneOut\Metaanalysis\loo.xlsx'],Sheet= namesM{i});
+    t = readtable([path '\SensitivityAnalysis\LeaveOneOut\Gwas\loo.xlsx'],Sheet= namesM{i});
     betaM = flip(t.Estimate);
     seM   = flip(t.SE);
     if i == 6
@@ -159,81 +159,6 @@ l = legend('GWAS','UKB-LR','UKB-SA','Interpreter','latex','FontSize',14);
 l.NumColumns = 3; l.Position = [1/2+0.03 dy/6 .03 .03];
 print(f,['./SFig_LOO_Binary.png'],"-dpng","-r600")
 
-%% Continuous data
-clear all; close all
-path = pwd; path = path(1:end-length('\Figures'));
-
-names1 = {'eBMD','Cholesterol','LDL','HDL','Triglycerides','Apolipoprotein A',...
-    'Apolipoprotein B','C-Reactive protein','Lipoprotein','HbA1c','Glucose'};
-
-% UK Biobank -------------------------------------------------------------
-names  = {'3148-0.0','30690-0.0','30780-0.0','30760-0.0','30870-0.0','30630-0.0',...
-    '30640-0.0','30710-0.0','30790-0.0','30750-0.0','30740-0.0'};
-
-betaUKB = zeros(length(names),1);
-seUKB   = zeros(length(names),1);
-
-for i = 1:length(names)
-    t = readtable([path '\SensitivityAnalysis\LeaveOneOut\ContinuousData\loo.xlsx'],Sheet= names{i});
-
-    betaUKB = flip(t.Estimate);
-    seUKB   = flip(t.SE);
-    SNPs    = flip(t.SNPS);
-
-    f = figure(i); hold on; grid on; box on;
-
-    errorbar(betaUKB,[0.1:0.1:0.7],betaUKB - (betaUKB - 1.96*seUKB),(betaUKB + 1.96*seUKB) - betaUKB,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[167 21 49]./255,"Color",[167 21 49]./255)
-
-    ax = gca;
-    ax.YTick = [0.1:0.1:0.7];
-    ax.YTickLabel = SNPs;
-    ax.TickLabelInterpreter = 'latex';
-    ax.YLim = [0 0.8];
-    xline(0,"LineWidth",1.5,"LineStyle","--","Color",'k')
-    xlabel("MR effect size per SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
-    print(f,['./SFig_LOO_Continuous/Fig_' names1{i} '.png'],"-dpng","-r600")
-end
-
-%% Binary data
-clear all; close all
-path = pwd; path = path(1:end-length('\Figures'));
-
-names1 = {'Fracture','MI','CAD','IS','Hypertension','T2DM'};
-namesM  = {'HF','ebi-a-GCST011365','ebi-a-GCST005194','IS','ukb-b-14057','ebi-a-GCST006867'};
-namesU  = {'Fracture','MI','CAD','IS','Hypertension','T2DM'};
-
-for i = 1:length(names1)
-    t = readtable([path '\SensitivityAnalysis\LeaveOneOut\Metaanalysis\loo.xlsx'],Sheet= namesM{i});
-    betaM = flip(t.Estimate);
-    seM   = flip(t.SE);
-    if i == 6
-        betaM = [betaM(1:2); NaN; betaM(3:6)];
-        seM   = [seM(1:2); NaN; seM(3:6)];
-    end
-    t = readtable([path '\SensitivityAnalysis\LeaveOneOut\BinaryData_LR\loo.xlsx'],Sheet= namesU{i});
-    betaLR = flip(t.Estimate);
-    seLR    = flip(t.SE);
-    
-    t = readtable([path '\SensitivityAnalysis\LeaveOneOut\BinaryData_SA\loo.xlsx'],Sheet= namesU{i});
-    betaSA = flip(t.Estimate);
-    seSA   = flip(t.SE);
-   
-    SNPs    = flip(t.SNPS);
-
-    f = figure(i); hold on; grid on; box on;
-    errorbar(betaM,[0.1:0.1:0.7]+0.02,betaM - (betaM - 1.96*seM),(betaM + 1.96*seM) - betaM,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255)
-    errorbar(betaLR,[0.1:0.1:0.7],betaLR - (betaLR - 1.96*seLR),(betaLR + 1.96*seLR) - betaLR,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[167 21 49]/255,"Color",[167 21 49]/255)
-    errorbar(betaSA,[0.1:0.1:0.7]-0.02,betaSA - (betaSA - 1.96*seSA),(betaSA + 1.96*seSA) - betaSA,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[206 109 50]/255,"Color",[206 109 50]/255)
-
-    ax = gca;
-    ax.YTick = [0.1:0.1:0.7];
-    ax.YTickLabel = SNPs;
-    ax.TickLabelInterpreter = 'latex';
-    ax.YLim = [0 0.8];
-    xline(0,"LineWidth",1.5,"LineStyle","--","Color",'k')
-    xlabel("MR effect size per SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
-    print(f,['./SFig_LOO_Binary/Fig_' names1{i} '.png'],"-dpng","-r600")
-end
 
 %% FUNCTIONs
 function [AX] = get_axes(N,lx,mx,rx,dy,my,uy)

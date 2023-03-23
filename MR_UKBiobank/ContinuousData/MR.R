@@ -15,8 +15,7 @@ snps  <- ldrho %>% select("SNP" = RS_number)
 # EXPOSURE DATA ----------------------------------------------------------------
 exposure_dat <- snps %>%
   left_join(read_delim(here("Pruning","exposure_data.csv"))) %>%
-  select(-"...1") %>% 
-  right_join(data.frame("SNP" = snps), by = "SNP")
+  select(-"...1")
 
 # Outcome data -----------------------------------------------------------------
 out  <- c('eBMD','Cholesterol','LDL','HDL','Triglycerides','Apo-A','Apo-B','CRP','Lipoprotein','HbA1c','Glucose')

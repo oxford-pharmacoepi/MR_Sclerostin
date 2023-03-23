@@ -1,8 +1,9 @@
-rm(list = ls())
-
-library(pacman)
-pacman::p_load('TwoSampleMR','MendelianRandomization','tibble','dplyr','tidyverse',
-               'readr','here','xlsx','LDlinkR')
+# ============================================================================ #
+#                               Exposure data for                              #
+#                      non correlated SNPs sensitivy analysis                  #
+#                        2023 - Marta Alcalde-Herraiz                          #
+# ============================================================================ #
+rm(list = setdiff(ls(),c("pathData","tok")))
 
 # SELECT INSTRUMENT ------------------------------------------------------------
 # Read meta-analysis results
@@ -26,27 +27,32 @@ t <- read_delim(here("Metaanalysis","Fixed_results","Fixed.csv"), delim = ",", s
 # Pruning
 exposure_dat <- clump_data(t,clump_r2 = 0.1, clump_kb = 500, pop = "EUR")
 
-# LD correlation matrix
-# Sometimes there is no connection with the server, so the correlation matrix has
-# has been stored in the following file:
-# ldrho <- LDmatrix(exposure_dat$SNP,"EUR",token = "93873e604a3e")
-# write_delim(ldrho,here("Pruning","ldrho.txt"))
-ldrho <- read_delim(here("Pruning","ldrho.txt"))
-snps  <- data.frame("SNP" = ldrho$RS_number)
-
 
 # Outcome
-out <- "ebi-a-GCST006979" # eBMD
-outcome_dat <- extract_outcome_data(snps = snps$SNP, outcomes = out)
+out <- c('eBMD','HF')
+for (i in 1:2){
+  switch(i,
+         "1" = {
+           outcome_dat <- extract_outcome_data(exposure_dat$SNP, outcomes = "ebi-a-GCST006979")
+         },
+         "2" = {
+           outcome_dat <- read_delim(paste0(pathData,"GWAS_HipFracture\\GCST90161240_buildGRCh37.tsv")) %>%
+             rename("SNP" = "variant_id","pval.outcome" = "p_value","effect_allele.outcome" = "effect_allele",
+                    "other_allele.outcome" = "other_allele","eaf.outcome" = "effect_allele_frequency","beta.outcome" = "beta",
+                    "se.outcome" = "standard_error") %>%
+             filter(SNP %in% exposure_dat$SNP) %>%
+             mutate(outcome = "Hip fracture", id.outcome = "Hip fracture")
+         }
+  )
+  
+  # Harmonize data
+  dat <- harmonise_data(exposure_dat,outcome_dat) %>%
+    filter(remove == FALSE) %>%
+    distinct()
+  
+  res <- TwoSampleMR::mr(dat)
+}
 
-# Harmonize data
-dat <- snps %>%
-  left_join(harmonise_data(exposure_dat,outcome_dat), by = "SNP") %>%
-  filter(remove == FALSE) %>%
-  distinct()
 
-dat <- dat %>%
-  filter(sign(beta.exposure) != sign(beta.outcome)) %>% # Select those snps with inverse direction between exposure and outcome
-  select("SNP", contains("exposure"),"pos") %>%
-  mutate(beta.exposure = -beta.exposure) # Lowering sclerostin effect
-write.csv(dat,here("SensitivityAnalysis","SingleSNP","exposure_data.csv"))
+exposure_dat$beta.exposure <- -exposure_dat$beta.exposure
+write.csv(exposure_dat,here("SensitivityAnalysis","SingleSNP","exposure_data.csv"))

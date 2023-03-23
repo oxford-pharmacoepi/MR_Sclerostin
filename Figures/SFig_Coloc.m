@@ -1,8 +1,7 @@
 clear all; close all;
 path = pwd; path = path(1:end-length('\Figures'));
 
-outcomes = {'HF','ebi-a-GCST005194','ebi-a-GCST011365','IS',...
-    'ukb-b-14057','ebi-a-GCST006867','ebi-a-GCST006979'};
+outcomes = {'HF','CAD','MI','IS','Hypertension','T2DM','eBMD'};
 outcomes_names = {'Hip fracture','Coronary artery disease','Myocardial infarction','Ischaemic stroke','Hypertension','Type II diabetes mellitus','eBMD'};
 
 alt = [7,7,7,7,7,7,90];
@@ -14,12 +13,8 @@ f.Position = [3 42 1913 1074];
 AX = get_axes([3,3],0.03,0.02,0.02,0.07,0.05,0.03);
 
 for i = 1:length(let)
-    t = readtable([path '\SensitivityAnalysis\Colocalization\data.xlsx'],'Sheet',outcomes{i});
-    if ismember(outcomes{i},'IS')
-        pos = t.Pos;
-    else
-        pos = t.pos;
-    end
+    t = readtable([path '\Colocalization\data.xlsx'],'Sheet',outcomes{i});
+    pos = t.Pos;
     pval.outcome  = t.pval_outcome;
     pval.exposure = t.pval_exposure;
 
@@ -80,39 +75,3 @@ for i = 1:Nx
 end
  
 end
-% for i = 1:length(outcomes)
-%     f = figure(i); hold on; box on;
-%     f.Position = [3 42 1913 1074];
-%     
-%     t = readtable([path '\SensitivityAnalysis\Colocalization\data.xlsx'],'Sheet',outcomes{i});
-%     if ismember(outcomes{i},'IS')
-%         pos = t.Pos;
-%     else
-%         pos = t.pos;
-%     end
-%     pval.outcome  = t.pval_outcome;
-%     pval.exposure = t.pval_exposure;
-% 
-%     f = figure(i);  hold on; box on;
-%     scatter(pos,-log10(pval.exposure),20,'k','MarkerFaceColor','r','MarkerEdgeColor','r')
-%     scatter(pos,-log10(pval.outcome),20,'k','MarkerFaceColor','k')
-%     ax = gca;
-%     ax.XTick = [41831099-20*1000, 41831099, 41836156, 41836156+20*1000];
-%     ax.XAxis.Exponent = 0;
-%     xtickformat('%.0f');
-%     ax.TickLabelInterpreter = 'latex';
-%     ax.XLim = [41831099-21*1000 41836156+21*1000];
-%     ylabel('-$log_{10}$(P-Value)','Interpreter','latex','FontSize',14)
-%   
-%     title(outcomes_names{i},'Interpreter','latex','FontSize',14,'FontWeight','bold')
-%     fill([41831099, 41836156, 41836156, 41831099],[ax.YLim(1) ax.YLim(1) ax.YLim(2) ax.YLim(2)],[237 177 32]./255,'EdgeColor',[237 177 32]./255,'FaceAlpha',0.2,'EdgeAlpha',0.2)
-%     fill([41831099-20*1000, 41831099, 41831099, 41831099-20*1000],[ax.YLim(1) ax.YLim(1) ax.YLim(2) ax.YLim(2)],[237 177 32]./255,'EdgeColor',[237 177 32]./255,'FaceAlpha',0.05,'EdgeAlpha',0)
-%     fill([41836156, 41836156+20*1000, 41836156+20*1000, 41836156],[ax.YLim(1) ax.YLim(1) ax.YLim(2) ax.YLim(2)],[237 177 32]./255,'EdgeColor',[237 177 32]./255,'FaceAlpha',0.05,'EdgeAlpha',0)
-%     text(41831099-26*1000,alt(i),let{i},'Interpreter','latex','FontSize',17)
-% 
-%     xlabel('Chromosome 17 position [bp]','Interpreter','latex','FontSize',14)
-%     l = legend('Sclerostin',outcomes_names{i},'Interpreter','latex','FontSize',12,'FontWeight','bold','Location','northeast');
-%     l.NumColumns = 2;
-% 
-%     print(f,['SFig_coloc_' num2str(i) '.png'],'-dpng','-r600')
-% end

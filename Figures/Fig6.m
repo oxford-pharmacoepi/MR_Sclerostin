@@ -1,8 +1,7 @@
-
 clear all; close all
 path = pwd; path = path(1:end-length('\Figures'));
 
-t = readtable([path '\Pruning\gMR_res.xlsx'],'Sheet','data');
+t = readtable([path '\Pruning\gMR_res.xlsx'],'Sheet','data_eBMD');
 t.beta_outcome(t.beta_exposure < 0)  = -t.beta_outcome(t.beta_exposure < 0);
 t.beta_exposure(t.beta_exposure < 0) = -t.beta_exposure(t.beta_exposure < 0);
 
@@ -14,7 +13,7 @@ errorbar(betax,betay,betay-(betay-1.96*sey),(betay+1.96*sey)-betay,betax-(betax-
 ax = gca;
 ax.TickLabelInterpreter = 'latex';
 text(0.01,-0.007,'A)','FontSize',17,'Interpreter','latex')
-t = readtable([path '\Pruning\gMR_res.xlsx']);
+t = readtable([path '\Pruning\gMR_res.xlsx'],'Sheet','results_eBMD');
 plot(linspace(ax.XLim(1),ax.XLim(2),10),t.Estimate(1)*linspace(ax.XLim(1),ax.XLim(2),10),'--',"Color",'k')
 
 xlabel("MR effect size per SD change in sclerostin levels","Interpreter","latex")

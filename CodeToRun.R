@@ -1,11 +1,11 @@
 # ============================================================================ #
-#                               CodeToRun                                      #
-#                        2023 - Marta Alcalde-Herraiz                          #
+#                                CodeToRun                                     #
+#                       2023 - Marta Alcalde-Herraiz                           #
 # ============================================================================ #
 rm(list=ls())
 library(pacman)
 p_load('here','tibble','dplyr','readr','tidyverse','TwoSampleMR','MendelianRandomization',
-       'LDlinkR','xlsx','trio','survival')
+       'LDlinkR','xlsx','trio','survival','coloc','ggplot2')
 
 pathData <- "D:\\MR_Sclerostin_Data\\" # Path to the Data directory
 tok <- "93873e604a3e" # token for the LDmatrix
@@ -59,4 +59,19 @@ source(here('MR_UKBiobank','BinaryData','Logistic','Phenotyping.R'))
 source(here('MR_UKBiobank','BinaryData','SA_Birth','Phenotyping.R'))
 source(here('MR_UKBiobank','BinaryData','MR_LR.R'))
 source(here('MR_UKBiobank','BinaryData','MR_SA.R'))
+
+# COLOCALIZATION ---------------------------------------------------------------
+source(here('Colocalization','colocalization.R'))
+
+# SENSITIVITY ANALYSIS ---------------------------------------------------------
+# Single SNP
+source(here('SensitivityAnalysis','SingleSNP','exposure_data.R'))
+source(here('SensitivityAnalysis','SingleSNP','SingleSNP_gwas.R'))
+source(here('SensitivityAnalysis','SingleSNP','SingleSNP_continuous.R'))
+source(here('SensitivityAnalysis','SingleSNP','SingleSNP_BinaryLR.R'))
+source(here('SensitivityAnalysis','SingleSNP','SingleSNP_BinarySA.R'))
+
+# Survival analysis since UK Biobank enrolment
+source(here('SensitivityAnalysis','Enrolment','SA_Enrolment','Phenotyping.R'))
+source(here('SensitivityAnalysis','Enrolment','MR_SA.R'))
 

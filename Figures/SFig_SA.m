@@ -15,8 +15,8 @@ for i = 1:length(names)
     t = readtable([path '\MR_UKBiobank\BinaryData\SA_Birth\MR_res.xlsx'],Sheet= names{i});
 
     oddUKB_B(i) = t.OR(1);
-    clUKB_B(i)  = t.C1(1);
-    cuUKB_B(i)  = t.C2(1);
+    clUKB_B(i)  = t.CI_LOW_OR(1);
+    cuUKB_B(i)  = t.CI_HIGH_OR(1);
 end
 oddUKB_B = flip(oddUKB_B); clUKB_B = flip(clUKB_B); cuUKB_B = flip(cuUKB_B); 
 
@@ -25,11 +25,11 @@ oddUKB_E = zeros(length(names),1);
 clUKB_E = zeros(length(names),1);
 cuUKB_E  = zeros(length(names),1);
 for i = 1:length(names)
-    t = readtable([path '\SensitivityAnalysis\Enrolment\SA_Enrolment\MR_res.xlsx'],Sheet= names{i});
+    t = readtable([path '\SensitivityAnalysis\Enrolment\MR_res.xlsx'],Sheet= names{i});
 
     oddUKB_E(i) = t.OR(1);
-    clUKB_E(i)  = t.C1(1);
-    cuUKB_E(i)  = t.C2(1);
+    clUKB_E(i)  = t.CI_LOW_OR(1);
+    cuUKB_E(i)  = t.CI_HIGH_OR(1);
 end
 oddUKB_E = flip(oddUKB_E); clUKB_E = flip(clUKB_E); cuUKB_E = flip(cuUKB_E); 
 

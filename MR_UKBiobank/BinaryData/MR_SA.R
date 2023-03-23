@@ -12,8 +12,7 @@ snps <- ldrho %>% select("SNP"= RS_number) # SNPs
 # EXPOSURE DATA ----------------------------------------------------------------
 exposure_dat <- snps %>%
   left_join(read_delim(here("Pruning","exposure_data.csv"))) %>%
-  select(-"...1") %>% 
-  right_join(data.frame("SNP" = snps), by = "SNP")
+  select(-"...1")
 
 # Outcome data -----------------------------------------------------------------
 outc <- c('Fracture','CAD','MI','IS','Hypertension','T2DM')
@@ -56,7 +55,7 @@ for (i in 1:length(outc)){
     tab1 <- tab
     tab1$snp[tab$snp == 2] <- 1
     
-    #Logistic regression - Adjusted model for sex and the first 10 principal components
+    # Survival analysis - Adjusted model for sex and the first 10 principal components
     cox <- coxph(Surv(age,state) ~ snp + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, data = tab1)
     cox <- summary(cox)
     
