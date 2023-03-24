@@ -17,8 +17,8 @@ exposure_dat <- snps %>%
 # Outcome data -----------------------------------------------------------------
 outc <- c('Fracture','CAD','MI','IS','Hypertension','T2DM')
 
-unlink(here("MR_UKBiobank","BinaryData","SA_Birth","MR_res.xlsx"))
-unlink(here("MR_UKBiobank","BinaryData","SA_Birth","MR_dat.xlsx"))
+unlink(here("MR_UKBiobank","BinaryData","SA_Birth","gMR_res.xlsx"))
+unlink(here("MR_UKBiobank","BinaryData","SA_Birth","gMR_dat.xlsx"))
 for (i in 1:length(outc)){
   t    <- read_delim(here("MR_UKBiobank","BinaryData","SA_Birth",paste0("Phenotype_",outc[i],".csv"))) %>%
     select("eid",
@@ -83,8 +83,8 @@ for (i in 1:length(outc)){
                            CI_LOW_OR = exp(Estimate - 1.96*SE),
                            CI_HIGH_OR = exp(Estimate + 1.96*SE))
   
-  write.xlsx(tab,here("MR_UKBiobank","BinaryData","SA_Birth","MR_res.xlsx"), sheetName = outc[i], append = TRUE)
-  write.xlsx(a[[1]],here("MR_UKBiobank","BinaryData","SA_Birth","MR_dat.xlsx"),  sheetName = outc[i], append = TRUE)
+  write.xlsx(tab,here("MR_UKBiobank","BinaryData","SA_Birth","gMR_res.xlsx"), sheetName = outc[i], append = TRUE)
+  write.xlsx(a[[1]],here("MR_UKBiobank","BinaryData","SA_Birth","gMR_dat.xlsx"),  sheetName = outc[i], append = TRUE)
   
   # Leave-one-out-analysis
   loo <- matrix(0,7,3)

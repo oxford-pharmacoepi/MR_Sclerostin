@@ -46,9 +46,10 @@ source(here('Metaanalysis','preprocessing.R'))
 
 source(here('Metaanalysis','processing.R'))
 source(here('Pruning','pruning.R'))
-source(here('MR_metaanalysis','MR.R'))
+source(here('MR_gwas','MR.R'))
 source(here('MR_UKBiobank','genetics.R'))
 source(here('MR_UKBiobank','ContinuousData','MR.R'))
+
 
 hes  <- as_tibble(read.delim(paste0(pathData,"hesin_diag.txt"),sep = "\t", quote = ""))
 hesD <- as_tibble(read.delim(paste0(pathData,"hesin.txt"), sep = "\t", quote = ""))
@@ -74,4 +75,13 @@ source(here('SensitivityAnalysis','SingleSNP','SingleSNP_BinarySA.R'))
 # Survival analysis since UK Biobank enrolment
 source(here('SensitivityAnalysis','Enrolment','SA_Enrolment','Phenotyping.R'))
 source(here('SensitivityAnalysis','Enrolment','MR_SA.R'))
+
+# Results folder
+file.copy(here("Metaanalysis","Fixed_vs_random.csv"),here("Results","Metaanalysis","ResultsMetaanalysis.csv"),overwrite = TRUE)
+file.copy(here("Pruning","exposure_data.csv"),here("Results","Metaanalysis","Instruments.csv"),overwrite = TRUE)
+t <- read.csv(here("Results","Metaanalysis","Instruments.csv")) %>%
+  mutate(beta.exposure = -beta.exposure)
+write.csv(here("Results","Metaanalysis","Instruments.csv"))
+file.copy(here("MR_Sclerostin","gMR_res.xlsx"),here("Results","MR_gwas","MR_GWAS_results"),overwrite = TRUE)
+
 

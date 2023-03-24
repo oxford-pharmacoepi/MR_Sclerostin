@@ -17,8 +17,8 @@ snps <- ldrho %>% select(SNP = RS_number)
 out  <- c('eBMD','HF','CAD','MI','IS','Hypertension','T2DM')
 outc <- c('ebi-a-GCST006979','','ebi-a-GCST005194','ebi-a-GCST011365','','ukb-b-14057','ebi-a-GCST006867')
 
-unlink(here('MR_metaanalysis','gMR_res.xlsx'))
-unlink(here('MR_metaanalysis','gMR_dat.xlsx'))
+unlink(here('MR_gwas','gMR_res.xlsx'))
+unlink(here('MR_gwas','gMR_dat.xlsx'))
 unlink(here("SensitivityAnalysis","LeaveOneOut","Gwas","loo.xlsx"))
 
 for (i in 1:length(out)){

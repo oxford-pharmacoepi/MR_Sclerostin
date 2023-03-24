@@ -31,7 +31,7 @@ t <- read_delim(here("Metaanalysis","Fixed_results","Fixed.csv"), delim = ",", s
          exposure = "Sclerostin")
 
 # Pruning
-exposure_dat <- clump_data(t,clump_r2 = 0.8, clump_kb = 500, pop = "EUR")
+exposure_dat <- clump_data(t,clump_r2 = 0.8, clump_kb = 500000, pop = "EUR")
   
 # LD correlation matrix
 # Sometimes there is no connection with the server, so the correlation matrix has
