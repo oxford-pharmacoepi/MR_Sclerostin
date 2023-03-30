@@ -10,7 +10,7 @@
 # It creates the files that will be used in the meta-analysis                  #
 # ============================================================================ #
 rm(list = setdiff(ls(),c("pathData","tok")))
-
+                  
 # Read GWAS table
 sc  <- as_tibble(read.delim(paste0(pathData,"Science\\Science_GWAS.txt")))
 ng1 <- as_tibble(read.delim(paste0(pathData,"NatureGenetics\\NatureGenetics_GWAS1.txt")))
@@ -72,10 +72,10 @@ write_tsv(sc1,here("Metaanalysis","sc_NP.txt"))
 
 # Preprocessing
 sc <- as_tibble(read.delim(here("Metaanalysis","sc_NP.txt"))) %>% 
-  filter(Pos >= 41831099-500000, Pos <= 41836156 + 500000) %>% # SOST REGION
-  filter(EA != "D", NEA != "I", # Delete those SNPs with EA = "D" andNEA = "I"
+  filter(Pos >= (41831099 - 500000), Pos <= (41836156 + 500000)) %>% # SOST REGION
+  filter(EA != "D", NEA != "I", # Delete those SNPs with EA = "D" and NEA = "I"
          substr(MARKERNAME,1,2) == "rs") %>% # Delete those SNPs that do not have an ID written properly.
-  select(-"Name.sc")
+  dplyr::select(-"Name.sc")
 write_tsv(sc,here("Metaanalysis","sc.txt"))
 
 

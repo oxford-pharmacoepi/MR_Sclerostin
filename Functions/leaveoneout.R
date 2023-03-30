@@ -1,5 +1,7 @@
 leaveoneout <- function(loo, dat, ldrho,type){
-  ldrho <- ldrho %>% select(-RS_number) %>% data.matrix() 
+  ldrho <- ldrho %>% 
+    select(-RS_number) %>%
+    data.matrix() 
   rownames(ldrho) <- colnames(ldrho)
   
   for (j in c(1:length(dat$SNP))){
@@ -11,7 +13,7 @@ leaveoneout <- function(loo, dat, ldrho,type){
                    )
     
     ivw <- mr_ivw(mr,correl = TRUE)
-    loo[j+1,] <- c(ivw$Estimate[1],ivw$StdError[1],ivw$Pvalue[1])
+    loo[j+1,] <- c(-ivw$Estimate[1],ivw$StdError[1],ivw$Pvalue[1])
   }
   
   write.xlsx(data.frame(SNPS = c("All",dat$SNP),

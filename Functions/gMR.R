@@ -28,7 +28,7 @@ gMR <- function(exposure_data,outcome_data,correl_matrix){
   ivw <- MendelianRandomization::mr_ivw(mr,correl = TRUE)
   
   tab <- data.frame("Method" = c("ivw"),
-                    "Estimate" = c(ivw$Estimate)) %>%
+                    "Estimate" = -c(ivw$Estimate)) %>%
     mutate(CI_LOW  = Estimate-1.96*ivw$StdError, 
            CI_HIGH = Estimate+1.96*ivw$StdError,
            SE      = ivw$StdError,

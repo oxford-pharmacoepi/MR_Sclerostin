@@ -12,7 +12,7 @@ oddUKB_B = zeros(length(names),1);
 clUKB_B  = zeros(length(names),1);
 cuUKB_B  = zeros(length(names),1);
 for i = 1:length(names)
-    t = readtable([path '\MR_UKBiobank\BinaryData\SA_Birth\MR_res.xlsx'],Sheet= names{i});
+    t = readtable([path '\MR_UKBiobank\BinaryData\SA_Birth\gMR_res.xlsx'],Sheet= names{i});
 
     oddUKB_B(i) = t.OR(1);
     clUKB_B(i)  = t.CI_LOW_OR(1);
@@ -25,7 +25,7 @@ oddUKB_E = zeros(length(names),1);
 clUKB_E = zeros(length(names),1);
 cuUKB_E  = zeros(length(names),1);
 for i = 1:length(names)
-    t = readtable([path '\SensitivityAnalysis\Enrolment\MR_res.xlsx'],Sheet= names{i});
+    t = readtable([path '\SensitivityAnalysis\Enrolment\gMR_res.xlsx'],Sheet= names{i});
 
     oddUKB_E(i) = t.OR(1);
     clUKB_E(i)  = t.CI_LOW_OR(1);
@@ -53,6 +53,6 @@ xline(1,"LineWidth",1.5,"LineStyle","--","Color",'k')
 ax.FontSize = 11;
 l = legend('SA since birth date','SA since UKB enrolment','FontSize',10.5);
 l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside";
-xlabel("Hazard ratio per SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
+xlabel("Hazard ratio per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
 
-print(f,"SFig_SAEnrolment.png","-dpng","-r600")
+print(f,"SFig_SAEnrolment.png","-dpng","-r800")

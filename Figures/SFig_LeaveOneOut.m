@@ -32,7 +32,7 @@ for i = 1:length(names)
 
     % horizontal axis
     if i == 11 || i == 9 ||i == 10 || i == 8
-        xlabel("MR effect size per SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
+        xlabel("MR effect size per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
     end
     % vertical axis
     if i == 1 || i == 5 || i == 9 
@@ -129,7 +129,7 @@ for i = 1:length(names1)
 
     xline(0,"LineWidth",1.5,"LineStyle","--","Color",'k')
     if i == 4 || i == 5 || i == 6
-        xlabel("MR effect size per SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
+        xlabel("MR effect size per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
     end
     if i == 1 || i == 4
         ax.YTickLabel = SNPs;
@@ -157,7 +157,7 @@ annotation('textbox',[2*(Dx+mx)+lx 1-uy-Dy-0.7*my Dx 0.03],'Color','k','String',
 
 l = legend('GWAS','UKB-LR','UKB-SA','Interpreter','latex','FontSize',14);
 l.NumColumns = 3; l.Position = [1/2+0.03 dy/6 .03 .03];
-print(f,['./SFig_LOO_Binary.png'],"-dpng","-r600")
+print(f,['./SFig_LOO_Binary.png'],"-dpng","-r800")
 
 
 %% FUNCTIONs

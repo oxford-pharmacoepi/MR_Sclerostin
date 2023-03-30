@@ -50,7 +50,6 @@ source(here('MR_gwas','MR.R'))
 source(here('MR_UKBiobank','genetics.R'))
 source(here('MR_UKBiobank','ContinuousData','MR.R'))
 
-
 hes  <- as_tibble(read.delim(paste0(pathData,"hesin_diag.txt"),sep = "\t", quote = ""))
 hesD <- as_tibble(read.delim(paste0(pathData,"hesin.txt"), sep = "\t", quote = ""))
 gp   <- as_tibble(read.delim(paste0(pathData,"gp_clinical.txt"),sep = "\t", quote = ""))
@@ -60,6 +59,9 @@ source(here('MR_UKBiobank','BinaryData','Logistic','Phenotyping.R'))
 source(here('MR_UKBiobank','BinaryData','SA_Birth','Phenotyping.R'))
 source(here('MR_UKBiobank','BinaryData','MR_LR.R'))
 source(here('MR_UKBiobank','BinaryData','MR_SA.R'))
+# Survival analysis since UK Biobank enrolment
+source(here('MR_UKBiobank','BinaryData','SA_Enrolment','Phenotyping.R'))
+source(here('MR_UKBiobank','BinaryData','SA_Enrolment','MR_SA.R'))
 
 # COLOCALIZATION ---------------------------------------------------------------
 source(here('Colocalization','colocalization.R'))
@@ -72,16 +74,15 @@ source(here('SensitivityAnalysis','SingleSNP','SingleSNP_continuous.R'))
 source(here('SensitivityAnalysis','SingleSNP','SingleSNP_BinaryLR.R'))
 source(here('SensitivityAnalysis','SingleSNP','SingleSNP_BinarySA.R'))
 
-# Survival analysis since UK Biobank enrolment
-source(here('SensitivityAnalysis','Enrolment','SA_Enrolment','Phenotyping.R'))
-source(here('SensitivityAnalysis','Enrolment','MR_SA.R'))
-
 # Results folder
 file.copy(here("Metaanalysis","Fixed_vs_random.csv"),here("Results","Metaanalysis","ResultsMetaanalysis.csv"),overwrite = TRUE)
 file.copy(here("Pruning","exposure_data.csv"),here("Results","Metaanalysis","Instruments.csv"),overwrite = TRUE)
 t <- read.csv(here("Results","Metaanalysis","Instruments.csv")) %>%
   mutate(beta.exposure = -beta.exposure)
 write.csv(here("Results","Metaanalysis","Instruments.csv"))
-file.copy(here("MR_Sclerostin","gMR_res.xlsx"),here("Results","MR_gwas","MR_GWAS_results"),overwrite = TRUE)
-
+file.copy(here("MR_gwas","gMR_res.xlsx"),here("Results","MR_gwas","MR_GWAS_results.xlsx"),overwrite = TRUE)
+file.copy(here("MR_UKBiobank","ContinuousData","gMR.xlsx"),here("Results","MR_UKBiobank","ContinuousData","gMR.xlsx"),overwrite = TRUE)
+file.copy(here("MR_UKBiobank","BinaryData","Logistic","gMR.xlsx"), here("Results","MR_UKBiobank","BinaryData","LogisticRegression","gMR.xlsx"),overwrite = TRUE)
+file.copy(here("MR_UKBiobank","BinaryData","SA_Birth","gMR_res.xlsx"), here("Results","MR_UKBiobank","BinaryData","CoxRegression","gMR_res.xlsx"),overwrite = TRUE)
+file.copy(here("MR_UKBiobank","SensitivityAnalysis","Enrolment","gMR_res.xlsx"), here("Results","MR_UKBiobank",""))
 

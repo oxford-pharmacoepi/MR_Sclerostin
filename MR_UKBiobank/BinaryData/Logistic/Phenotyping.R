@@ -28,7 +28,7 @@ for (i in 1:6){
   t <- MergeTables(ukb_data,hes_data,gp_data)
   
   # t %>% group_by(state_gp, state_hes, state_ukb) %>% tally()
-  write.csv(t,here("MR_UKBiobank","BinaryData","Logistic",paste0("Phenotype_",outc[i],".csv")))
+  write.csv(t,paste0(pathData,"MR_UKBiobank\\BinaryData\\Logistic\\Phenotype_",outc[i],".csv"))
 }
 
 

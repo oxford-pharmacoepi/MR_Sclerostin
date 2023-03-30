@@ -51,7 +51,7 @@ l = legend('GWAS','UK Biobank','FontSize',12);
 l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside";
 text(-0.8, 12.4, 'A)','Interpreter','latex','FontSize',17)
 
-xlabel("MR effect size per SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
+xlabel("MR effect size per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
 print(f,"SFig_SingleSnp_1.png","-dpng","-r600")
 
 
@@ -128,7 +128,7 @@ xline(1,"LineWidth",1.5,"LineStyle","--","Color",'k')
 ax.FontSize = 11;
 l = legend('GWAS [Odds]','UKB-LR [Odds]','UKB-SA(Birth) [Hazard]','FontSize',10.5);
 l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside";
-xlabel("Ratio per SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
+xlabel("Ratio per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
 text(0.07, 7, 'B)','Interpreter','latex','FontSize',17)
 
 print(f,"SFig_SingleSnp_2.png","-dpng","-r600")

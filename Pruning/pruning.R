@@ -32,7 +32,14 @@ t <- read_delim(here("Metaanalysis","Fixed_results","Fixed.csv"), delim = ",", s
 
 # Pruning
 exposure_dat <- clump_data(t,clump_r2 = 0.8, clump_kb = 500000, pop = "EUR")
-  
+
+exposure_dat <- exposure_dat %>% left_join(read_delim(here("Metaanalysis","Random_results","Random.csv"), delim = ",", show_col_types = FALSE) %>%
+                                             select(SNP = rs_number, beta, se, p.value), by = "SNP") %>%
+  mutate(beta.exposure_corrected = if_else(q_p.value < 0.05, beta, beta.exposure),
+         se.exposure_corrected   = if_else(q_p.value < 0.05, se, se.exposure))
+
+
+write.csv(exposure_dat,here("Pruning","exp_d.csv"))
 # LD correlation matrix
 # Sometimes there is no connection with the server, so the correlation matrix has
 # has been stored in the following file:
@@ -61,14 +68,18 @@ for (i in 1:2){
   source(here('Functions','gMR.R'))
   a <- gMR(exposure_data = exposure_dat, outcome_data = outcome_dat, correl_matrix = ldrho)
   
+  tab <- a[[2]] %>% 
+    mutate(Estimate = -(Estimate),
+           CI_LOW = Estimate-1.96*SE,
+           CI_HIGH = Estimate+1.96*SE)
+  
   write.xlsx(a[[1]],here("Pruning","gMR_res.xlsx"),sheetName = paste0("data_",out[i]),append = TRUE)
-  write.xlsx(a[[2]],here("Pruning","gMR_res.xlsx"),sheetName = paste0("results_",out[i]),append = TRUE)
+  write.xlsx(tab,here("Pruning","gMR_res.xlsx"),sheetName = paste0("results_",out[i]),append = TRUE)
 }
 
 # Selection of the instruments
 dat <- ldrho %>% select(SNP = RS_number) %>%
     left_join(exposure_dat, by = "SNP") %>%
-  mutate(beta.exposure = -beta.exposure) %>% # Lowering sclerostin effect
   select("SNP", contains("exposure"))
 write.csv(dat,here("Pruning","exposure_data.csv"))
 

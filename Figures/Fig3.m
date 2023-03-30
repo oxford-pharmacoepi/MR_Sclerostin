@@ -52,8 +52,8 @@ l = legend('GWAS','UK Biobank','FontSize',12);
 l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside";
 text(-0.8, 12.4, 'A)','Interpreter','latex','FontSize',17)
 
-xlabel("MR effect size per SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
-print(f,"Fig4.1.png","-dpng","-r600")
+xlabel("1-SD increase per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
+print(f,"Fig4.1.png","-dpng","-r800")
 
 
 %% Binary data
@@ -91,7 +91,7 @@ names  = {'Fracture','MI','CAD','IS','Hypertension','T2DM'};
 
 oddUKB_B = zeros(length(names),1); clUKB_B  = zeros(length(names),1); cuUKB_B  = zeros(length(names),1);
 for i = 1:length(names)
-    t = readtable([path '\MR_UKBiobank\BinaryData\SA_Birth\MR_res.xlsx'],Sheet= names{i});
+    t = readtable([path '\MR_UKBiobank\BinaryData\SA_Birth\gMR_res.xlsx'],Sheet= names{i});
 
     oddUKB_B(i) = t.OR(1);
     clUKB_B(i)  = t.CI_LOW_OR(1);
@@ -120,7 +120,7 @@ xline(1,"LineWidth",1.5,"LineStyle","--","Color",'k')
 ax.FontSize = 11;
 l = legend('GWAS [Odds]','UKB-LR [Odds]','UKB-SA(Birth) [Hazard]','FontSize',10.5);
 l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside";
-xlabel("Ratio per SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
+xlabel("Ratio per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
 text(0.07, 7, 'B)','Interpreter','latex','FontSize',17)
 
 print(f,"Fig4.2.png","-dpng","-r600")

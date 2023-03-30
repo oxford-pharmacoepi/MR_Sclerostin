@@ -20,7 +20,7 @@ outc <- c('Fracture','CAD','MI','IS','Hypertension','T2DM')
 unlink(here("MR_UKBiobank","BinaryData","SA_Birth","gMR_res.xlsx"))
 unlink(here("MR_UKBiobank","BinaryData","SA_Birth","gMR_dat.xlsx"))
 for (i in 1:length(outc)){
-  t    <- read_delim(here("MR_UKBiobank","BinaryData","SA_Birth",paste0("Phenotype_",outc[i],".csv"))) %>%
+  t    <- read_delim(paste0(pathData,"MR_UKBiobank\\BinaryData\\SA_Birth\\Phenotype_",outc[i],".csv")) %>%
     select("eid",
            "state",
            "age") %>%

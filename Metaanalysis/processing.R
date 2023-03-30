@@ -41,7 +41,7 @@ tab <- t1 %>%
                       "OA.random" = "other_allele",
                       "Effect.random" = "beta",
                       "pval.random" = "p.value",
-                      "i2","q_statistic","n_samples",
+                      "i2","q_statistic","q_p.value","n_samples",
                       "se.random" = "se"),
              by = "SNP") %>% 
   inner_join(t3 %>%

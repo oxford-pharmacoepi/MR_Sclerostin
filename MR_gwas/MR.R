@@ -54,22 +54,22 @@ for (i in 1:length(out)){
   }else{
     loo <- matrix(0,7,3) # leave-one-out analysis
   }
-  
+
   a <- gMR(exposure_data = exposure_data, outcome_data = outcome_data, correl_matrix = ldrho)
-  
+
   if(i %in% c(2:7)){
     tab <- a[[2]] %>%
-      mutate(OR = exp(Estimate), CI_LOW_OR = exp(Estimate - 1.96*SE), CI_HIGH_OR = exp(Estimate + 1.96*SE))
+      mutate(OR = exp(Estimate), CI_LOW_OR = exp(CI_LOW), CI_HIGH_OR = exp(CI_HIGH))
   }else{
     tab <- a[[2]]
   }
   
   write.xlsx(a[[1]],here("MR_gwas","gMR_dat.xlsx"),sheetName = out[i],append = TRUE)
   write.xlsx(tab,here("MR_gwas","gMR_res.xlsx"),sheetName = out[i],append = TRUE)
-  
+
   # Leave-one-out-analysis
   loo[1,1:3] <- c(a[[2]]$Estimate,a[[2]]$SE,a[[2]]$Pval)
-  
+
   source(here('Functions','leaveoneout.R'))
   loo <- leaveoneout(loo, a[[1]], ldrho,"Gwas")
 }
