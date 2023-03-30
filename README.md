@@ -1,5 +1,5 @@
 # MR_Sclerostin
-This study analyses the effect of decreasing sclerostin on cardiovascular-related outcomes using Mendelian Randomization methods.
+This study analyses the effect of sclerostin inhibition on cardiovascular-related outcomes using Mendelian Randomization methods.
 For more information: [LINK TO THE ARTICLE]
 
 # Running th analysis
