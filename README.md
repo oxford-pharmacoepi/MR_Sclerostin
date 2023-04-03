@@ -28,6 +28,7 @@ Once all these files are located in the directory:
   1. Download this entirely repository (you can download as a zip folder using Code -> Download ZIP, or you can use GitHub Desktop).
   2. Open the project MR_Sclerostin.Rproj in RStudio (when inside the project, you will see its name on the top-right of your RStudio session).
   3. Open and work though the CodeToRun.R file which should be the only file that you need to interact with. Run the lines in the file. You will notice that you have to specify the following variables:
+
     -> pathData <- "...": The path to the data directory.
     -> tok <- "...": The token for the LDmatrix. Can be created here: https://analysistools.cancer.gov/LDlink/?tab=apiaccess
     -> outputFolder <- "...": The path to the folder where the results from this analysis will be saved. 
