@@ -59,22 +59,103 @@ for (i in 1:7){
     mutate(id.outcome = "outcome",
            outcome    = "outcome")
   
-  dat <- harmonise_data(exposure_data, outcome_data) %>%
+  datt <- harmonise_data(exposure_data, outcome_data) %>%
     filter(remove == FALSE) %>%
     distinct(SNP, .keep_all = TRUE)
-  write.xlsx(dat,here("Colocalization","data.xlsx"),sheetName = out[i],append = TRUE)
+  write.xlsx(datt,here("Colocalization","data.xlsx"),sheetName = out[i],append = TRUE)
+  
+  LDMat <-  LDmatrix(datt$SNP,"EUR",token = tok)
+  dat <- LDMat %>% select(SNP = RS_number) %>%
+    left_join(datt)
+  LDMat <- LDMat %>% 
+    select(-RS_number) %>%
+    data.matrix()
+  row.names(LDMat) <- colnames(LDMat)
+  
   
   if (i == 1){
     # Continuous variable (quantitative)
-    res <- coloc.abf(dataset1 = list(snp = dat$SNP, beta = dat$beta.outcome, varbeta = dat$se.outcome^2, pvalues = dat$pval.outcome, MAF = dat$eaf.outcome, N = dat$samplesize.outcome, type = "quant"),
-                     dataset2 = list(snp = dat$SNP, beta = dat$beta.exposure, varbeta = dat$se.exposure^2, pvalues = dat$pval.exposure, MAF = dat$eaf.exposure, N = dat$n.exposure, type = "quant"),
-                     p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+    res <- coloc.signals(dataset1 = list(snp = dat$SNP, 
+                                         beta = dat$beta.outcome, 
+                                         varbeta = dat$se.outcome^2, 
+                                         pvalues = dat$pval.outcome,
+                                         MAF = dat$eaf.outcome,
+                                         N = dat$samplesize.outcome,
+                                         type = "quant"),
+                     dataset2 = list(snp = dat$SNP, 
+                                     beta = dat$beta.exposure, 
+                                     varbeta = dat$se.exposure^2, 
+                                     pvalues = dat$pval.exposure,
+                                     MAF = dat$eaf.exposure, 
+                                     N = dat$n.exposure, 
+                                     type = "quant"),
+                     p1 = 1e-4, p2 = 1e-4, p12 = 1e-5,
+                     method = "cond", r2thr = 0.8,
+                     LD = LDMat)
   }else{
     # Binary variable
-    res <- coloc.abf(dataset1 = list(snp = dat$SNP, beta = dat$beta.exposure, varbeta = dat$se.exposure^2, pvalues = dat$pval.exposure, MAF = dat$eaf.exposure, N = dat$n.exposure, type = "quant"),
-                     dataset2 = list(snp = dat$SNP, beta = dat$beta.outcome,  varbeta = dat$se.outcome^2,  pvalues = dat$pval.outcome,  MAF = dat$eaf.outcome, s = 0.3, type = "cc"),
+    # res <- coloc.abf(dataset1 = list(snp = dat$SNP, 
+    #                                  beta = dat$beta.exposure, 
+    #                                  varbeta = dat$se.exposure^2, 
+    #                                  pvalues = dat$pval.exposure, 
+    #                                  MAF = dat$eaf.exposure, 
+    #                                  N = dat$n.exposure, 
+    #                                  type = "quant"),
+    #                  dataset2 = list(snp = dat$SNP, 
+    #                                  beta = dat$beta.outcome,  
+    #                                  varbeta = dat$se.outcome^2,  
+    #                                  pvalues = dat$pval.outcome, 
+    #                                  MAF = dat$eaf.outcome, 
+    #                                  s = 0.8, type = "cc"),
+    #                  p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
+    
+    # Masking
+    # res <- coloc.signals(dataset1 = list(snp = dat$SNP, 
+    #                                  beta = dat$beta.exposure, 
+    #                                  varbeta = dat$se.exposure^2, 
+    #                                  pvalues = dat$pval.exposure, 
+    #                                  MAF = dat$eaf.exposure, 
+    #                                  N = dat$n.exposure, 
+    #                                  type = "quant"),
+    #                  dataset2 = list(snp = dat$SNP, 
+    #                                  beta = dat$beta.outcome,  
+    #                                  varbeta = dat$se.outcome^2,  
+    #                                  pvalues = dat$pval.outcome, 
+    #                                  MAF = dat$eaf.outcome, 
+    #                                  s = 0.8, type = "cc"),
+    #                  p1 = 1e-4, p2 = 1e-4, p12 = 1e-5,
+    #                  method = "mask", r2thr = 0.1,
+    #                  LD = sqrt(LDMat))
+    
+    res <- coloc.abf(dataset1 = list(snp = dat$SNP,
+                                     beta = dat$beta.exposure,
+                                     varbeta = dat$se.exposure^2,
+                                     pvalues = dat$pval.exposure,
+                                     MAF = dat$eaf.exposure,
+                                     N = dat$n.exposure,
+                                     type = "quant"),
+                     dataset2 = list(snp = dat$SNP,
+                                     beta = dat$beta.outcome,
+                                     varbeta = dat$se.outcome^2,
+                                     pvalues = dat$pval.outcome,
+                                     MAF = dat$eaf.outcome,
+                                     s = 0.8, type = "cc"),
                      p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
-  }
+    
+    coloc.susie(dataset1 = list(snp = dat$SNP,
+                                beta = dat$beta.exposure,
+                                varbeta = dat$se.exposure^2,
+                                pvalues = dat$pval.exposure,
+                                MAF = dat$eaf.exposure,
+                                N = dat$n.exposure,
+                                type = "quant"),
+                dataset2 = list(snp = dat$SNP,
+                                beta = dat$beta.outcome,
+                                varbeta = dat$se.outcome^2,
+                                pvalues = dat$pval.outcome,
+                                MAF = dat$eaf.outcome,
+                                s = 0.8, type = "cc"))
+    }
   
   tab <- data.frame(nsnps = res$summary[1],
                     H0 = res$summary[2],
@@ -90,7 +171,10 @@ for (i in 1:7){
 
 
 
-
+if(!require("remotes"))
+  install.packages("remotes") # if necessary
+library(remotes)
+install_github("chr1swallace/coloc","condmask")
 
 
 
