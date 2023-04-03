@@ -33,6 +33,6 @@ Once all these files are located in the directory:
     -> tok <- "...": The token for the LDmatrix. Can be created here: https://analysistools.cancer.gov/LDlink/?tab=apiaccess
     -> outputFolder <- "...": The path to the folder where the results from this analysis will be saved. 
     
-After running, you should have a zip folder with results in your output folder.
+After running, you should have a folder named "Results" with results in your output folder.
 
 
