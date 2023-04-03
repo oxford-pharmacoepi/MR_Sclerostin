@@ -17,10 +17,10 @@ exposure_dat <- snps %>%
 # Outcome data -----------------------------------------------------------------
 outc <- c('Fracture','CAD','MI','IS','Hypertension','T2DM')
 
-unlink(here("SensitivityAnalysis","Enrolment","gMR_res.xlsx"))
-unlink(here("SensitivityAnalysis","Enrolment","gMR_dat.xlsx"))
+unlink(here("MR_UKBiobank","BinaryData","SA_Enrolment","gMR_res.xlsx"))
+unlink(here("MR_UKBiobank","BinaryData","SA_Enrolment","gMR_dat.xlsx"))
 for (i in 1:length(outc)){
-  t    <- read_delim(here("SensitivityAnalysis","Enrolment","SA_Enrolment",paste0("Phenotype_",outc[i],".csv"))) %>%
+  t    <- read_delim(paste0(pathData,"MR_UKBiobank\\BinaryData\\SA_Enrolment\\Phenotype_",outc[i],".csv")) %>%
     select("eid",
            "state",
            "age") %>%
@@ -83,8 +83,8 @@ for (i in 1:length(outc)){
                            CI_LOW_OR = exp(Estimate - 1.96*SE),
                            CI_HIGH_OR = exp(Estimate + 1.96*SE))
   
-  write.xlsx(tab,here("SensitivityAnalysis","Enrolment","gMR_res.xlsx"), sheetName = outc[i], append = TRUE)
-  write.xlsx(a[[1]],here("SensitivityAnalysis","Enrolment","gMR_dat.xlsx"),  sheetName = outc[i], append = TRUE)
+  write.xlsx(tab,here("MR_UKBiobank","BinaryData","SA_Enrolment","gMR_res.xlsx"), sheetName = outc[i], append = TRUE)
+  write.xlsx(a[[1]],here("MR_UKBiobank","BinaryData","SA_Enrolment","gMR_dat.xlsx"),  sheetName = outc[i], append = TRUE)
 }
 
 

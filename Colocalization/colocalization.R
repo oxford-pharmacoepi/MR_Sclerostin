@@ -29,6 +29,8 @@ outc <- c('ebi-a-GCST006979','','ebi-a-GCST005194','ebi-a-GCST011365','','ukb-b-
 unlink(here("Colocalization","coloc.xlsx"))
 unlink(here("Colocalization","data.xlsx"))
 
+ss <- c(0,0.0157,0.2243,0.097,0.3317,0.2586,0.0954)
+
 for (i in 1:7){
   if(i %in% c(1,3,4,6,7)){
     outcome_data <- extract_outcome_data(snps = exposure_data$SNP, outcomes = outc[i])
@@ -59,23 +61,14 @@ for (i in 1:7){
     mutate(id.outcome = "outcome",
            outcome    = "outcome")
   
-  datt <- harmonise_data(exposure_data, outcome_data) %>%
+  dat <- harmonise_data(exposure_data, outcome_data) %>%
     filter(remove == FALSE) %>%
     distinct(SNP, .keep_all = TRUE)
-  write.xlsx(datt,here("Colocalization","data.xlsx"),sheetName = out[i],append = TRUE)
-  
-  LDMat <-  LDmatrix(datt$SNP,"EUR",token = tok)
-  dat <- LDMat %>% select(SNP = RS_number) %>%
-    left_join(datt)
-  LDMat <- LDMat %>% 
-    select(-RS_number) %>%
-    data.matrix()
-  row.names(LDMat) <- colnames(LDMat)
-  
+  write.xlsx(dat,here("Colocalization","data.xlsx"),sheetName = out[i],append = TRUE)
   
   if (i == 1){
     # Continuous variable (quantitative)
-    res <- coloc.signals(dataset1 = list(snp = dat$SNP, 
+    res <- coloc.abf(dataset1 = list(snp = dat$SNP, 
                                          beta = dat$beta.outcome, 
                                          varbeta = dat$se.outcome^2, 
                                          pvalues = dat$pval.outcome,
@@ -89,44 +82,9 @@ for (i in 1:7){
                                      MAF = dat$eaf.exposure, 
                                      N = dat$n.exposure, 
                                      type = "quant"),
-                     p1 = 1e-4, p2 = 1e-4, p12 = 1e-5,
-                     method = "cond", r2thr = 0.8,
-                     LD = LDMat)
+                     p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
   }else{
     # Binary variable
-    # res <- coloc.abf(dataset1 = list(snp = dat$SNP, 
-    #                                  beta = dat$beta.exposure, 
-    #                                  varbeta = dat$se.exposure^2, 
-    #                                  pvalues = dat$pval.exposure, 
-    #                                  MAF = dat$eaf.exposure, 
-    #                                  N = dat$n.exposure, 
-    #                                  type = "quant"),
-    #                  dataset2 = list(snp = dat$SNP, 
-    #                                  beta = dat$beta.outcome,  
-    #                                  varbeta = dat$se.outcome^2,  
-    #                                  pvalues = dat$pval.outcome, 
-    #                                  MAF = dat$eaf.outcome, 
-    #                                  s = 0.8, type = "cc"),
-    #                  p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
-    
-    # Masking
-    # res <- coloc.signals(dataset1 = list(snp = dat$SNP, 
-    #                                  beta = dat$beta.exposure, 
-    #                                  varbeta = dat$se.exposure^2, 
-    #                                  pvalues = dat$pval.exposure, 
-    #                                  MAF = dat$eaf.exposure, 
-    #                                  N = dat$n.exposure, 
-    #                                  type = "quant"),
-    #                  dataset2 = list(snp = dat$SNP, 
-    #                                  beta = dat$beta.outcome,  
-    #                                  varbeta = dat$se.outcome^2,  
-    #                                  pvalues = dat$pval.outcome, 
-    #                                  MAF = dat$eaf.outcome, 
-    #                                  s = 0.8, type = "cc"),
-    #                  p1 = 1e-4, p2 = 1e-4, p12 = 1e-5,
-    #                  method = "mask", r2thr = 0.1,
-    #                  LD = sqrt(LDMat))
-    
     res <- coloc.abf(dataset1 = list(snp = dat$SNP,
                                      beta = dat$beta.exposure,
                                      varbeta = dat$se.exposure^2,
@@ -139,23 +97,8 @@ for (i in 1:7){
                                      varbeta = dat$se.outcome^2,
                                      pvalues = dat$pval.outcome,
                                      MAF = dat$eaf.outcome,
-                                     s = 0.8, type = "cc"),
+                                     s = ss[i], type = "cc"),
                      p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
-    
-    coloc.susie(dataset1 = list(snp = dat$SNP,
-                                beta = dat$beta.exposure,
-                                varbeta = dat$se.exposure^2,
-                                pvalues = dat$pval.exposure,
-                                MAF = dat$eaf.exposure,
-                                N = dat$n.exposure,
-                                type = "quant"),
-                dataset2 = list(snp = dat$SNP,
-                                beta = dat$beta.outcome,
-                                varbeta = dat$se.outcome^2,
-                                pvalues = dat$pval.outcome,
-                                MAF = dat$eaf.outcome,
-                                s = 0.8, type = "cc"))
-    }
   
   tab <- data.frame(nsnps = res$summary[1],
                     H0 = res$summary[2],
@@ -165,16 +108,13 @@ for (i in 1:7){
                     H4 = res$summary[6])
   
   write.xlsx(tab,here("Colocalization","coloc.xlsx"),sheetName = out[i],append = TRUE)
+  }
 }
 
 
 
 
 
-if(!require("remotes"))
-  install.packages("remotes") # if necessary
-library(remotes)
-install_github("chr1swallace/coloc","condmask")
 
 
 

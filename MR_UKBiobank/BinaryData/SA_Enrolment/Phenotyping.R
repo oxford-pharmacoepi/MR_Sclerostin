@@ -27,7 +27,7 @@ for (i in 1:6){
   source(here("MR_UKBiobank","BinaryData","SA_Enrolment","MergeTables.R"))
   t <- MergeTables(ukb_data,hes_data,gp_data)
   
-  write.csv(t,pathData("MR_Sclerostin\\MR_UKBiobank\\SA_Enrolment\\Phenotype_",outc[i],".csv"))
+  write.csv(t,paste0(pathData,"MR_UKBiobank\\BinaryData\\SA_Enrolment\\Phenotype_",outc[i],".csv"))
 }
 
 
