@@ -33,13 +33,7 @@ t <- read_delim(here("Metaanalysis","Fixed_results","Fixed.csv"), delim = ",", s
 # Pruning
 exposure_dat <- clump_data(t,clump_r2 = 0.8, clump_kb = 500000, pop = "EUR")
 
-exposure_dat <- exposure_dat %>% left_join(read_delim(here("Metaanalysis","Random_results","Random.csv"), delim = ",", show_col_types = FALSE) %>%
-                                             select(SNP = rs_number, beta, se, p.value), by = "SNP") %>%
-  mutate(beta.exposure_corrected = if_else(q_p.value < 0.05, beta, beta.exposure),
-         se.exposure_corrected   = if_else(q_p.value < 0.05, se, se.exposure))
 
-
-write.csv(exposure_dat,here("Pruning","exp_d.csv"))
 # LD correlation matrix
 # Sometimes there is no connection with the server, so the correlation matrix has
 # has been stored in the following file:

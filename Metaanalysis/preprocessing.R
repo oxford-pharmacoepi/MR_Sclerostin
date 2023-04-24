@@ -9,7 +9,7 @@
 #   - Nature gwas                                                              #
 # It creates the files that will be used in the meta-analysis                  #
 # ============================================================================ #
-rm(list = setdiff(ls(),c("pathData","tok")))
+rm(list = setdiff(ls(),c('pathData','tok')))
                   
 # Read GWAS table
 sc  <- as_tibble(read.delim(paste0(pathData,"Science\\Science_GWAS.txt")))
@@ -42,12 +42,12 @@ write_tsv(ng2,here("Metaanalysis","ng2_NP.txt"))
 
 # Preprocessing:
 ng <- as_tibble(read.delim(here("Metaanalysis","ng1_NP.txt"))) %>% 
+  inner_join(read.delim(here("Metaanalysis","ng2_NP.txt")), # Read the second file and merge it with the first one
+             by = c("Name.ng","Pos")
+  ) %>%
   filter(Pos >= 43753738-500000, Pos <= 43758791+500000) %>% # SOST region
   filter(nchar(EA) == 1, nchar(NEA) == 1, # Discard those SNPs that do not have a single nucleotide variation
          MARKERNAME != ".") %>% # Discard those SNPs that do not have an ID
-  inner_join(read.delim(here("Metaanalysis","ng2_NP.txt")), # Read the second file and merge it with the first one
-    by = c("Name.ng","Pos")
-  ) %>%
   mutate(NEA = if_else(NEA == "!",substr(Name.ng, nchar(Name.ng), nchar(Name.ng)), NEA)) %>%  # Some SNPs had this symbol "!" in the NEA column. I substitute this symbol with the last letter of the variable Name.
   filter(EA != NEA) # Delete those SNPs with the same Effect allele and other allele.
 write_tsv(ng,here("Metaanalysis","ng.txt")) # Save the data.

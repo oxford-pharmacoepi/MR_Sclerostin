@@ -1,4 +1,4 @@
-PhenotypingHes <- function(outc,hes,hesD){
+PhenotypingHes <- function(outc,hes,hesD,pop){
   phen <- read.xlsx(here("MR_UKBiobank","BinaryData","PhenotypingR.xlsx"), sheetName = outc)
   
   hes_codes <- phen %>% 
@@ -25,7 +25,7 @@ PhenotypingHes <- function(outc,hes,hesD){
     group_by(eid) %>%
     summarise(age_hes = year(first_fracture) - year(date_assessment)) %>% # Appending results on variable age_hes 
     mutate(state_hes = 1) %>%
-    right_join(unique(hes %>% select(eid)), by = "eid") %>% # All hes patients
+    right_join(pop, by = "eid") %>% # All hes patients
     left_join(ukb %>% select(eid,
                              date_assessment = "X53.0.0",
                              year_of_birth = "X34.0.0",

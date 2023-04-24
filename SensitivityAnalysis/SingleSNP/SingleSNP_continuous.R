@@ -18,44 +18,40 @@ outc <- c('3148-0.0','30690-0.0','30780-0.0','30760-0.0','30870-0.0','30630-0.0'
 
 unlink(here("SensitivityAnalysis","SingleSNP","MR_res_continuous.xlsx"))
 unlink(here("SensitivityAnalysis","SingleSNP","MR_dat_continuous.xlsx"))
+t <- read_delim(paste0(pathData,"UKB\\cohort.csv"))
 
 for (i in 1:11){
-  t    <-  read_delim(paste0(pathData,"UKB\\ukb669864_1.csv")) %>% # Outcome
-    select("eid",
-           "outcome" = outc[i],
-           "Caucasian" = "22006-0.0") %>%
+  t_outcome <- t %>%
+    left_join(
+      read_delim(paste0(pathData,"UKB\\ukb669864_1.csv")) %>%
+        select('eid',
+               'outcome' = outc[i]),
+      by = 'eid') %>%
     filter(!is.na(outcome)) %>%
-    filter(Caucasian == 1) %>%
-    mutate(outcome = (outcome - mean(outcome,na.rm = TRUE))/sd(outcome, na.rm = TRUE)) %>% # SD units
-    inner_join(read_delim(paste0(pathData,"genetics.csv")) %>% # SNPs expression
-                 select(-"...1"),
-               by = "eid") %>%
-    inner_join(read_delim(paste0(pathData,"UKB\\PC.csv")), by = "eid")  # 10 PRINCIPAL COMPONENTS
+    mutate(outcome = (outcome - mean(outcome,na.rm = TRUE))/sd(outcome, na.rm = TRUE)) %>% # SD Units
+    select('eid','outcome',exposure_dat$SNP,'sex',contains('PC'))
   
+    n <- nrow(t_outcome)
   # LINEAR REGRESSION ----------------------------------------------------------
   # Eliminate those rows with NaN
-  tab <- t %>%
+  tab <- t_outcome %>%
     select("eid","sex","outcome", "snp" = exposure_dat$SNP,"PC1","PC2","PC3","PC4","PC5",
-           "PC6","PC7","PC8","PC9","PC10") %>%
-    filter(!is.na(sex),
-           !is.na(snp),!is.na(PC1),!is.na(PC2),!is.na(PC3),!is.na(PC4),!is.na(PC5),
-           !is.na(PC6),!is.na(PC7),!is.na(PC8),!is.na(PC9),!is.na(PC10))
+           "PC6","PC7","PC8","PC9","PC10")
   
   # Substitute the 1 for 2
-  tab1 <- tab
-  tab1$snp[tab$snp == 2] <- 1
+  eaf <- sum(tab$snp)/(2*length(tab$snp))
+  tab <- tab %>%
+    mutate(snp = if_else(snp == 2, 1, snp))
   
   # Linear regression - Adjusted model for sex and the first 10 principal components
-  mlr <- lm(outcome ~ snp + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, data = tab1)
+  mlr <- lm(outcome ~ snp + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, data = tab)
+  mlr <- coefficients(summary(mlr))
   
   # Coefficients:
-  beta  <- summary(mlr)$coefficients[2,1]
-  se   <- summary(mlr)$coefficients[2,2]
-  p     <- summary(mlr)$coefficients[2,4]
-  eaf   <- (sum(tab1$snp)/(2*length(tab1$snp)))
-  n     <- length(tab1$snp)
-  
-  
+  beta  <- mlr[2,1]
+  se    <- mlr[2,2]
+  p     <- mlr[2,4]
+
   # OUTCOME DATA -----------------------------------------------------------------
   outcome_dat <- data.frame("SNP" = exposure_dat$SNP, 
                             "beta.outcome" = beta, 
@@ -69,7 +65,11 @@ for (i in 1:11){
            other_allele.outcome = exposure_dat$other_allele.exposure)
   
   dat <- harmonise_data(exposure_dat, outcome_dat)
-  res <- mr(dat)
+  res <- mr(dat) %>%
+    rename('Estimate' = 'b') %>%
+    mutate(Estimate   = -Estimate, # Lowering sclerostin
+           CI_LOW   = Estimate-1.96*se,
+           CI_HIGH  = Estimate+1.96*se)
   
   write.xlsx(res,here("SensitivityAnalysis","SingleSNP","MR_res_continuous.xlsx"), sheetName = out[i], append = TRUE)
   write.xlsx(dat,here("SensitivityAnalysis","SingleSNP","MR_dat_continuous.xlsx"), sheetName = out[i], append = TRUE)

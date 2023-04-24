@@ -10,15 +10,14 @@
 # here("MR_UKBiobank","BinaryData","Phenotyping.xlsx"                          #
 # for more information about the codes.                                        #
 # ============================================================================ #
-rm(list = setdiff(ls(),c("hes","hesD","gp","pathData","tok")))
+rm(list = setdiff(ls(),c("hes","hesD","gp","pathData","tok","outputFolder")))
 ukb  <- as_tibble(read.delim(paste0(pathData, "UKB\\ukb669864_birth.csv"), sep = ","))
-
-pop <- hes %>% select(eid) %>% distinct()
+pop <- read_delim(paste0(pathData,"UKB\\cohort.csv")) %>% select('eid')
 outc <- c('Fracture','CAD','MI','IS','Hypertension','T2DM')
 
 for (i in c(1:6)){
   source(here("MR_UKBiobank","BinaryData","SA_Birth","PhenotypingHES.R"))
-  hes_data <- PhenotypingHes(outc[i],hes,hesD)
+  hes_data <- PhenotypingHes(outc[i],hes,hesD,pop)
   
   source(here("MR_UKBiobank","BinaryData","SA_Birth","PhenotypingGP.R"))
   gp_data <- PhenotypingGP(outc[i],gp,pop,ukb)
@@ -29,6 +28,6 @@ for (i in c(1:6)){
   source(here("MR_UKBiobank","BinaryData","SA_Birth","MergeTables.R"))
   t <- MergeTables(ukb_data,hes_data,gp_data)
   
-  # t %>% group_by(state_gp, state_hes, state_ukb) %>% tally()
+  # t %>% group_by(state_gp, state_hes, state_ukb) %>% tally() 
   write.csv(t,paste0(pathData,"MR_UKBiobank\\BinaryData\\SA_Birth\\Phenotype_",outc[i],".csv"))
 }

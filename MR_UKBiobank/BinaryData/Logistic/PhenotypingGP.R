@@ -8,7 +8,8 @@ PhenotypingGP <- function(outc,gp,pop){
     select(eid) %>% 
     distinct() %>%
     mutate(state_gp = 1) %>%
-    right_join(pop, by = "eid") %>%
+    right_join(pop, 
+               by = "eid") %>%
     mutate(state_gp = if_else(is.na(state_gp),0,state_gp))
   
   return(g)

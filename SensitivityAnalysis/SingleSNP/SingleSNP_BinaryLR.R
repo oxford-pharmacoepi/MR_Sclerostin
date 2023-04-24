@@ -22,46 +22,40 @@ outc <- c('Fracture','CAD','MI','IS','Hypertension','T2DM')
 unlink(here("SensitivityAnalysis","SingleSNP","MR_res_BinaryLR.xlsx"))
 unlink(here("SensitivityAnalysis","SingleSNP","MR_dat_BinaryLR.xlsx"))
 
+t <- read_delim(paste0(pathData,"UKB\\cohort.csv"))
+
 for (i in 1:length(outc)){
-  t <- read_delim(here("MR_UKBiobank","BinaryData","Logistic",paste0("Phenotype_",outc[i],".csv"))) %>%
-    select("eid",
-           "outcome" = "state") %>%
-    inner_join(read_delim(paste0(pathData,"UKB\\ukb669864_1.csv")) %>%
-                 select("eid",
-                        "Caucasian" = "22006-0.0"), # Caucasian
-               by = "eid") %>%
-    filter(!is.na(outcome)) %>%
-    filter(Caucasian == 1) %>%
-    inner_join(read_delim(paste0(pathData,"genetics.csv")) %>% # SNPs expression
-                 select(-"...1"),
-               by = "eid") %>%
-    inner_join(read_delim(paste0(pathData,"UKB\\PC.csv")), by = "eid") # 10 PRINCIPAL COMPONENTS
+  t_outcome <- t %>%
+    left_join(
+      read_delim(paste0(pathData,"MR_UKBiobank\\BinaryData\\Logistic\\Phenotype_",outc[i],".csv")) %>%
+        select('eid',
+               'outcome' = 'state'),
+      by = 'eid') %>%
+    filter(!is.na(outcome))
+  
+  n <- nrow(t_outcome)
   
   # LOGISTIC REGRESSION ----------------------------------------------------------
   # Eliminate those rows with NaN
-  tab <- t %>%
+  # Eliminate those rows with NaN
+  tab <- t_outcome %>%
     select("eid","sex","outcome", "snp" = exposure_dat$SNP,"PC1","PC2","PC3","PC4","PC5",
-           "PC6","PC7","PC8","PC9","PC10") %>%
-    filter(!is.na(sex),
-           !is.na(snp),!is.na(PC1),!is.na(PC2),!is.na(PC3),!is.na(PC4),!is.na(PC5),
-           !is.na(PC6),!is.na(PC7),!is.na(PC8),!is.na(PC9),!is.na(PC10))
-    
+           "PC6","PC7","PC8","PC9","PC10")
+  
   # Substitute the 1 for 2
-  tab1 <- tab
-  tab1$snp[tab$snp == 2] <- 1
-    
+  eaf <- sum(tab$snp)/(2*length(tab$snp))
+  tab <- tab %>%
+    mutate(snp = if_else(snp == 2, 1, snp))
+  
   #Logistic regression - Adjusted model for sex and the first 10 principal components
-  logistic_model <- glm(outcome ~ snp + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, data = tab1,
+  logistic_model <- glm(outcome ~ snp + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, data = tab,
                         family = "binomial")
-  logistic_model <- summary(logistic_model)
+  logistic_model <- coefficients(summary(logistic_model))
   
   # Coefficients
-  n    <- nrow(tab1)
-  eaf  <- (sum(tab1$snp)/(2*length(tab1$snp)))
-  beta <- logistic_model$coefficients[2,1]
-  se   <- logistic_model$coefficients[2,2]
-  p  <- logistic_model$coefficients[2,4]
-
+  beta <- logistic_model[2,1]
+  se <- logistic_model[2,2]
+  p  <- logistic_model[2,4]
   
   # OUTCOME DATA -----------------------------------------------------------------
   outcome_dat <- data.frame("SNP" = exposure_dat$SNP, "beta.outcome" = beta, "se.outcome" = se,
@@ -73,7 +67,10 @@ for (i in 1:length(outc)){
   
   # MENDELIAN RANDOMIZATION
   dat <- harmonise_data(exposure_dat, outcome_dat)
-  res <- mr(dat)
+  res <- mr(dat) %>%
+    mutate('OR' = exp(-b),
+           'CI_LOW_OR'  = exp(-b-1.96*se),
+           'CI_HIGH_OR' = exp(-b+1.96*se))
   
   write.xlsx(res,here("SensitivityAnalysis","SingleSNP","MR_res_BinaryLR.xlsx"), sheetName = outc[i], append = TRUE)
   write.xlsx(dat,here("SensitivityAnalysis","SingleSNP","MR_dat_BinaryLR.xlsx"), sheetName = outc[i], append = TRUE)

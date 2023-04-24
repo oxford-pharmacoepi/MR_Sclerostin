@@ -6,7 +6,7 @@
 # It creates the file "genetics.csv" containing the UKBiobank data for each    #
 # one of the instruments.                                                      # 
 # ============================================================================ #
-rm(list = setdiff(ls(),c("pathData","tok")))
+rm(list = setdiff(ls(),c("pathData","tok",'outputFolder')))
 
 # Reading PED files
 ped <- as_tibble(read.pedfile(paste0(pathData,"SNPs\\selected_snps_c17.ped"))) %>%

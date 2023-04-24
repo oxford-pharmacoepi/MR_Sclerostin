@@ -15,15 +15,19 @@ snps <- ldrho %>% select(SNP = RS_number)
 
 # Outcome data -----------------------------------------------------------------
 out  <- c('eBMD','HF','CAD','MI','IS','Hypertension','T2DM')
-outc <- c('ebi-a-GCST006979','','ebi-a-GCST005194','ebi-a-GCST011365','','ukb-b-14057','ebi-a-GCST006867')
+outc <- c('ebi-a-GCST006979','','ebi-a-GCST005194','ebi-a-GCST011365','','ukb-b-14057','')
 
 unlink(here('MR_gwas','gMR_res.xlsx'))
 unlink(here('MR_gwas','gMR_dat.xlsx'))
 unlink(here("SensitivityAnalysis","LeaveOneOut","Gwas","loo.xlsx"))
 
+
 for (i in 1:length(out)){
-  if(i %in% c(1,3,4,6,7)){
-    outcome_data <- extract_outcome_data(snps = exposure_data$SNP, outcomes = outc[i])
+  if(i %in% c(1,3,4,6)){
+    outcome_data <- extract_outcome_data(snps = exposure_data$SNP, outcomes = outc[i]) %>%
+      select(SNP,pos,beta.outcome, se.outcome, samplesize.outcome, pval.outcome, eaf.outcome, effect_allele.outcome,
+             other_allele.outcome) %>%
+      mutate(outcome = out[i], id.outcome = out[i])
   }else if(i == 2){
     outcome_data <- read_delim(paste0(pathData,"GWAS_HipFracture\\GCST90161240_buildGRCh37.tsv")) %>%
       rename("SNP" = "variant_id","pval.outcome" = "p_value","effect_allele.outcome" = "effect_allele",
@@ -43,18 +47,22 @@ for (i in 1:length(out)){
              "effect_allele.outcome" = "effect_allele","other_allele.outcome" = "other_allele") %>%
       filter(SNP %in% exposure_data$SNP) %>%
       mutate(outcome = "IS", id.outcome = "IS")
+  }else if(i == 7){
+    outcome_data <- read_delim(paste0(pathData,"GWAS_T2DM\\DIAMANTE-EUR.sumstat.txt")) %>%
+      select('SNP' = 'rsID','beta.outcome' = 'Fixed-effects_beta','effect_allele.outcome' = 'effect_allele',
+             'other_allele.outcome' = 'other_allele','eaf.outcome' = 'effect_allele_frequency',
+             'se.outcome' = 'Fixed-effects_SE','pval.outcome' = 'Fixed-effects_p-value') %>%
+      right_join(
+        exposure_data %>% select('SNP'),
+        by = 'SNP'
+      ) %>%
+      mutate(outcome = "T2DM", id.outcome = "T2DM")
   }
   
   source(here('Functions','gMR.R'))
-  if (i == length(out)){
-    outcome_data <- snps %>% inner_join(outcome_data, by = "SNP")
-    ldrho        <- ldrho %>% select(-"rs66838809") %>% filter(RS_number != "rs66838809")
-    snps         <- ldrho %>% select(SNP = RS_number)
-    loo <- matrix(0,6,3) # leave-one-out analysis
-  }else{
-    loo <- matrix(0,7,3) # leave-one-out analysis
-  }
-
+  
+  loo <- matrix(0,7,3) # leave-one-out analysis
+  
   a <- gMR(exposure_data = exposure_data, outcome_data = outcome_data, correl_matrix = ldrho)
 
   if(i %in% c(2:7)){

@@ -22,5 +22,5 @@ leaveoneout <- function(loo, dat, ldrho,type){
                         CI_HIGH = loo[,1]+1.96*loo[,2],
                         SE   = loo[,2],
                         pval = loo[,3]),
-             here("SensitivityAnalysis","LeaveOneOut",type,"loo.xlsx"),  sheetName = dat$originalname.outcome[1], append = TRUE)
+             here("SensitivityAnalysis","LeaveOneOut",type,"loo.xlsx"),  sheetName = dat$outcome[1], append = TRUE)
 }

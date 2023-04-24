@@ -10,7 +10,7 @@
 # the outcomes.                                                                #
 # Also, sensitivity analysis "leave-one-out" is performed.
 # ============================================================================ #
-rm(list = setdiff(ls(),c("hes","hesD","gp","pathData","tok")))
+rm(list = setdiff(ls(),c("pathData","tok")))
 
 # Correlation matrix -----------------------------------------------------------
 ldrho <- read.csv(here("Pruning","correlation.csv"))
@@ -19,69 +19,68 @@ snps  <- ldrho %>% select("SNP" = RS_number) # SNPs
 # EXPOSURE DATA ----------------------------------------------------------------
 exposure_dat <- snps %>%
   left_join(read_delim(here("Pruning","exposure_data.csv"))) %>%
-  select(-"...1") %>% 
-  right_join(data.frame("SNP" = snps), by = "SNP")
+  select(-"...1")
 
 # Outcome data -----------------------------------------------------------------
 outc <- c('Fracture','CAD','MI','IS','Hypertension','T2DM')
 
 unlink(here("MR_UKBiobank","BinaryData","Logistic","gMR_res.xlsx"))
 unlink(here("MR_UKBiobank","BinaryData","Logistic","gMR_dat.xlsx"))
+unlink(here("SensitivityAnalysis","LeaveOneOut","BinaryData_LR","loo.xlsx"))
+
+t <- read_delim(paste0(pathData,"UKB\\cohort.csv"))
+
 for (i in 1:length(outc)){
-  t <- read_delim(paste0(pathData,"MR_UKBiobank\\BinaryData\\Logistic\\Phenotype_",outc[i],".csv")) %>%
-    select("eid",
-           "outcome" = "state") %>%
-    inner_join(read_delim(paste0(pathData,"UKB\\ukb669864_1.csv")) %>%
-                 select("eid",
-                        "Caucasian" = "22006-0.0"), # Caucasian
-               by = "eid") %>%
-    filter(!is.na(outcome)) %>%
-    filter(Caucasian == 1) %>%
-    inner_join(read_delim(paste0(pathData,"genetics.csv")) %>% # SNPs expression
-                 select(-"...1"),
-               by = "eid") %>%
-    inner_join(read_delim(paste0(pathData,"UKB\\PC.csv")), by = "eid") # 10 PRINCIPAL COMPONENTS
+  t_outcome <- t %>%
+    left_join(
+      read_delim(paste0(pathData,"MR_UKBiobank\\BinaryData\\Logistic\\Phenotype_",outc[i],".csv")) %>%
+        select('eid',
+               'outcome' = 'state'),
+      by = 'eid') %>%
+    filter(!is.na(outcome))
+
+  cases    <- sum(t_outcome$outcome == 1)
+  controls <- sum(t_outcome$outcome == 0)
+  n        <- nrow(t_outcome)
   
   # LOGISTIC REGRESSION ----------------------------------------------------------
   beta  <- matrix(0,nrow(snps),1)
   se    <- matrix(0,nrow(snps),1)
   p     <- matrix(0,nrow(snps),1)
   eaf   <- matrix(0,nrow(snps),1)
-  n     <- matrix(0,nrow(snps),1)
-  
+
   for (j in(c(1:nrow(snps)))){
     # Eliminate those rows with NaN
-    tab <- t %>%
+    tab <- t_outcome %>%
       select("eid","sex","outcome", "snp" = snps[j,1],"PC1","PC2","PC3","PC4","PC5",
-             "PC6","PC7","PC8","PC9","PC10") %>%
-      filter(!is.na(sex),
-             !is.na(snp),!is.na(PC1),!is.na(PC2),!is.na(PC3),!is.na(PC4),!is.na(PC5),
-             !is.na(PC6),!is.na(PC7),!is.na(PC8),!is.na(PC9),!is.na(PC10))
+             "PC6","PC7","PC8","PC9","PC10")
     
     # Substitute the 1 for 2
-    tab1 <- tab
-    tab1$snp[tab$snp == 2] <- 1
+    eaf[j] <- sum(tab$snp)/(2*length(tab$snp))
+    tab <- tab %>%
+      mutate(snp = if_else(snp == 2, 1, snp))
     
     #Logistic regression - Adjusted model for sex and the first 10 principal components
-    logistic_model <- glm(outcome ~ snp + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, data = tab1,
+    logistic_model <- glm(outcome ~ snp + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, data = tab,
                           family = "binomial")
-    logistic_model <- summary(logistic_model)
+    logistic_model <- coefficients(summary(logistic_model))
     
     # Coefficients
-    n[j]    <- nrow(tab1)
-    eaf[j]  <- (sum(tab1$snp)/(2*length(tab1$snp)))
-    beta[j] <- logistic_model$coefficients[2,1]
-    se[j] <- logistic_model$coefficients[2,2]
-    p[j]  <- logistic_model$coefficients[2,4]
+    beta[j] <- logistic_model[2,1]
+    se[j] <- logistic_model[2,2]
+    p[j]  <- logistic_model[2,4]
   }
   
   # OUTCOME DATA -----------------------------------------------------------------
   outcome_dat <- data.frame("SNP" = snps, "beta.outcome" = beta, "se.outcome" = se,
-                            "p.outcome" = p, "eaf.outcome" = eaf, "n.outcome" = n) %>%
+                            "p.outcome" = p, "eaf.outcome" = eaf) %>%
     mutate(id.outcome = outc[i],
            outcome    = outc[i],
            effect_allele.outcome = exposure_dat$effect_allele.exposure,
-           other_allele.outcome = exposure_dat$other_allele.exposure)
+           other_allele.outcome  = exposure_dat$other_allele.exposure,
+           n.outcome  = n,
+           case.outcome = cases,
+           controls.outcome = controls)
   
   # MENDELIAN RANDOMIZATION
   source(here("Functions","gMR.R"))

@@ -9,14 +9,13 @@ exposure_data <- read.csv(here("SensitivityAnalysis","SingleSNP","exposure_data.
 
 # Outcome data -----------------------------------------------------------------
 out  <- c('eBMD','HF','CAD','MI','IS','Hypertension','T2DM')
-outc <- c('ebi-a-GCST006979','','ebi-a-GCST005194','ebi-a-GCST011365','','ukb-b-14057','ebi-a-GCST006867')
+outc <- c('ebi-a-GCST006979','','ebi-a-GCST005194','ebi-a-GCST011365','','ukb-b-14057','')
 
 unlink(here('SensitivityAnalysis','SingleSNP','MR_res_gwas.xlsx'))
 unlink(here('SensitivityAnalysis','SingleSNP','MR_dat_gwas.xlsx'))
 
-
 for (i in 1:length(out)){
-  if(i %in% c(1,3,4,6,7)){
+  if(i %in% c(1,3,4,6)){
     outcome_data <- extract_outcome_data(snps = exposure_data$SNP, outcomes = outc[i])
   }else if(i == 2){
     outcome_data <- read_delim(paste0(pathData,"GWAS_HipFracture\\GCST90161240_buildGRCh37.tsv")) %>%
@@ -37,6 +36,16 @@ for (i in 1:length(out)){
              "effect_allele.outcome" = "effect_allele","other_allele.outcome" = "other_allele") %>%
       filter(SNP %in% exposure_data$SNP) %>%
       mutate(outcome = "IS", id.outcome = "IS")
+  }else if(i == 7){
+    outcome_data <- read_delim(paste0(pathData,"GWAS_T2DM\\DIAMANTE-EUR.sumstat.txt")) %>%
+      select('SNP' = 'rsID','beta.outcome' = 'Fixed-effects_beta','effect_allele.outcome' = 'effect_allele',
+             'other_allele.outcome' = 'other_allele','eaf.outcome' = 'effect_allele_frequency',
+             'se.outcome' = 'Fixed-effects_SE','pval.outcome' = 'Fixed-effects_p-value') %>%
+      right_join(
+        exposure_data %>% select('SNP'),
+        by = 'SNP'
+      ) %>%
+      mutate(outcome = "T2DM", id.outcome = "T2DM")
   }
   
   dat <- harmonise_data(exposure_data,outcome_data) %>%
@@ -46,13 +55,12 @@ for (i in 1:length(out)){
   # MR ANALYSIS ------------------------------------------------------------------
   res <- mr(dat)
   
-  
   table <- data.frame("Method" = c("Wald ratio"),
                       "b" = c(res$b),
                       "SE" = c(res$se),
                       "Pval" = c(res$pval),
                       "SNPs" = c(res$nsnp)) %>%
-    mutate(Estimate = b,
+    mutate(Estimate = -b,
            CI_LOW   = Estimate - 1.96*SE,
            CI_HIGH  = Estimate + 1.96*SE) %>%
     mutate(OR = exp(Estimate),

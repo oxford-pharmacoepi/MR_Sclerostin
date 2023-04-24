@@ -24,7 +24,7 @@ exposure_data <- read_delim(here("Metaanalysis","Fixed_results","Fixed.csv")) %>
 
 # OUTCOME ----------------------------------------------------------------------
 out  <- c('eBMD','HF','CAD','MI','IS','Hypertension','T2DM')
-outc <- c('ebi-a-GCST006979','','ebi-a-GCST005194','ebi-a-GCST011365','','ukb-b-14057','ebi-a-GCST006867')
+outc <- c('ebi-a-GCST006979','','ebi-a-GCST005194','ebi-a-GCST011365','','ukb-b-14057','')
 
 unlink(here("Colocalization","coloc.xlsx"))
 unlink(here("Colocalization","data.xlsx"))
@@ -32,8 +32,11 @@ unlink(here("Colocalization","data.xlsx"))
 ss <- c(0,0.0157,0.2243,0.097,0.3317,0.2586,0.0954)
 
 for (i in 1:7){
-  if(i %in% c(1,3,4,6,7)){
-    outcome_data <- extract_outcome_data(snps = exposure_data$SNP, outcomes = outc[i])
+  if(i %in% c(1,3,4,6)){
+    outcome_data <- extract_outcome_data(snps = exposure_data$SNP, outcomes = outc[i]) %>%
+      select(SNP,pos,beta.outcome, se.outcome, samplesize.outcome, pval.outcome, eaf.outcome, effect_allele.outcome,
+             other_allele.outcome) %>%
+      mutate(outcome = out[i], id.outcome = out[i])
   }else if(i == 2){
     outcome_data <- read_delim(paste0(pathData,"GWAS_HipFracture\\GCST90161240_buildGRCh37.tsv")) %>%
       rename("SNP" = "variant_id","pval.outcome" = "p_value","effect_allele.outcome" = "effect_allele",
@@ -53,6 +56,16 @@ for (i in 1:7){
              "effect_allele.outcome" = "effect_allele","other_allele.outcome" = "other_allele") %>%
       filter(SNP %in% exposure_data$SNP) %>%
       mutate(outcome = "IS", id.outcome = "IS")
+  }else if(i == 7){
+    outcome_data <- read_delim(paste0(pathData,"GWAS_T2DM\\DIAMANTE-EUR.sumstat.txt")) %>%
+      select('SNP' = 'rsID','beta.outcome' = 'Fixed-effects_beta','effect_allele.outcome' = 'effect_allele',
+             'other_allele.outcome' = 'other_allele','eaf.outcome' = 'effect_allele_frequency',
+             'se.outcome' = 'Fixed-effects_SE','pval.outcome' = 'Fixed-effects_p-value') %>%
+      right_join(
+        exposure_data %>% select('SNP'),
+        by = 'SNP'
+      ) %>%
+      mutate(outcome = "T2DM", id.outcome = "T2DM")
   }
   
   outcome_data <- outcome_data %>%
@@ -99,16 +112,14 @@ for (i in 1:7){
                                      MAF = dat$eaf.outcome,
                                      s = ss[i], type = "cc"),
                      p1 = 1e-4, p2 = 1e-4, p12 = 1e-5)
-  
+  }
   tab <- data.frame(nsnps = res$summary[1],
                     H0 = res$summary[2],
                     H1 = res$summary[3],
                     H2 = res$summary[4],
                     H3 = res$summary[5],
                     H4 = res$summary[6])
-  
   write.xlsx(tab,here("Colocalization","coloc.xlsx"),sheetName = out[i],append = TRUE)
-  }
 }
 
 

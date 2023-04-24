@@ -10,13 +10,13 @@
 # here("MR_UKBiobank","BinaryData","Phenotyping.xlsx"                          #
 # for more information about the codes.                                        #
 # ============================================================================ #
-rm(list = setdiff(ls(),c("hes","hesD","gp","ukb","pathData","tok")))
-
-pop <- hes %>% select(eid) %>% distinct()
+rm(list = setdiff(ls(),c("hes","hesD","gp","pathData","tok")))
+ukb  <- as_tibble(read.delim(paste0(pathData,"UKB\\ukb669864_logistic.csv"), sep = ","))
+pop <- read_delim(paste0(pathData,'UKB\\cohort.csv')) %>% select('eid')
 outc <- c('Fracture','CAD','MI','IS','Hypertension','T2DM')
 for (i in 1:6){
   source(here("MR_UKBiobank","BinaryData","Logistic","PhenotypingHES.R"))
-  hes_data <- PhenotypingHes(outc[i],hes)
+  hes_data <- PhenotypingHes(outc[i],hes,pop)
   
   source(here("MR_UKBiobank","BinaryData","Logistic","PhenotypingGP.R"))
   gp_data <- PhenotypingGP(outc[i],gp,pop)

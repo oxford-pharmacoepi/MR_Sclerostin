@@ -1,4 +1,4 @@
-PhenotypingHes <- function(outc,hes,hesD){
+PhenotypingHes <- function(outc,hes,hesD,pop){
   phen <- read.xlsx(here("MR_UKBiobank","BinaryData","PhenotypingR.xlsx"), sheetName = outc)
   
   hes_codes <- phen %>% 
@@ -23,7 +23,7 @@ PhenotypingHes <- function(outc,hes,hesD){
     mutate(state_hes = 1) %>%
     mutate(state_hes = if_else(is.na(age_hes) | age_hes < 0, -1, state_hes)) %>%
     select(eid,state_hes,age_hes) %>%
-    right_join(unique(hes %>% select(eid)), by = "eid") %>% # All hes patients
+    right_join(pop, by = "eid") %>% # All hes patients
     left_join(ukb %>% select(eid,
                              year_of_birth = "X34.0.0",
                              age_of_death = "X40007.0.0"),

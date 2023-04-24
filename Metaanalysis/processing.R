@@ -6,7 +6,7 @@
 # This file reads the files created after using GWAS and METAL and converts    #
 # them into .csv files.                                                        #
 # ============================================================================ #
-rm(list = setdiff(ls(),c("pathData","tok")))
+rm(list = setdiff(ls(),c('pathData','tok')))
 
 # Read GWAMA file --------------------------------------------------------------
 # Read the output files

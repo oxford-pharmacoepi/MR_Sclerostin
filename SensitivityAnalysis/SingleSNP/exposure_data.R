@@ -54,5 +54,4 @@ for (i in 1:2){
 }
 
 
-exposure_dat$beta.exposure <- -exposure_dat$beta.exposure
 write.csv(exposure_dat,here("SensitivityAnalysis","SingleSNP","exposure_data.csv"))
