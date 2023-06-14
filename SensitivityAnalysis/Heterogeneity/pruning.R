@@ -11,7 +11,7 @@
 rm(list = setdiff(ls(),c("pathData","tok")))
 
 # Read meta-analysis results
-t <- read_delim(here("Metaanalysis","Fixed_results","Fixed.csv"), delim = ",", show_col_types = FALSE) %>%
+t <- read_delim(here("Metaanalysis","Random_results","Random.csv"), delim = ",", show_col_types = FALSE) %>%
   select(-"...1") %>%
   left_join(read.delim(here("Metaanalysis","sc.txt")) %>% select("Pos","rs_number" = "MARKERNAME"),
             by = "rs_number") %>%
@@ -37,9 +37,9 @@ exposure_dat <- clump_data(t,clump_r2 = 0.8, clump_kb = 500000, pop = "EUR")
 # Sometimes there is no connection with the server, so the correlation matrix has
 # has been stored in the following file:
 ldrho <- LDmatrix(exposure_dat$SNP,"EUR",token = tok)
-write.csv(ldrho, file=here("Pruning","correlation.csv"), row.names = FALSE)
-ldrho <- read_delim(here("Pruning","correlation.csv"))
-unlink(here('Pruning','gMR_res.xlsx'))
+write.csv(ldrho, file=here("SensitivityAnalysis","Heterogeneity","correlation.csv"), row.names = FALSE)
+ldrho <- read_delim(here("SensitivityAnalysis","Heterogeneity","correlation.csv"))
+unlink(here("SensitivityAnalysis","Heterogeneity",'gMR_res.xlsx'))
 
 # Outcome
 out <- c('eBMD','HF')
@@ -66,15 +66,15 @@ for (i in 1:2){
            CI_LOW = Estimate-1.96*SE,
            CI_HIGH = Estimate+1.96*SE)
   
-  write.xlsx(a[[1]],here("Pruning","gMR_res.xlsx"),sheetName = paste0("data_",out[i]),append = TRUE)
-  write.xlsx(tab,here("Pruning","gMR_res.xlsx"),sheetName = paste0("results_",out[i]),append = TRUE)
+  write.xlsx(a[[1]],here("SensitivityAnalysis","Heterogeneity","gMR_res.xlsx"),sheetName = paste0("data_",out[i]),append = TRUE)
+  write.xlsx(tab,here("SensitivityAnalysis","Heterogeneity","gMR_res.xlsx"),sheetName = paste0("results_",out[i]),append = TRUE)
 }
 
 # Selection of the instruments
 dat <- ldrho %>% select(SNP = RS_number) %>%
     left_join(exposure_dat, by = "SNP") %>%
   select("SNP", contains("exposure"))
-write.csv(dat,here("Pruning","exposure_data.csv"))
+write.csv(dat,here("SensitivityAnalysis","Heterogeneity","exposure_data.csv"))
 
 
 

@@ -91,7 +91,7 @@ PhenotypingUKB <- function(outc,pop,ukb){
         union(ukb4) %>%
         right_join(pop, by = "eid") %>%
         mutate(state_ukb = if_else(is.na(state_ukb),0,state_ukb))
-      }
+    }
   )
   
   return(ukb)

@@ -33,7 +33,7 @@ t <- read_delim(paste0(pathData,"UKB\\cohort.csv"))
 for (i in 1:length(outc)){
   t_outcome <- t %>%
     left_join(
-      read_delim(paste0(pathData,"MR_UKBiobank\\BinaryData\\Logistic\\Phenotype_",outc[i],".csv")) %>%
+      read_csv(paste0(pathData,"MR_UKBiobank\\BinaryData\\Logistic\\Phenotype_",outc[i],".csv")) %>%
         select('eid',
                'outcome' = 'state'),
       by = 'eid') %>%
@@ -62,12 +62,12 @@ for (i in 1:length(outc)){
     
     #Logistic regression - Adjusted model for sex and the first 10 principal components
     logistic_model <- glm(outcome ~ snp + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, data = tab,
-                          family = "binomial")
+                          family = "binomial" )
     logistic_model <- coefficients(summary(logistic_model))
     
     # Coefficients
     beta[j] <- logistic_model[2,1]
-    se[j] <- logistic_model[2,2]
+    se[j] <- logistic_model[2,2] 
     p[j]  <- logistic_model[2,4]
   }
   

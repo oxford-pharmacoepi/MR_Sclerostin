@@ -1,0 +1,5 @@
+"","SNP","effect_allele.exposure","other_allele.exposure","beta.exposure","pval.exposure","N.exposure","se.exposure","eaf.exposure","id.exposure","exposure"
+"1","rs2342312","C","G",0.036293,7.66e-07,49372,0.00733571428571428,0.721,"Sclerostin","Sclerostin"
+"2","rs8073524","C","G",0.032641,1.56e-06,49372,0.00679030612244898,0.4108,"Sclerostin","Sclerostin"
+"3","rs11650233","T","C",0.029297,4.37e-05,49372,0.00716428571428572,0.2822,"Sclerostin","Sclerostin"
+"4","rs851060","T","C",0.026783,4.81e-05,49372,0.00658469387755102,0.5796,"Sclerostin","Sclerostin"

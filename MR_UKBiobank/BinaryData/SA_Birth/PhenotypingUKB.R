@@ -167,7 +167,7 @@ PhenotypingUKB <- function(outc,pop,ukb){
                age_ukb   = pmin(age_ukb1,age_ukb2,na.rm = TRUE)) %>%
         right_join(pop, by = "eid") %>%
         mutate(state_ukb = if_else(is.na(state_ukb),0,state_ukb))
-      }
+    }
     )
 }
 

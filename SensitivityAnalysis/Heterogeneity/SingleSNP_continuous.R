@@ -9,15 +9,15 @@
 rm(list = setdiff(ls(),c("pathData","tok")))
 
 # EXPOSURE DATA ----------------------------------------------------------------
-exposure_dat <- read_delim(here("SensitivityAnalysis","Heterogeneity","exposure_data.csv")) %>%
+exposure_dat <- read_delim(here("SensitivityAnalysis","SingleSNP","exposure_data.csv")) %>%
   select(-"...1")
 
 # Outcome data -----------------------------------------------------------------
 out  <- c('eBMD','Cholesterol','LDL','HDL','Triglycerides','Apo-A','Apo-B','CRP','Lipoprotein','HbA1c','Glucose')
 outc <- c('3148-0.0','30690-0.0','30780-0.0','30760-0.0','30870-0.0','30630-0.0','30640-0.0','30710-0.0','30790-0.0','30750-0.0','30740-0.0')
 
-unlink(here("SensitivityAnalysis","Heterogeneity","MR_res_continuous.xlsx"))
-unlink(here("SensitivityAnalysis","Heterogeneity","MR_dat_continuous.xlsx"))
+unlink(here("SensitivityAnalysis","SingleSNP","MR_res_continuous.xlsx"))
+unlink(here("SensitivityAnalysis","SingleSNP","MR_dat_continuous.xlsx"))
 t <- read_delim(paste0(pathData,"UKB\\cohort.csv"))
 
 for (i in 1:11){
@@ -71,8 +71,8 @@ for (i in 1:11){
            CI_LOW   = Estimate-1.96*se,
            CI_HIGH  = Estimate+1.96*se)
   
-  write.xlsx(res,here("SensitivityAnalysis","Heterogeneity","MR_res_continuous.xlsx"), sheetName = out[i], append = TRUE)
-  write.xlsx(dat,here("SensitivityAnalysis","Heterogeneity","MR_dat_continuous.xlsx"), sheetName = out[i], append = TRUE)
+  write.xlsx(res,here("SensitivityAnalysis","SingleSNP","MR_res_continuous.xlsx"), sheetName = out[i], append = TRUE)
+  write.xlsx(dat,here("SensitivityAnalysis","SingleSNP","MR_dat_continuous.xlsx"), sheetName = out[i], append = TRUE)
 }
 
 

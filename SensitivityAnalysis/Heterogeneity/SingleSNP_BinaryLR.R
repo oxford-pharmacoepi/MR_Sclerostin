@@ -13,14 +13,14 @@
 rm(list = setdiff(ls(),c("pathData","tok")))
 
 # EXPOSURE DATA ----------------------------------------------------------------
-exposure_dat <- read_delim(here("SensitivityAnalysis","Heterogeneity","exposure_data.csv")) %>%
+exposure_dat <- read_delim(here("SensitivityAnalysis","SingleSNP","exposure_data.csv")) %>%
   select(-"...1")
 
 # Outcome data -----------------------------------------------------------------
 outc <- c('Fracture','CAD','MI','IS','Hypertension','T2DM')
 
-unlink(here("SensitivityAnalysis","Heterogeneity","MR_res_BinaryLR.xlsx"))
-unlink(here("SensitivityAnalysis","Heterogeneity","MR_dat_BinaryLR.xlsx"))
+unlink(here("SensitivityAnalysis","SingleSNP","MR_res_BinaryLR.xlsx"))
+unlink(here("SensitivityAnalysis","SingleSNP","MR_dat_BinaryLR.xlsx"))
 
 t <- read_delim(paste0(pathData,"UKB\\cohort.csv"))
 
@@ -72,8 +72,8 @@ for (i in 1:length(outc)){
            'CI_LOW_OR'  = exp(-b-1.96*se),
            'CI_HIGH_OR' = exp(-b+1.96*se))
   
-  write.xlsx(res,here("SensitivityAnalysis","Heterogeneity","MR_res_BinaryLR.xlsx"), sheetName = outc[i], append = TRUE)
-  write.xlsx(dat,here("SensitivityAnalysis","Heterogeneity","MR_dat_BinaryLR.xlsx"), sheetName = outc[i], append = TRUE)
+  write.xlsx(res,here("SensitivityAnalysis","SingleSNP","MR_res_BinaryLR.xlsx"), sheetName = outc[i], append = TRUE)
+  write.xlsx(dat,here("SensitivityAnalysis","SingleSNP","MR_dat_BinaryLR.xlsx"), sheetName = outc[i], append = TRUE)
 }
 
 
