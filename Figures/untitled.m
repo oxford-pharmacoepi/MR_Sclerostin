@@ -1,3 +1,62 @@
+%% Snps effect on the outcome
+clear all; close all;
+path = pwd; path = path(1:end-length('\Figures'));
+
+n0 = {'data_eBMD','data_HF'};
+n1 = {'eBMD', 'hip fracture'};
+n2 = {'results_eBMD','results_HF'};
+
+for i = 1:2
+    t = readtable([path '\Pruning\gMR_res.xlsx'],'Sheet',n0{i});
+    t.beta_outcome(t.beta_exposure < 0)  = -t.beta_outcome(t.beta_exposure < 0);
+    t.beta_exposure(t.beta_exposure < 0) = -t.beta_exposure(t.beta_exposure < 0);
+
+    betax = t.beta_exposure; sex = t.se_exposure; betay = t.beta_outcome; sey = t.se_outcome;
+
+    f = figure(1); clf; grid on; hold on; box on;
+    e = errorbar(betax,betay,betay-(betay-1.96*sey),(betay+1.96*sey)-betay,betax-(betax-1.96*sex),(betax+1.96*sex)-betax,"s","LineWidth",0.5,"MarkerFaceColor",'k',"Color",'k');
+    ax = gca; ax.XLim(1) = 0; ax.TickLabelInterpreter = 'latex';
+    if i == 1
+        text(-0.01,0.0025,'A)','FontSize',17,'Interpreter','latex')
+    else
+        text(-0.012,0.26,'B)','FontSize',17,'Interpreter','latex')
+    end
+    t = readtable([path '\Pruning\gMR_res.xlsx'],'Sheet',n2{i});
+    plot(linspace(ax.XLim(1),ax.XLim(2),10),t.Estimate(1)*linspace(ax.XLim(1),ax.XLim(2),10),'--',"Color",'r','LineWidth',1)
+
+    xlabel("SNP effect size per 1-SD change in sclerostin levels","Interpreter","latex")
+    ylabel(['SNP effect size per 1-SD change in ' n1{i}],"Interpreter","latex")
+    print(f,[path '\Results\Fig_SNPEffectOnTheOutcomes' num2str(i) '.png'],"-dpng","-r800")
+end
+
+%%
+%% Snps effect on the outcome
+clear all; close all;
+path = pwd; path = path(1:end-length('\Figures'));
+
+n0 = {'data_eBMD','data_HF'};
+n1 = {'eBMD', 'hip fracture'};
+n2 = {'results_eBMD','results_HF'};
+
+for i = 1:2
+    t = readtable([path '\Pruning\gMR_res.xlsx'],'Sheet',n0{i});
+    t.beta_outcome(t.beta_exposure < 0)  = -t.beta_outcome(t.beta_exposure < 0);
+    t.beta_exposure(t.beta_exposure < 0) = -t.beta_exposure(t.beta_exposure < 0);
+
+    betax = t.beta_exposure; sex = t.se_exposure; betay = t.beta_outcome; sey = t.se_outcome;
+
+    f = figure(1); clf; grid on; hold on; box on;
+    errorbar(betax,betay,betay-(betay-1.96*sey),(betay+1.96*sey)-betay,betax-(betax-1.96*sex),(betax+1.96*sex)-betax,"o","LineWidth",0.5,"MarkerFaceColor",'k',"Color",'k');
+    ax = gca; ax.XLim(1) = 0; ax.TickLabelInterpreter = 'latex';
+    text(-0.01,0.0025,'A)','FontSize',17,'Interpreter','latex')
+    t = readtable([path '\Pruning\gMR_res.xlsx'],'Sheet',n2{i});
+    plot(linspace(ax.XLim(1),ax.XLim(2),10),t.Estimate(1)*linspace(ax.XLim(1),ax.XLim(2),10),'--',"Color",'k')
+
+    xlabel("SNP effect size per 1-SD change in sclerostin levels","Interpreter","latex")
+    ylabel(['SNP effect size per 1-SD change in ' n1{i}],"Interpreter","latex")
+    print(f,[path '\Results\Fig_SNPEffectOnTheOutcomes.png'],"-dpng","-r800")
+end
+
 %% All the results
 % Binary data -------------------------------------------------------------
 clear all; close all
@@ -32,12 +91,12 @@ ax.XLim = [-.4 1.2];
 ax.YLim = [0.5 11.5];
 ax.FontSize = 11;
 xline(0,"LineWidth",1.5,"LineStyle","--","Color",'k')
-l = legend('GWAS','UK Biobank','FontSize',12);
+l = legend('Study 1','Study 2','FontSize',12);
 l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside";
 text(-0.8, 12.4, 'A)','Interpreter','latex','FontSize',17)
 
 xlabel("1-SD increase per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
-print(f,[path '\Results\FigAll_1.png'],"-dpng","-r800")
+print(f,[path '\Results\FigAll_1_tfg.png'],"-dpng","-r800")
 
 %% Continuous data ---------------------------------------------------------
 clear all; close all
@@ -68,12 +127,12 @@ for i = 1:length(names)
 end
 oddUKB = flip(oddUKB); clUKB = flip(clUKB); cuUKB = flip(cuUKB); 
 
+
 f = figure(2); hold on; grid on; box on;
 f.Position = [680 254 560 844];
 
-errorbar(oddGWAS,[1:6]+0.1,oddGWAS-clGWAS,cuGWAS-oddGWAS,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255)
-errorbar(oddUKB,[1:6],oddUKB-clUKB,cuUKB-oddUKB,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[167 21 49]/255,"Color",[167 21 49]/255)
-
+errorbar(oddGWAS,[1:6]+0.05,oddGWAS-clGWAS,cuGWAS-oddGWAS,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255)
+errorbar(oddUKB,[1:6]-0.05,oddUKB-clUKB,cuUKB-oddUKB,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[167 21 49]/255,"Color",[167 21 49]/255)
 fill([0.1 4 4 0.1],[5.5 5.5 6.5 6.5],[0.7 0.7 0.7],"FaceAlpha",0.2,"EdgeColor",[0.7 0.7 0.7],"EdgeAlpha",0.2)
 
 ax = gca;
@@ -86,12 +145,12 @@ ax.XLim = [0.1 4];
 ax.XTick = [0.1 0.25 0.5 1 2 4];
 xline(1,"LineWidth",1.5,"LineStyle","--","Color",'k')
 ax.FontSize = 11;
-l = legend('GWAS','UK Biobank','FontSize',10.5);
+l = legend('Study 1','Study 2','FontSize',10.5);
 l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside";
-xlabel("Odds Ratio per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
+xlabel("Odds ratio per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
 text(0.07, 7, 'B)','Interpreter','latex','FontSize',17)
 
-print(f,[path '\Results\FigAll_3.png'],"-dpng","-r800")
+print(f,[path '\Results\FigAll_2_tfg.png'],"-dpng","-r800")
 
 %% Leave one out analysis
 clear all; close all;
@@ -100,15 +159,8 @@ path = pwd; path = path(1:end-length('\Figures'));
 % UK Biobank -------------------------------------------------------------
 names  = {'eBMD','Cholesterol','LDL','HDL','Triglycerides','Apo-A','Apo-B','CRP','Lipoprotein','HbA1c','Glucose'};
 
-f = figure(1); hold on; box on; axis off; grid on;
-f.Position = [3 42 1169 1074];
-lx = 0.11; mx = 0.02; rx = 0.01; dy = 0.06; my = 0.07; uy = 0.07; Nx = 4; Ny = 3;
-
-[AX]  = get_axes([Nx,Ny],lx,mx,rx,dy,my,uy);
-order = [4,8,12,3,7,11,2,6,10,1,5];
 for i = 1:length(names)
-    f.CurrentAxes = AX(order(i)); hold on; box on;
-
+    f = figure(i); hold on; box on; axis off; grid on;
     t = readtable([path '\SensitivityAnalysis\LeaveOneOut\ContinuousData\loo.xlsx'],Sheet= names{i});
 
     betaUKB = flip(t.Estimate); seUKB = flip(t.SE);
@@ -142,10 +194,12 @@ for i = 1:length(names)
         ax.YTickLabel = flip(t.SNPS);
     end
         grid on; box on;
-end
 
+
+end
+%%
 f.CurrentAxes = AX(9); box off; axis off;
-annotation('textbox',[0.052 dy 1-uy-dy-my lx/2],'Color','k','String','Continuous outcomes','Interpreter','latex',...
+annotation('textbox',[0.052 dy 0.545 lx/2],'Color','k','String','Continuous outcomes','Interpreter','latex',...
     'FontSize',17,'VerticalAlignment','middle','HorizontalAlignment','center','Rotation',90,'BackgroundColor',[200 200 200]./255,'EdgeColor',[200 200 200]./255)
 Dx = (1-2*mx-lx-rx)/3; Dy = (1-uy-uy-3*my)/4;
 
@@ -183,7 +237,7 @@ f.CurrentAxes = AX(9);
 errorbar(nan,nan,0.1,0.1,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255); hold on;
 errorbar(nan,nan,0.1,0.1,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[167 21 49]./255,"Color",[167 21 49]./255);
 box off; axis off;
-l = legend('GWAS','UK Biobank','Interpreter','latex','FontSize',14);
+l = legend('Study 1','Study 2','Interpreter','latex','FontSize',12);
 l.NumColumns = 2; l.Position = [2*(Dx+mx)+1.85*lx Dy+dy/2+0.003 0.1 0.03];
 
 print(f,[path '\Results\Fig_LOO_Continuous_1.png'],"-dpng","-r800")
@@ -245,7 +299,7 @@ for i = 1:length(names1)
 end
 Dx = (1-2*mx-lx-rx)/3; Dy = (1-uy-uy-my)/2;
 
-annotation('textbox',[0.05 dy 0.465 lx-0.02],'Color','k','String','Categorical outcomes','Interpreter','latex',...
+annotation('textbox',[0.03 dy 0.47 0.05],'Color','k','String','Categorical outcomes','Interpreter','latex',...
     'FontSize',17,'VerticalAlignment','middle','HorizontalAlignment','center','Rotation',90,'BackgroundColor',[200 200 200]./255,'EdgeColor',[200 200 200]./255)
 % First column
 annotation('textbox',[lx 1-0.9*uy Dx 0.03],'Color','k','String','A) Fracture*','Interpreter','latex',...
@@ -263,8 +317,8 @@ annotation('textbox',[2*(Dx+mx)+lx 1-0.9*uy Dx 0.03],'Color','k','String','C) My
 annotation('textbox',[2*(Dx+mx)+lx 1-uy-Dy-0.7*my Dx 0.03],'Color','k','String','F) Type II diabetes mellitus','Interpreter','latex',...
     'FontSize',12,'VerticalAlignment','middle','HorizontalAlignment','center','BackgroundColor',[220 220 220]./255,'EdgeColor',[220 220 220]./255)
 
-l = legend('GWAS','UK Biobank','Interpreter','latex','FontSize',14);
-l.NumColumns = 3; l.Position = [1/2+0.03 dy/6 .03 .03];
+l = legend('Study 1','Study 2','Interpreter','latex','FontSize',12);
+l.NumColumns = 3; l.Position = [1/2+0.03 0.007 .03 .03];
 print(f,[path '\Results\Fig_LOO_Binary_1.png'],"-dpng","-r800")
 
 %% Uncorrelated SNPs
@@ -317,7 +371,7 @@ ax.XLim = [-.5 1.5];
 ax.YLim = [0.5 11.5];
 ax.FontSize = 11;
 xline(0,"LineWidth",1.5,"LineStyle","--","Color",'k')
-l = legend('GWAS','UK Biobank','FontSize',12);
+l = legend('Study 1','Study 2','FontSize',12);
 l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside";
 text(-0.8, 12.4, 'A)','Interpreter','latex','FontSize',17)
 
@@ -363,8 +417,8 @@ oddUKB = flip(oddUKB); clUKB = flip(clUKB); cuUKB = flip(cuUKB); names = flip(na
 f = figure(2); hold on; grid on; box on;
 f.Position = [680 254 560 844];
 
-errorbar(oddM,[1:6]+0.1,oddM-clM,cuM-oddM,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255)
-errorbar(oddUKB,[1:6],oddUKB-clUKB,cuUKB-oddUKB,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[167 21 49]/255,"Color",[167 21 49]/255)
+errorbar(oddM,[1:6]+0.05,oddM-clM,cuM-oddM,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255)
+errorbar(oddUKB,[1:6]-0.05,oddUKB-clUKB,cuUKB-oddUKB,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[167 21 49]/255,"Color",[167 21 49]/255)
 
 fill([0.0005 24 24 0.0005],[5.5 5.5 6.5 6.5],[0.7 0.7 0.7],"FaceAlpha",0.2,"EdgeColor",[0.7 0.7 0.7],"EdgeAlpha",0.2)
 
@@ -378,7 +432,7 @@ ax.XLim = [0.05 12];
 ax.XTick = [ 0.01 0.1 0.25 0.5 1 2 4 8 12];
 xline(1,"LineWidth",1.5,"LineStyle","--","Color",'k')
 ax.FontSize = 11;
-l = legend('GWAS','UK Biobank','FontSize',10.5);
+l = legend('Study 1','Study2','FontSize',10.5);
 l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside";
 xlabel("Odds Ratio per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
 text(0.0005, 7, 'B)','Interpreter','latex','FontSize',17)
