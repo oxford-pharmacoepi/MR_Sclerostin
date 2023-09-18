@@ -3,7 +3,7 @@
 
 **Objective:** To study the association between sclerostin and cardiovascular health, including biomarkers, risk factors, and cardiovascular events by using Mendelian randomisation (MR) methods.
 
-For more information: [LINK TO THE ARTICLE]
+For more information see our pre-print: https://www.researchsquare.com/article/rs-3209943/v1
 
 # Running the analysis
 Previously, you must ensure that you have a directory "${folder directory}\MR_Sclerostin_Data" with the following files:
