@@ -6,7 +6,17 @@
 For more information see our pre-print: https://www.researchsquare.com/article/rs-3209943/v1
 
 # Running the analysis
-Previously, you must ensure that you have a directory "${folder directory}\MR_Sclerostin_Data" with the following files:
+Previously, you must ensure that you have a directory "{folder directory}\MR_Sclerostin" with the following directories:
+  - LD_ReferencePannel: should contain the 1000 Genomes European reference panel (EUR.bed, EUR.bim, EUR.fam). These files will be used to calculate the LD matrix and perform pruning locally. Please refer to the following website to download the files: https://mrcieu.github.io/ieugwasr/articles/local_ld.html
+  - OtherSoftware: Install Metal and GWAMA in this directory. You can find the instructions to download the softwares in these links: https://csg.sph.umich.edu/abecasis/metal/ (METAL) and https://genomics.ut.ee/en/tools (GWAMA).
+  - Plink: Install PLINK in this directory (https://www.cog-genomics.org/plink/).
+  - SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/assocvariants.annotated.txt/assocvariants.annotated.txt: GWAS summary statistics published by Ferkinstad et al.
+  - SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/13101_60_SOST_SOST.txt/13101_60_SOST_SOST.txt: GWAS summary statistics published by Ferkinstad et al.
+  - SummaryStatistics/Exposure/Pietzner_Science/Science_GWAS.txt: GWAS summary statistics published by Pietzner et al.
+  - SummaryStatistics/Exposure/Sun_Nature/GCST90242722.h.tsv/SOST.13101.60.3.tsv: GWAS summary statistics published by Sun et al.
+  - 
+
+  - 
   - GWAS_HipFracture\GCST90161240_buildGRCh37.tsv: GWAS of hip fracture by Nethander et al. (2022). Can be downloaded from: http://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90161001-GCST90162000/GCST90161240/
   - GWAS_IschaemicStroke\Meta_IS_BothMandF_GIGA_EA_allfiles_metaAnalyseSEbased_wogc_2021June11_NeNs3rdDp1e6.gwascatalog.tsv_2: GWAS of ischaemic stroke by Mishra et al (2022). Can be downloaded from: http://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90104001-GCST90105000/GCST90104540/
   - Nature\Nature_GWAS.tsv: GWAS of sclerostin by Sun et al. (2018). Can be downloaded from: http://www.phpc.cam.ac.uk/ceu/proteins/
