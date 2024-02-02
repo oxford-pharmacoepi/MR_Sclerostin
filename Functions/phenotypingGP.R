@@ -1,3 +1,8 @@
+# ============================================================================ #
+#                                phenotypingGP                                 #
+#                            Marta Alcalde-Herraiz                             #
+# ============================================================================ #
+
 phenotypingGP <- function(outcome, ukb, gp, pop){
   gp_codes <- getCodes(outcome)$GP
 

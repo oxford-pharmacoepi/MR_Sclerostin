@@ -1,11 +1,12 @@
+# ============================================================================ #
+#                                   Tables                                     #
+# ============================================================================ #
+
 rm(list = ls())
 library(magrittr)
 pathData <- "D:/Projects/MR_Sclerostin/" # to be specified !!!!!!!!!!!!!!!!!!!!!!!
 source(here::here("Functions/loadOutcomeGwas.R"))
 
-# ============================================================================ #
-#                                   Tables                                     #
-# ============================================================================ #
 gwas_outcomes <- list("bmd" = "Heel bone mineral density",
                       "hf"  = "Hip fracture",
                       "ldl" = "LDL cholesterol",

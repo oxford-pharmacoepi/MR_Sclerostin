@@ -1,10 +1,8 @@
 # ============================================================================ #
-#                               COLOCALIZATION                                 #
-#                        2024 - Marta Alcalde-Herraiz                          #
-#                                                                              #
-# This script runs the colocalisation analysis betwheen sclerostin encoding    #
-# gene and the outcomes of interest.                                           #
+#                                Colocalization                                #
+#                            Marta Alcalde-Herraiz                             #
 # ============================================================================ #
+
 source(here::here("Functions/loadOutcomeGwas.R"))
 
 genstart <- 43753738

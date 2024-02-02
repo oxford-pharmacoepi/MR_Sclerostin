@@ -1,3 +1,8 @@
+# ============================================================================ #
+#                               phenotypingUKB                                 #
+#                            Marta Alcalde-Herraiz                             #
+# ============================================================================ #
+
 phenotypingUKB <- function(outcome, ukb, pop){
   ukb_table = switch(
     outcome,

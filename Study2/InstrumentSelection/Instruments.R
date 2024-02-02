@@ -1,3 +1,8 @@
+# ============================================================================ #
+#                                  Instruments                                 #
+#                            Marta Alcalde-Herraiz                             #
+# ============================================================================ #
+
 listOfFiles <- list.files(path = paste0(pathResults,"InstrumentSelection/Instruments/"),
                           full.names = TRUE,
                           pattern = "r2")

@@ -1,3 +1,7 @@
+# ============================================================================ #
+#                          instrumentSelection_byPCA                           #
+#                            Marta Alcalde-Herraiz                             #
+# ============================================================================ #
 
 instrumentSelection_byPCA <- function(dat_input = NULL,
                                       window    = 100e3,

@@ -1,6 +1,6 @@
 # ============================================================================ #
 #                                  Validation                                  #
-#                        2023 - Marta Alcalde-Herraiz                          #
+#                             Marta Alcalde-Herraiz                            #
 # ---------------------------------------------------------------------------- #
 # Summary:                                                                     #
 # This scripts validates the instruments based on the positive control         #

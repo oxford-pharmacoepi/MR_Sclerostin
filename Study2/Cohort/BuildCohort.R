@@ -1,3 +1,9 @@
+# ============================================================================ #
+#                                 BuildCohort                                  #
+#                            Marta Alcalde-Herraiz                             #
+# ============================================================================ #
+
+
 # Load databases
 ukb <- tibble::as_tibble(read.table(paste0(pathData,'UKBiobank/ukb673925_20231210.tab'), header=TRUE, sep="\t"))
 ukb$f.53.0.0 <- as.Date(ukb$f.53.0.0)

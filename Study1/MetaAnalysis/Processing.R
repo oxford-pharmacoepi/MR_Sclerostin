@@ -1,6 +1,6 @@
 # ============================================================================ #
-#                                PROCESSING                                    #
-#                        2023 - Marta Alcalde-Herraiz                          #
+#                                  Processing                                  #
+#                            Marta Alcalde-Herraiz                             #
 # ---------------------------------------------------------------------------- #
 # Summary:                                                                     #
 # This file reads the files created after using GWAS and METAL and converts    #

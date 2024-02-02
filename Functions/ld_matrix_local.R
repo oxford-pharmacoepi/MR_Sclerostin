@@ -1,3 +1,9 @@
+# ============================================================================ #
+#                               ld_matrix_local                                #
+#                            Marta Alcalde-Herraiz                             #
+# ============================================================================ #
+
+
 # Get LD matrix using local plink binary and reference dataset
 ld_matrix_local <- function(variants, bfile, plink_bin, with_alleles=TRUE)
 {

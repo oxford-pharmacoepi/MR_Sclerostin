@@ -1,6 +1,6 @@
 # ============================================================================ #
 #                                  ld_clumping                                 #
-#                        2023 - Marta Alcalde-Herraiz                          #
+#                             Marta Alcalde-Herraiz                            #
 # ---------------------------------------------------------------------------- #
 # Summary:                                                                     #
 # We modified the function "ld_clump" from the package "ieugwasr".             #

@@ -1,6 +1,6 @@
 # ============================================================================ #
 #                         instrumentSelection_byClumping                       #
-#                        2023 - Marta Alcalde-Herraiz                          #
+#                             Marta Alcalde-Herraiz                            #
 # ---------------------------------------------------------------------------- #
 # Summary:                                                                     #
 # Selects the SNPs to be used as instruments for the mendelian randomisation   #

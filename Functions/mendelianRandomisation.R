@@ -1,3 +1,9 @@
+# ============================================================================ #
+#                            mendelianRandomisation                            #
+#                            Marta Alcalde-Herraiz                             #
+# ============================================================================ #
+
+
 mendelianRandomisation <- function(exposure, outcome, gwasID = NULL, binary = TRUE, name = NULL){
   # Single variant or more than one variant
   if(nrow(exposure) == 1){

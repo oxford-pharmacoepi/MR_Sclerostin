@@ -1,6 +1,6 @@
 # ============================================================================ #
 #                               harmonisingData                                #
-#                        2023 - Marta Alcalde-Herraiz                          #
+#                            Marta Alcalde-Herraiz                             #
 # ---------------------------------------------------------------------------- #
 # Summary:                                                                     #
 # This scripts harmonises data between exposure and outcome to compare         #

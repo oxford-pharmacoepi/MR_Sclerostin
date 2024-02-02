@@ -1,6 +1,6 @@
 # ============================================================================ #
 #                                 findProxies                                  #
-#                        2023 - Marta Alcalde-Herraiz                          #
+#                           Marta Alcalde-Herraiz                              #
 # ---------------------------------------------------------------------------- #
 # Summary:                                                                     #
 # This script finds proxies for the SNPs that cannot be found in an outcome    #

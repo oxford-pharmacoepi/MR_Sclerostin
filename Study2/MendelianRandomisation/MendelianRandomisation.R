@@ -1,6 +1,6 @@
 # ============================================================================ #
 #                             MendelianRandomisation                           #
-#                        2023 - Marta Alcalde-Herraiz                          #
+#                             Marta Alcalde-Herraiz                            #
 # ---------------------------------------------------------------------------- #
 # Summary:                                                                     #
 # This script performs generalised IVW when there is more than one instrument, #

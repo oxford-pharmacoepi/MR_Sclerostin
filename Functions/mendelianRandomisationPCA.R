@@ -1,3 +1,8 @@
+# ============================================================================ #
+#                           mendelianRandomisationPCA                          #
+#                            Marta Alcalde-Herraiz                             #
+# ============================================================================ #
+
 mendelianRandomisationPCA <- function(exposure, outcome, gwasID = NULL, binary = TRUE, name = NULL, pca_threshold = 99){
   ld_matrix <- ieugwasr::ld_matrix(
     exposure$SNP,

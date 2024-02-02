@@ -1,6 +1,6 @@
 # ============================================================================ #
-#                                PREPROCESSING                                 #
-#                        2023 - Marta Alcalde-Herraiz                          #
+#                                Preprocessing                                 #
+#                            Marta Alcalde-Herraiz                             #
 # ---------------------------------------------------------------------------- #
 # Summary:                                                                     #
 # Data curation of the GWAS insturment-exposure                                #

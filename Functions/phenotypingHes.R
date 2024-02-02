@@ -1,3 +1,8 @@
+# ============================================================================ #
+#                                phenotypingHes                                #
+#                            Marta Alcalde-Herraiz                             #
+# ============================================================================ #
+
 phenotypingHes <- function(outcome, ukb, hesin, hesin_diag, pop){
   hes_codes <- getCodes(outcome)$HES
 

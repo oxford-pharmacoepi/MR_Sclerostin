@@ -1,6 +1,6 @@
 # ============================================================================ #
 #                                ObtainPositions                               #
-#                        2023 - Marta Alcalde-Herraiz                          #
+#                             Marta Alcalde-Herraiz                            #
 # ---------------------------------------------------------------------------- #
 # Summary:                                                                     #
 # This sript obtain the positions (in build GRCh38/hg38) of the list of SNPS.  #

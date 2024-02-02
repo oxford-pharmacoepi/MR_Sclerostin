@@ -1,6 +1,6 @@
 # ============================================================================ #
 #                             InstrumentSelection                              #
-#                        2023 - Marta Alcalde-Herraiz                          #
+#                            Marta Alcalde-Herraiz                             #
 # ---------------------------------------------------------------------------- #
 # Summary:                                                                     #
 # This scripts selects the instrumental variables to be used for the MR        #

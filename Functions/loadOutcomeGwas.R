@@ -1,6 +1,6 @@
 # ============================================================================ #
-#                             MendelianRandomisation                           #
-#                        2023 - Marta Alcalde-Herraiz                          #
+#                                 loadOutcomeGwas                              #
+#                              Marta Alcalde-Herraiz                           #
 # ---------------------------------------------------------------------------- #
 
 # Coronary artery disease:
