@@ -1,0 +1,509 @@
+dataPath <- "C:/Users/martaa/Desktop/Projects/MR_Sclerostin_NEW/"
+dataPath <- "C:/Users/martaa/Desktop/Projects/MR_Sclerostin_NEW/"
+# ============================================================================ #
+#                                PREPROCESSING                                 #
+#                        2023 - Marta Alcalde-Herraiz                          #
+# ---------------------------------------------------------------------------- #
+# Summary:                                                                     #
+# Data curation of the GWAS insturment-exposure                                #
+# ============================================================================ #
+# Ferkingstad - Nature genetics gwas -------------------------------------------
+# This gwas has the data splitted between two .txt
+Ferkingstad_NatureGenetics1 <- as_tibble(read_delim(paste0(pathData,'SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/assocvariants.annotated.txt/assocvariants.annotated.txt'))) #hg38 coordinates
+Ferkingstad_NatureGenetics2 <- as_tibble(read_delim(paste0(pathData,'SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/13101_60_SOST_SOST.txt/13101_60_SOST_SOST.txt'))) #hg38 coordinates
+# ============================================================================ #
+#                                PREPROCESSING                                 #
+#                        2023 - Marta Alcalde-Herraiz                          #
+# ---------------------------------------------------------------------------- #
+# Summary:                                                                     #
+# Data curation of the GWAS insturment-exposure                                #
+# ============================================================================ #
+# Ferkingstad - Nature genetics gwas -------------------------------------------
+# This gwas has the data splitted between two .txt
+Ferkingstad_NatureGenetics1 <- tibble::as_tibble(read_delim(paste0(pathData,'SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/assocvariants.annotated.txt/assocvariants.annotated.txt'))) #hg38 coordinates
+# ============================================================================ #
+#                                PREPROCESSING                                 #
+#                        2023 - Marta Alcalde-Herraiz                          #
+# ---------------------------------------------------------------------------- #
+# Summary:                                                                     #
+# Data curation of the GWAS insturment-exposure                                #
+# ============================================================================ #
+# Ferkingstad - Nature genetics gwas -------------------------------------------
+# This gwas has the data splitted between two .txt
+Ferkingstad_NatureGenetics1 <- tibble::as_tibble(readr::read_delim(paste0(pathData,'SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/assocvariants.annotated.txt/assocvariants.annotated.txt'))) #hg38 coordinates
+Ferkingstad_NatureGenetics2 <- tibble::as_tibble(readr::read_delim(paste0(pathData,'SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/13101_60_SOST_SOST.txt/13101_60_SOST_SOST.txt'))) #hg38 coordinates
+pathData <- "C:/Users/martaa/Desktop/Projects/MR_Sclerostin_NEW/"
+# ============================================================================ #
+#                                PREPROCESSING                                 #
+#                        2023 - Marta Alcalde-Herraiz                          #
+# ---------------------------------------------------------------------------- #
+# Summary:                                                                     #
+# Data curation of the GWAS insturment-exposure                                #
+# ============================================================================ #
+# Ferkingstad - Nature genetics gwas -------------------------------------------
+# This gwas has the data splitted between two .txt
+Ferkingstad_NatureGenetics1 <- tibble::as_tibble(readr::read_delim(paste0(pathData,'SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/assocvariants.annotated.txt/assocvariants.annotated.txt'))) #hg38 coordinates
+dir.create(paste0(pathData,'Results'))
+pathResults <- paste0(pathData,'Results/')
+matrix(0,0,0)
+a <- matrix(0,0,0)
+a[1] <- 1
+a
+a[2] <- 1
+a
+gwas %>% tally()
+library('dplyr')
+a <- matrix(0,0,0)
+a[1,1] <- gwas %>% tally()
+# This gwas has the data splitted between two .txt
+Ferkingstad_NatureGenetics1 <- tibble::as_tibble(readr::read_delim(paste0(pathData,'SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/assocvariants.annotated.txt/assocvariants.annotated.txt')))
+Ferkingstad_NatureGenetics2 <- tibble::as_tibble(readr::read_delim(paste0(pathData,'SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/13101_60_SOST_SOST.txt/13101_60_SOST_SOST.txt')))
+Ferkingstad_NatureGenetics <- Ferkingstad_NatureGenetics1 %>%
+select('CHR' = 'Chrom',
+'Pos' = 'Pos', # Position of the SNP (GRCh38/hg38)
+'Name', # Name of the snp in the following form:
+'MARKERNAME' = 'rsids', # SNP Id
+"EA" = "effectAllele", # Effect allele
+"NEA" = "otherAllele", # Other allele
+"EAF" = "effectAlleleFreq") %>% # Effect allele frequency
+inner_join(
+Ferkingstad_NatureGenetics2 %>%
+select(
+'CHR' = 'Chrom',
+'Pos' = 'Pos', # Position of the SNP (GRCh38/hg38)
+'Name', # Name of the snp in the following form:
+'MARKERNAME' = 'rsids', # SNP Id
+"EA" = "effectAllele", # Effect allele
+"NEA" = "otherAllele", # Other allele
+"BETA" = "Beta", # Effect size
+"SE" = "SE", # Standard error of the effect size
+"pval" = "Pval", # Pvalue of the effect size
+"N" = "N", # Sample size
+),
+by = c('CHR','Pos','Name','MARKERNAME','EA','NEA')
+)
+gwas <- Ferkingstad_NatureGenetics
+a <- matrix(0,0,0)
+a[1,1] <- gwas %>% nrow()
+a <- matrix(0,0,0)
+a[1,1] <- gwas %>% nrow()
+gwas %>% nrow()
+a
+a[1,1]
+a[1] <- gwas %>% nrow()
+a
+gwas <- gwas %>% filter(CHR = 17) # SNPs in chromosome 17
+gwas <- gwas %>% filter(CHR == 17) # SNPs in chromosome 17
+a[2,1] <- gwas %>% nrow()
+a <- matrix(0,1,0)
+a[1] <- gwas %>% nrow()
+a
+a[1] <- gwas %>% nrow()
+gwas <- gwas %>% filter(CHR == 17) # SNPs in chromosome 17
+a
+%>% nrow()
+gwas %>% nrow()
+gwas
+gwas <- Ferkingstad_NatureGenetics
+a <- matrix(0,1,0)
+a[1] <- gwas %>% nrow()
+a
+gwas %>% filter(CHR == 17)
+gwas %>% filter("CHR" == 17)
+gwas
+gwas %>% gsub("CHR","")
+help(gsub)
+gwas1 <- gwas %>% filter(CHR == 'chr17')
+Ferkingstad_NatureGenetics <- Ferkingstad_NatureGenetics1 %>%
+select('CHR' = 'Chrom',
+'Pos' = 'Pos', # Position of the SNP (GRCh38/hg38)
+'Name', # Name of the snp in the following form:
+'MARKERNAME' = 'rsids', # SNP Id
+"EA" = "effectAllele", # Effect allele
+"NEA" = "otherAllele", # Other allele
+"EAF" = "effectAlleleFreq") %>% # Effect allele frequency
+inner_join(
+Ferkingstad_NatureGenetics2 %>%
+select(
+'CHR' = 'Chrom',
+'Pos' = 'Pos', # Position of the SNP (GRCh38/hg38)
+'Name', # Name of the snp in the following form:
+'MARKERNAME' = 'rsids', # SNP Id
+"EA" = "effectAllele", # Effect allele
+"NEA" = "otherAllele", # Other allele
+"BETA" = "Beta", # Effect size
+"SE" = "SE", # Standard error of the effect size
+"pval" = "Pval", # Pvalue of the effect size
+"N" = "N", # Sample size
+),
+by = c('CHR','Pos','Name','MARKERNAME','EA','NEA')
+) %>%
+gwas1 %>% gsub("chr","","CHR")
+gwas
+gwas1 <- gwas %>% gsub("chr","","CHR")
+gwas1
+gwas1 %>% gsub("chr","","CHR")
+gwas1 %>% gsub("chr","",CHR)
+gwas1 %>% mutate(across("CHR",~ gsub("chr","", .)))
+Ferkingstad_NatureGenetics <- Ferkingstad_NatureGenetics1 %>%
+select('CHR' = 'Chrom',
+'Pos' = 'Pos', # Position of the SNP (GRCh38/hg38)
+'Name', # Name of the snp in the following form:
+'MARKERNAME' = 'rsids', # SNP Id
+"EA" = "effectAllele", # Effect allele
+"NEA" = "otherAllele", # Other allele
+"EAF" = "effectAlleleFreq") %>% # Effect allele frequency
+inner_join(
+Ferkingstad_NatureGenetics2 %>%
+select(
+'CHR' = 'Chrom',
+'Pos' = 'Pos', # Position of the SNP (GRCh38/hg38)
+'Name', # Name of the snp in the following form:
+'MARKERNAME' = 'rsids', # SNP Id
+"EA" = "effectAllele", # Effect allele
+"NEA" = "otherAllele", # Other allele
+"BETA" = "Beta", # Effect size
+"SE" = "SE", # Standard error of the effect size
+"pval" = "Pval", # Pvalue of the effect size
+"N" = "N", # Sample size
+),
+by = c('CHR','Pos','Name','MARKERNAME','EA','NEA')
+) %>%
+mutate(across("CHR",~ gsub("chr","", .))) %>%
+select(-Pos, -Name)
+Ferkingstad_NatureGenetics <- Ferkingstad_NatureGenetics1 %>%
+select('CHR' = 'Chrom',
+'Pos' = 'Pos', # Position of the SNP (GRCh38/hg38)
+'Name', # Name of the snp in the following form:
+'MARKERNAME' = 'rsids', # SNP Id
+"EA" = "effectAllele", # Effect allele
+"NEA" = "otherAllele", # Other allele
+"EAF" = "effectAlleleFreq") %>% # Effect allele frequency
+inner_join(
+Ferkingstad_NatureGenetics2 %>%
+select(
+'CHR' = 'Chrom',
+'Pos' = 'Pos', # Position of the SNP (GRCh38/hg38)
+'Name', # Name of the snp in the following form:
+'MARKERNAME' = 'rsids', # SNP Id
+"EA" = "effectAllele", # Effect allele
+"NEA" = "otherAllele", # Other allele
+"BETA" = "Beta", # Effect size
+"SE" = "SE", # Standard error of the effect size
+"pval" = "Pval", # Pvalue of the effect size
+"N" = "N", # Sample size
+),
+by = c('CHR','Pos','Name','MARKERNAME','EA','NEA')
+) %>%
+mutate(across("CHR",~ gsub("chr","", .)))
+gwas <-
+Ferkingstad_NatureGenetics
+gwas <- Ferkingstad_NatureGenetics
+attrition <- list()
+a <- matrix(0,1,0)
+j <- 1
+a[j] <- gwas %>% nrow()
+a[j]
+gwas <- gwas %>% filter("CHR" == 17) # SNPs in chromosome 17
+gwas
+Ferkingstad_NatureGenetics
+Ferkingstad_NatureGenetics <- Ferkingstad_NatureGenetics %>%  mutate(across('CHR',str_replace,'chr',''))
+Ferkingstad_NatureGenetics <- Ferkingstad_NatureGenetics %>%  mutate(across('CHR',stringr::str_replace,'chr',''))
+Ferkingstad_NatureGenetics
+Ferkingstad_NatureGenetics <- Ferkingstad_NatureGenetics1 %>%
+select('CHR' = 'Chrom',
+'Pos' = 'Pos', # Position of the SNP (GRCh38/hg38)
+'Name', # Name of the snp in the following form:
+'MARKERNAME' = 'rsids', # SNP Id
+"EA" = "effectAllele", # Effect allele
+"NEA" = "otherAllele", # Other allele
+"EAF" = "effectAlleleFreq") %>% # Effect allele frequency
+inner_join(
+Ferkingstad_NatureGenetics2 %>%
+select(
+'CHR' = 'Chrom',
+'Pos' = 'Pos', # Position of the SNP (GRCh38/hg38)
+'Name', # Name of the snp in the following form:
+'MARKERNAME' = 'rsids', # SNP Id
+"EA" = "effectAllele", # Effect allele
+"NEA" = "otherAllele", # Other allele
+"BETA" = "Beta", # Effect size
+"SE" = "SE", # Standard error of the effect size
+"pval" = "Pval", # Pvalue of the effect size
+"N" = "N", # Sample size
+),
+by = c('CHR','Pos','Name','MARKERNAME','EA','NEA')
+)
+Ferkingstad_NatureGenetics %>%  mutate('CHR' = stringr::str_replace('chr',''))
+Ferkingstad_NatureGenetics %>%  mutate('CHR' = stringr::str_replace('chr','','CHR'))
+Ferkingstad_NatureGenetics %>%  mutate('CHR' = stringr::str_replace("chr","",CHR))
+Ferkingstad_NatureGenetics %>%  mutate(CHR = stringr::str_replace("chr","",CHR))
+Ferkingstad_NatureGenetics %>%  mutate(CHR = stringr::str_replace("chr"," ",CHR))
+help(stringr:str_repl)
+help(stringr:str_replace)
+help(stringr::str_replace)
+help(str_replace)
+Ferkingstad_NatureGenetics %>%  mutate(across('CHR',stringr::str_replace,'chr',''))
+Ferkingstad_NatureGenetics <- Ferkingstad_NatureGenetics %>%  mutate(across('CHR',stringr::str_replace,'chr',''))
+gwas <- Ferkingstad_NatureGenetics
+attrition <- list()
+a <- matrix(0,1,0)
+j <- 1
+a[j] <- gwas %>% nrow()
+a[j]
+gwas <- gwas %>% filter("CHR" == 17) # SNPs in chromosome 17
+gwas
+Ferkingstad_NatureGenetics %>%  mutate(CHR = as.numeric(CHR))
+Ferkingstad_NatureGenetics <- Ferkingstad_NatureGenetics %>%  mutate(CHR = as.numeric(CHR))
+unique(Ferkingstad_NatureGenetics$CHR)
+unique(Ferkingstad_NatureGenetics %>% select(CHR) %>% filter(CHR == 17)
+)
+Ferkingstad_NatureGenetics
+attrition <- list()
+a <- matrix(0,1,0)
+gwas <- Ferkingstad_NatureGenetics
+j <- 1
+a[j] <- gwas %>% nrow()
+a[j]
+gwas <- gwas %>% filter("CHR" == 17) # SNPs in chromosome 17
+gwas
+gwas <- Ferkingstad_NatureGenetics
+attrition <- list()
+a <- matrix(0,1,0)
+j <- 1
+a[j] <- gwas %>% nrow()
+gwas <- gwas %>% filter(CHR == 17) # SNPs in chromosome 17
+gwas
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+gwas <- gwas %>% filter(nchar(EA) == 1, nchar(NEA) == 1) # Discard those SNPs that do not have a single nucleotide variation
+a[j,1]
+j
+gwas %>% nrow()
+a[j] <- gwas %>% nrow()
+a
+a <- matrix(1,1,0)
+j <- 1
+a[j] <- gwas %>% nrow()
+gwas <- gwas %>% filter(CHR == 17) # SNPs in chromosome 17
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+a <- matrix(0,1,1)
+j <- 1
+a[j] <- gwas %>% nrow()
+gwas <- gwas %>% filter(CHR == 17) # SNPs in chromosome 17
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+a
+a <- matrix(0,2,1)
+j <- 1
+a[j] <- gwas %>% nrow()
+gwas <- gwas %>% filter(CHR == 17) # SNPs in chromosome 17
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+a
+a <- matrix(0,15,1)
+j <- 1
+a[j] <- gwas %>% nrow()
+gwas <- gwas %>% filter(CHR == 17) # SNPs in chromosome 17
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+gwas <- gwas %>% filter(nchar(EA) == 1, nchar(NEA) == 1) # Discard those SNPs that do not have a single nucleotide variation
+gwas
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+gwas <- gwas %>% (MARKERNAME != ".") # Discard those SNPs with a non valid ID
+gwas
+gwas <- gwas %>% filter(MARKERNAME != ".") # Discard those SNPs with a non valid ID
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+if('Name' %in% colnames(gwas)){
+gwas <- gwas %>% mutate(NEA = if_else(NEA == "!",substr(Name, nchar(Name), nchar(Name)), NEA)) # Some SNPs had this symbol "!" in the NEA column. I substitute this symbol with the last letter of the variable Name
+}
+gwas <- gwas %>% filter(EA != NEA) %>% # Delete those SNPs with the same Effect allele and other allele.
+attrition[[1]] <- gwas
+gwas <- gwas %>% filter(EA != NEA)# Delete those SNPs with the same Effect allele and other allele.
+attrition[[1]] <- gwas
+attrition[[2]] <- a
+attrition
+# Quality control function
+qc <- function(gwas){
+attrition <- list()
+a <- matrix(0,15,1)
+j <- 1
+a[j] <- gwas %>% nrow()
+gwas <- gwas %>% filter(CHR == 17) # SNPs in chromosome 17
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+gwas <- gwas %>% filter(nchar(EA) == 1, nchar(NEA) == 1) # Discard those SNPs that do not have a single nucleotide variation
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+gwas <- gwas %>% filter(MARKERNAME != ".") # Discard those SNPs with a non valid ID
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+if('Name' %in% colnames(gwas)){
+gwas <- gwas %>% mutate(NEA = if_else(NEA == "!",substr(Name, nchar(Name), nchar(Name)), NEA)) # Some SNPs had this symbol "!" in the NEA column. I substitute this symbol with the last letter of the variable Name
+}
+gwas <- gwas %>% filter(EA != NEA)# Delete those SNPs with the same Effect allele and other allele.
+attrition[[1]] <- gwas
+attrition[[2]] <- a
+return(attrition)
+}
+Ferkingstad_NatureGenetics_QC <- qc(Ferkingstad_NatureGenetics)
+Ferkingstad_NatureGenetics_QC
+a[j,2] <- 'Total'
+j
+j <- 1
+a <- matrix(0,15,2)
+j <- 1
+a[j,1] <- gwas %>% nrow()
+a[j,2] <- 'Total'
+a
+gwas <- gwas %>% filter(CHR == 17) # SNPs in chromosome 17
+j <- j + 1
+gwas
+# Quality control function
+qc <- function(gwas){
+attrition <- list()
+a <- matrix(0,15,2)
+j <- 1
+a[j,1] <- gwas %>% nrow()
+a[j,2] <- 'Total'
+gwas <- gwas %>% filter(CHR == 17) # SNPs in chromosome 17
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+a[j,2] <- 'SNPs in chromosome 17'
+gwas <- gwas %>% filter(nchar(EA) == 1, nchar(NEA) == 1) # Discard those SNPs that do not have a single nucleotide variation
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+a[j,2] <- 'SNPs with a single nucleotide variable'
+gwas <- gwas %>% filter(MARKERNAME != ".") # Discard those SNPs with a non valid ID
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+a[j,2] <- 'SNPs with a valid ID name'
+gwas <- gwas %>% filter(EA != NEA)# Delete those SNPs with the same Effect allele and other allele.
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+a[j,2] <- 'SNPs with different effect allele and other allele'
+if('Name' %in% colnames(gwas)){
+gwas <- gwas %>% mutate(NEA = if_else(NEA == "!",substr(Name, nchar(Name), nchar(Name)), NEA)) %>% # Some SNPs had this symbol "!" in the NEA column. I substitute this symbol with the last letter of the variable Name
+select(-Name,-Pos)
+}
+attrition[[1]] <- a
+attrition[[2]] <- gwas
+return(attrition)
+}
+Ferkingstad_NatureGenetics_QC <- qc(Ferkingstad_NatureGenetics)
+# Preprocessing
+write_tsv(Ferkingstad_NatureGenetics_QC[[1]],paste0(pathResults,'Metaanalysis','Ferkingstad_NatureGenetics_Attrition.txt'))
+help(write_tsv)
+Ferkingstad_NatureGenetics_QC
+Pietzner_Science <- as_tibble(read_delim(paste0(pathData,'SummaryStatistics/Exposure/Pietzner_Science/Science_GWAS.txt'))) #hg19 coordinates
+Pietzner_Science <- tibble::as_tibble(readr::read_delim(paste0(pathData,'SummaryStatistics/Exposure/Pietzner_Science/Science_GWAS.txt'))) #hg19 coordinates
+Pietzner_Science
+unique(Pietzner_Science$rsid)
+Pietzner_Science <- Pietzner_Science %>%
+select('CHR' = 'chr',
+"Pos"  = "pos", # Position of the SNP (GRCh37/hg19)
+"MARKERNAME" = "rsid", # SNP Id
+"EA"   = "Allele1", # Effect allele
+"NEA"  = "Allele2", # Other allele
+"EAF"  = "Freq1", # Effect allele frequency
+"BETA" = "Effect", # Effect size
+"SE"   = "StdErr", # Standard error of the effect size
+"pval" = "Pvalue", # Pvalue of the effect size
+"N"    = "TotalSampleSize") %>% # Sample size
+mutate(EA = toupper(EA), NEA = toupper(NEA))
+# Quality control function
+qc <- function(gwas){
+attrition <- list()
+a <- matrix(0,15,2)
+j <- 1
+a[j,1] <- gwas %>% nrow()
+a[j,2] <- 'Total'
+gwas <- gwas %>% filter(CHR == 17) # SNPs in chromosome 17
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+a[j,2] <- 'SNPs in chromosome 17'
+gwas <- gwas %>% filter(EA != "D", NEA != "I") # Delete those SNPs with EA = "D" and NEA = "I"
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+a[j,2] <- 'SNPs without "D" or "I" in "EA" or "NEA"'
+gwas <- gwas %>% filter(nchar(EA) == 1, nchar(NEA) == 1) # Discard those SNPs that do not have a single nucleotide variation
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+a[j,2] <- 'SNPs with a single nucleotide variable'
+gwas <- gwas %>% filter(MARKERNAME != "." | substr(MARKERNAME,1,2) == "rs") # Discard those SNPs with a non valid ID
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+a[j,2] <- 'SNPs with a valid ID name'
+gwas <- gwas %>% filter(EA != NEA)# Delete those SNPs with the same Effect allele and other allele.
+j <- j + 1
+a[j,1] <- gwas %>% nrow()
+a[j,2] <- 'SNPs with different effect allele and other allele'
+if('Name' %in% colnames(gwas)){
+gwas <- gwas %>% mutate(NEA = if_else(NEA == "!",substr(Name, nchar(Name), nchar(Name)), NEA)) %>% # Some SNPs had this symbol "!" in the NEA column. I substitute this symbol with the last letter of the variable Name
+select(-Name,-Pos)
+}
+attrition[[1]] <- a
+attrition[[2]] <- gwas
+return(attrition)
+}
+Ferkingstad_NatureGenetics_QC <- qc(Ferkingstad_NatureGenetics)
+Ferkingstad_NatureGenetics_QC
+Pietzner_Science_QC <- qc(Pietzner_Science)
+Pietzner_Science_QC
+Sun_Nature <- as_tibble(read_delim(paste0(pathData,"SummaryStatistics/Exposure/Sun_Nature/SOST.13101.60.3_build37.tsv"))) #hg19 coordinates
+Sun_Nature <- tibble::as_tibble(readr::read_delim(paste0(pathData,"SummaryStatistics/Exposure/Sun_Nature/SOST.13101.60.3_build37.tsv"))) #hg19 coordinates
+Sun_Nature <- tibble::as_tibble(readr::read_delim(paste0(pathData,"SummaryStatistics/Exposure/Sun_Nature/GCST90242722_GRCh37.tsv/SOST.13101.60.3_build37.tsv"))) #hg19 coordinates
+Sun_Nature
+Sun_Nature <- tibble::as_tibble(readr::read_delim(paste0(pathData,"SummaryStatistics/Exposure/Sun_Nature/GCST90242722.h.tsv/SOST.13101.60.3.tsv"))) #hg19 coordinates
+Sun_Nature
+Sun_Nature %>% select(hm_rsid, hm_pos)
+Sun_Nature %>% filter(hm_chrom == 17) %>% select(hm_rsid, hm_pos)
+Sun_Nature <- Sun_Nature %>% select("CHR" = "hm_chrom",
+"MARKERNAME" = "hm_rsid", # SNP Id
+"EA"   = "hm_effect_allele", # Effect allele
+"NEA"  = "hm_other_allele", # Other allele
+"BETA" = "hm_beta", # Effect size
+"SE"   = "standard_error", # Standard error of the effect size
+"pval" = "p_value", # Pvalue of the effect size
+"EAF"  = "hm_effect_allele_frequency") %>%   # Effect allele frequency
+mutate(EA = toupper(EA),
+OA = toupper(OA))
+Sun_Nature
+Sun_Nature <- Sun_Nature %>% select("CHR" = "hm_chrom",
+"MARKERNAME" = "hm_rsid", # SNP Id
+"EA"   = "hm_effect_allele", # Effect allele
+"NEA"  = "hm_other_allele", # Other allele
+"BETA" = "hm_beta", # Effect size
+"SE"   = "standard_error", # Standard error of the effect size
+"pval" = "p_value", # Pvalue of the effect size
+"EAF"  = "hm_effect_allele_frequency") %>%   # Effect allele frequency
+mutate(EA = toupper(EA),
+NEA = toupper(NEA))
+Sun_Nature <- Sun_Nature %>% select("CHR" = "hm_chrom",
+"MARKERNAME" = "hm_rsid", # SNP Id
+"EA"   = "hm_effect_allele", # Effect allele
+"NEA"  = "hm_other_allele", # Other allele
+"BETA" = "hm_beta", # Effect size
+"SE"   = "standard_error", # Standard error of the effect size
+"pval" = "p_value", # Pvalue of the effect size
+"EAF"  = "hm_effect_allele_frequency") %>%   # Effect allele frequency
+mutate(EA = toupper(EA),
+NEA = toupper(NEA),
+N   = 3301)
+Sun_Nature <- tibble::as_tibble(readr::read_delim(paste0(pathData,"SummaryStatistics/Exposure/Sun_Nature/GCST90242722.h.tsv/SOST.13101.60.3.tsv"))) #hg19 coordinates
+Sun_Nature <- Sun_Nature %>% select("CHR" = "hm_chrom",
+"MARKERNAME" = "hm_rsid", # SNP Id
+"EA"   = "hm_effect_allele", # Effect allele
+"NEA"  = "hm_other_allele", # Other allele
+"BETA" = "hm_beta", # Effect size
+"SE"   = "standard_error", # Standard error of the effect size
+"pval" = "p_value", # Pvalue of the effect size
+"EAF"  = "hm_effect_allele_frequency") %>%   # Effect allele frequency
+mutate(EA = toupper(EA),
+NEA = toupper(NEA),
+N   = 3301)
+Sun_Nature_QC <- qc(Sun_Nature)
+Sun_Nature_QC

@@ -1,0 +1,481 @@
+---
+title: " "
+format:
+  docx:
+    reference-doc: reference-doc.docx
+execute:
+  echo: false
+---
+
+# Triangulating evidence of the cause-effect relationship between sclerostin inhibition and cardiovascular outcomes
+
+
+## Figures
+
+
+Authors: Marta Alcalde-Herraiz, Junqing Xie, 
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  results = "hide", 
+  message = FALSE, 
+  warning = FALSE, 
+  chache.comments = FALSE)
+```
+
+```{r}
+library('magrittr')
+pathData <- "C:/Users/martaa/Desktop/Projects/MR_Sclerostin_NEW/"
+pathResults <- paste0(pathData,'Results/Study1/')
+
+fig_count <- 1
+
+# Heterogeneity between databases
+gwama_fixed <- readr::read_delim(here::here("Study1/MetaAnalysis/ResultsMetaAnalysis/GWAMA_Fixed.out"), delim = "\t") %>%
+  dplyr::select(rs_number,i2) %>%
+  dplyr::mutate(i2 = dplyr::if_else(i2 == "-1.#IND00", NA, as.numeric(i2))) %>%
+  dplyr::summarise(
+    group1 = sum(i2 <= 0.1, na.rm = TRUE),
+    group2 = sum(i2 <= 0.2 & i2 > 0.1, na.rm = TRUE),
+    group3 = sum(i2 <= 0.3 & i2 > 0.2, na.rm = TRUE),
+    group4 = sum(i2 <= 0.4 & i2 > 0.3, na.rm = TRUE),
+    group5 = sum(i2 <= 0.5 & i2 > 0.4, na.rm = TRUE),
+    group6 = sum(i2 <= 0.6 & i2 > 0.5, na.rm = TRUE),
+    group7 = sum(i2 <= 0.7 & i2 > 0.6, na.rm = TRUE),
+    group8 = sum(i2 <= 0.8 & i2 > 0.7, na.rm = TRUE),
+    group9 = sum(i2 <= 0.9 & i2 > 0.8, na.rm = TRUE),
+    group10 = sum(i2 <= 1 & i2 > 0.9, na.rm = TRUE),
+    group11 = sum(is.na(i2))
+  )
+heterogeneity <- data.frame(groups = colnames(gwama_fixed),
+                            num    = c(gwama_fixed$group1, gwama_fixed$group2, gwama_fixed$group3,
+                                       gwama_fixed$group4, gwama_fixed$group5, gwama_fixed$group6,
+                                       gwama_fixed$group7, gwama_fixed$group8, gwama_fixed$group9,
+                                       gwama_fixed$group10, gwama_fixed$group11)) %>%
+  dplyr::mutate(i2 = c('<=0.1','<=0.2','<=0.3','<=0.4','<=0.5','<=0.6',
+                       '<=0.7','<=0.8','<=0.9','<=1.0','NA')) %>%
+  dplyr::mutate(i2_cumsum = cumsum(num)) %>%
+  dplyr::mutate(percent   = num/sum(num)*100)
+
+extrafont::loadfonts(device = "win")
+```
+
+
+
+```{r, fig.width = 7, fig.height = 4.5, fig.dpi = 600}
+ggplot2::ggplot(
+  ggplot2::aes(x = i2),
+  data = heterogeneity
+) +
+  ggplot2::geom_bar(
+    ggplot2::aes(y = num), 
+    stat = 'identity', 
+    fill = "steelblue"
+  )  + 
+  ggplot2::geom_text(
+    ggplot2::aes(y = 5e3+num,
+                 label = paste0(round(percent, digits = 0),"%")
+    ),
+    size = 3,
+    vjust = 0
+  ) +
+  ggplot2::geom_line(
+    ggplot2::aes(x = i2, y = i2_cumsum, group = 1),
+    color = "black",
+    linetype = "dashed"
+  ) +
+  ggplot2::geom_point(
+    ggplot2::aes(x = i2, y = i2_cumsum)
+  ) +
+  ggplot2::xlab(expression(paste(i^{2}," parameter"))) +
+  ggplot2::ylab("Counts") +
+  ggplot2::theme(
+    text = ggplot2::element_text(size = 11, family = "Calibri")
+  ) + 
+  ggplot2::scale_y_continuous(
+    breaks = seq(0,max(heterogeneity$i2_cumsum)+1e5,1e5),
+    limits = c(0,max(heterogeneity$i2_cumsum)+6e4),
+    expand = c(0,0)
+  ) 
+```
+```{r, results = "asis"}
+cat(paste0("**Figure ", fig_count,".** Heterogeneity between databases."))
+fig_count <- fig_count + 1
+```
+\newpage
+
+```{r, fig.width = 8, fig.height = 5,  fig.dpi = 600,  results = "asis"}
+gene_start = 43753738
+gene_end   = 43758791
+g2 <- list()
+for(method in c("Fixed","Random")){
+  t <- readr::read_delim(paste0(pathResults,"/InstrumentSelection/",method,"Mapped.txt")) %>%
+    dplyr::mutate(log10p = -log10(pval)) %>%
+    dplyr::mutate(
+      sost = dplyr::if_else(pos >= gene_start & pos <= gene_end,
+                            0,3)) %>%
+    dplyr::arrange(desc(sost))
+  
+  g1 <- ggplot2::ggplot(
+    data = t,
+    ggplot2::aes(x = pos, y = log10p)
+  ) +
+    ggplot2::geom_point(
+      ggplot2::aes(colour = factor(sost, labels = c("SOST gene","Other")))
+    ) +
+    ggplot2::scale_color_manual(
+      values = c("#0C3061","#E6E6E6"),
+      labels = c("SOST gene", "Other"),
+      breaks = c("SOST gene", "Other")
+    ) + 
+    ggplot2::theme_classic() +
+    ggplot2::theme(
+      text = ggplot2::element_text(size = 11, family = "Calibri"),
+      legend.position = "top",
+      panel.border = ggplot2::element_rect(fill = NA),
+      legend.margin = ggplot2::margin(0,0,0,0),
+      legend.box.margin = ggplot2::margin(-10,-10,-10,-10),
+      legend.text = ggplot2::element_text(size = 10.5)
+    ) +
+    ggplot2::labs(
+      title = "A)", 
+      x = "Chromosome 17",
+      y = expression(-log[10](p)),
+      color = "",
+    ) +
+    ggplot2::scale_y_continuous(
+      breaks = seq(0,10,2.5),
+      limits = c(0,10.5),
+      expand = c(0,0)
+    ) +
+    ggplot2::scale_x_continuous(
+      breaks = seq(1e7,9e7,2e7),
+      expand = c(0,0)
+    )
+  print(g1)
+  
+  t1 <- t %>%
+    dplyr::mutate(
+      sost = dplyr::if_else(pos >= gene_start-100e3-1 & pos <= gene_end+100e3+1 & sost == 3,
+                            1,sost)
+    ) %>%
+    dplyr::mutate(
+      sost = dplyr::if_else(pos >= gene_start-500e3-1 & pos <= gene_end+500e3+1 & sost == 3,
+                            2,sost)
+    ) %>%
+    dplyr::filter(
+      pos >= gene_start-600e3-1 & pos <= gene_end+600e3+1
+    )
+  
+  g2 <- ggplot2::ggplot(
+    data = t1,
+    ggplot2::aes(x = pos, y = log10p)) +
+    ggplot2::geom_point(
+      ggplot2::aes(colour = factor(sost))
+    ) +
+    ggplot2::scale_color_manual(
+      values = c("0" = "#0C3061", "1" = "#5A9FCA", "2" = "#ACD3E6", "3" = "#E6E6E6"),
+      labels = c("SOST gene", "±100kb","±500kb","Others")
+    ) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(
+      text = ggplot2::element_text(size = 11, family = "Calibri"),
+      legend.position = "top",
+      panel.border = ggplot2::element_rect(fill = NA),
+      legend.text = ggplot2::element_text(size = 10.5),
+      legend.margin = ggplot2::margin(0,0,0,0),
+      legend.box.margin = ggplot2::margin(-10,-10,-10,-10)
+    ) +
+    ggplot2::labs(
+      title = "B)", 
+      x = "Chromosome 17",
+      y = expression(-log[10](p)),
+      color = "",
+    ) +
+    ggplot2::scale_y_continuous(
+      breaks = seq(0,10,2.5),
+      limits = c(0,10.5),
+      expand = c(0,0)
+    ) +
+    ggplot2::scale_x_continuous(
+      breaks = c(gene_start-500e3-1,gene_start-100e3-1,gene_end+100e3+1,gene_end+500e3+1),
+      expand = c(0,0)
+    ) +
+    ggplot2::geom_hline(yintercept = 5, color = "#C00000")
+  print(g2)
+  
+  cat(paste0("**Figure ", fig_count,".** Manhattan plot of the meta-analysed SNPs (",
+             tolower(method),
+             "-effects method). **(A)** Manhattan plot of the whole chromosome 17. Dark blue dots correspond to SNPs within the SOST gene. ",
+             "**(B)** Manhattan plot from ±600kb of the start/end of the SOST gene. Dark blued dots correspond to SNPs within the SOST gene. ",
+             "Dark-light blue dots correspond to SNPs within ±100kb from the start/end of the SOST gene. ",
+             "Light blue dots correspond to SNPs withi ±500kb from the start/end of the SOST gene."))
+  fig_count <- fig_count + 1
+}
+```
+
+```{r, fig.width = 8, fig.height = 5,  fig.dpi = 600,  results = "asis"}
+list_of_files <- list.files(path = paste0(pathResults,"InstrumentSelection/Instruments/"),
+                            pattern    = c("r2"), full.names = TRUE)
+list_of_files <- list_of_files[list_of_files != "C:/Users/martaa/Desktop/Projects/MR_Sclerostin_NEW/Results/Study1/InstrumentSelection/Instruments/iv_Fixed_gene100000kb_r20.8_clumpw500000.txt"]
+
+steps <- c("step1","step2")
+outc  <- c("bone mineral density", "hip fracture risk")
+titleLab <- c("A)", "B)")
+
+for(i in 1:2){
+  t <- readr::read_delim(paste0(pathResults,"InstrumentSelection/Validation/Validation_Fixed",steps[[i]],".txt")) %>%
+    dplyr::select("SNP","pval.exposure","beta.exposure","beta.outcome","se.exposure","se.outcome") %>%
+    dplyr::mutate(Type = "Fixed-effects method") %>%
+    dplyr::union_all(
+      readr::read_delim(paste0(pathResults,"InstrumentSelection/Validation/Validation_Random",steps[[i]],".txt")) %>%
+        dplyr::select("SNP","pval.exposure","beta.exposure","beta.outcome","se.exposure","se.outcome") %>%
+        dplyr::mutate(Type = "Random-effects method")
+    ) %>%
+    dplyr::mutate(pval.exposure = format(pval.exposure, scientific = TRUE, digits = 2)) %>%
+    dplyr::mutate(pval.exposure = as.numeric(pval.exposure)) %>% 
+    dplyr::arrange(pval.exposure) %>%
+    dplyr::right_join(
+      readr::read_delim(list_of_files) %>%
+        unique() %>%
+        dplyr::arrange(pval.exposure) %>%
+        dplyr::select("SNP")
+    )
+
+  
+  g <- ggplot2::ggplot(
+    data = t,
+    ggplot2::aes(x     = beta.exposure,
+                 y     = beta.outcome,
+                 label = SNP)) +
+    ggplot2::facet_wrap(~Type,nrow = 1) +
+    ggplot2::geom_point(
+      size = 2,
+      ggplot2::aes(colour = factor(pval.exposure))
+    ) +
+    ggplot2::geom_errorbar(
+      ggplot2::aes(xmin   = beta.exposure - 1.96*se.exposure, 
+                   xmax   = beta.exposure + 1.96*se.exposure, 
+                   colour = factor(pval.exposure))
+    ) +
+    ggplot2::geom_errorbar(
+      ggplot2::aes(ymin   = beta.outcome  - 1.96*se.outcome,  
+                   ymax   = beta.outcome  + 1.96*se.outcome,  
+                   colour = factor(pval.exposure))
+    ) +
+    ggplot2::scale_colour_manual(
+      values = rev(RColorBrewer::brewer.pal(nrow(t %>% dplyr::select(pval.exposure) %>% dplyr::distinct()),"YlOrRd")),
+      ggplot2::aes(labels = factor(pval.exposure)),
+      name = "P-Value (SNP-Exposure)"
+    ) +
+    ggplot2::theme(
+      panel.border          = ggplot2::element_rect(fill = NA),
+      text                  = ggplot2::element_text(size = 11, family = "Calibri"),
+      legend.background     = ggplot2::element_rect(fill = NA),
+      legend.box.background = ggplot2::element_rect(colour = "black"),
+      legend.title          = ggplot2::element_text(face = "bold"),
+      plot.title            = ggplot2::element_text(face = "bold")
+    ) +
+    ggplot2::geom_hline(
+      yintercept = 0,
+      linetype   = "dashed",
+      size       = 0.5
+    ) +
+    ggplot2::geom_vline(
+      xintercept = 0,
+      linetype   = "dashed",
+      size       = 0.5) +
+    ggplot2::labs(
+      x     = "SNP effect size on the exposure",
+      y     = paste0("SNP effect size on ",outc[[i]]),
+      title = titleLab[[i]]
+    )
+
+  if(steps[i] == "step1"){
+    g <- g +
+      ggplot2::scale_x_continuous(
+        limits = c(-0.12,0.12)
+      ) +
+      ggplot2::scale_y_continuous(
+        limits = c(-0.12,0.12)
+      ) +
+      ggplot2::geom_text(
+        ggplot2::aes(label = dplyr::if_else(SNP %in%  c("rs2342312","rs80107551","rs6503468","rs7213935"),SNP,"")),#c("rs80107551","rs8073524","rs6503468"),SNP,"")),
+        size  = 3,
+      vjust = -0.5,
+      hjust = -0.05
+    ) +
+     ggplot2::geom_text(
+      ggplot2::aes(label = dplyr::if_else(SNP %in%  c("rs8073524","rs71382995"),SNP,"")),#c("rs80107551","rs8073524","rs6503468"),SNP,"")),
+      size  = 3,
+      vjust = 1.1,
+      hjust = -0.05
+     ) +
+    ggplot2::geom_text(
+      ggplot2::aes(label = dplyr::if_else(SNP %in%  c("rs9910625","rs66838809"),SNP,"")),#c("rs80107551","rs8073524","rs6503468"),SNP,"")),
+      size  = 3,
+      vjust = 1.1,
+      hjust = 1.05
+    ) + 
+      ggplot2::geom_text(
+      ggplot2::aes(label = dplyr::if_else(SNP %in%  c("rs7220711"),SNP,"")),#c("rs80107551","rs8073524","rs6503468"),SNP,"")),
+      size  = 3,
+      vjust = -0.2,
+      hjust = 1.05
+      )
+  }else{
+    g <- g +
+      ggplot2::scale_x_continuous(
+        limits = c(-0.2,0.2)
+      ) +
+      ggplot2::scale_y_continuous(
+        limits = c(-0.2,0.2)
+      ) +
+      ggplot2::geom_text(
+        ggplot2::aes(label = dplyr::if_else(SNP %in%  c("rs71382995","rs6503468","rs8073524"),SNP,"")),#c("rs80107551","rs8073524","rs6503468"),SNP,"")),
+        size  = 3,
+        vjust = -0.5,
+        hjust = -0.05
+      ) +
+      ggplot2::geom_text(
+        ggplot2::aes(label = dplyr::if_else(SNP %in%  c("rs7213935","rs2342312"),SNP,"")),#c("rs80107551","rs8073524","rs6503468"),SNP,"")),
+        size  = 3,
+        vjust = 1.1,
+        hjust = -0.05
+      ) +
+      ggplot2::geom_text(
+        ggplot2::aes(label = dplyr::if_else(SNP %in%  c("rs7220711","rs66838809"),SNP,"")),#c("rs80107551","rs8073524","rs6503468"),SNP,"")),
+        size  = 3,
+        vjust = 1.1,
+        hjust = 1.05
+      ) +
+      ggplot2::geom_text(
+        ggplot2::aes(label = dplyr::if_else(SNP %in%  c("rs9910625","rs80107551"),SNP,"")),#c("rs80107551","rs8073524","rs6503468"),SNP,"")),
+        size  = 3,
+        vjust = -0.2,
+        hjust = 1.05
+      )
+  }
+print(g)
+}
+
+cat("**Figure ",fig_count,".** SNPs effect size on the positive control outcomes. **(A)** Positive control outcome is bone mineral density. **(B)** Positive control outcome is hip fracture risk.")
+fig_count <- fig_count + 1
+```
+
+```{r}
+fixed_continuous  <- readr::read_delim(paste0(pathResults,"MendelianRandomisation/Fixed_continuous.txt"))
+fixed_binary      <- readr::read_delim(paste0(pathResults,"MendelianRandomisation/Fixed_binary.txt"))
+random_continuous <- readr::read_delim(paste0(pathResults,"MendelianRandomisation/Random_continuous.txt"))
+random_binary     <- readr::read_delim(paste0(pathResults,"MendelianRandomisation/Random_binary.txt"))
+
+
+continuous <- fixed_continuous %>%
+  dplyr::mutate("Type" = "Fixed-effects method") %>%
+  dplyr::rename_at(dplyr::vars(Fixed_r2:Fixed_Instruments),function(x){gsub("Fixed_","",x)}) %>%
+  dplyr::union_all(
+    random_continuous %>%
+      dplyr::mutate("Type" = "Random-effects method") %>%
+      dplyr::rename_at(dplyr::vars(Random_r2:Random_Instruments),function(x){gsub("Random_","",x)})
+  ) %>%
+  dplyr::mutate(Lower  = gsub(",.*","",`95% CI`)) %>%
+  dplyr::mutate(Higher = gsub(".*,","",`95% CI`)) %>%
+  dplyr::mutate(r2 = as.character(r2)) %>%
+  dplyr::mutate(r2 = dplyr::if_else(Method == "Top SNP","Top SNP",r2)) %>%
+  dplyr::mutate(r2 = dplyr::if_else(r2     == c(0.1),paste0(Method,", r2 = ",r2), r2)) %>%
+  dplyr::mutate(r2 = dplyr::if_else(r2    %in% c(0.3,0.5,0.7),paste0("r2 = ",r2), r2)) %>%
+  dplyr::mutate(r2 = dplyr::if_else(Method == "PCA",paste0(Method,", Variance >99%"), r2)) %>%
+  dplyr::mutate(r2 = dplyr::if_else(row    == 7, paste0("Variance >99.9%"), r2)) %>%
+  dplyr::mutate(row = rev(row))
+  
+
+
+binary <- fixed_binary %>%
+  dplyr::mutate("Type" = "Fixed-effects method") %>%
+  dplyr::rename_at(dplyr::vars(Fixed_r2:Fixed_Instruments),function(x){gsub("Fixed_","",x)}) %>%
+  dplyr::union_all(
+    random_binary %>%
+      dplyr::mutate("Type" = "Random-effects method") %>%
+      dplyr::rename_at(dplyr::vars(Random_r2:Random_Instruments),function(x){gsub("Random_","",x)})
+  ) %>%
+  dplyr::mutate(Lower  = gsub(",.*","",`95% CI`)) %>%
+  dplyr::mutate(Higher = gsub(".*,","",`95% CI`)) %>%
+  dplyr::mutate(r2 = as.character(r2)) %>%
+  dplyr::mutate(r2 = dplyr::if_else(Method == "Top SNP","Top SNP",r2)) %>%
+  dplyr::mutate(r2 = dplyr::if_else(r2     == c(0.1),paste0(Method,", r2 = ",r2), r2)) %>%
+  dplyr::mutate(r2 = dplyr::if_else(r2    %in% c(0.3,0.5,0.7),paste0("r2 = ",r2), r2)) %>%
+  dplyr::mutate(r2 = dplyr::if_else(Method == "PCA",paste0(Method,", Variance >99%"), r2)) %>%
+  dplyr::mutate(r2 = dplyr::if_else(row    == 7, paste0("Variance >99.9%"), r2)) %>%
+  dplyr::mutate(row = rev(row)) 
+```     
+
+```{r, fig.width = 8, fig.height = 5,  fig.dpi = 600,  results = "asis"}
+
+f_continuous <- ggplot2::ggplot(
+  fixed_continuous,
+  ggplot2::aes(x = row, y = Beta)
+  ) +
+  ggplot2::geom_errorbar(
+    ggplot2::aes(ymin = as.numeric(Lower), ymax = as.numeric(Higher))
+  ) +
+  ggplot2::geom_point(
+    ggplot2::aes(y = Beta)
+  ) +
+  ggplot2::facet_wrap(~Type, strip.position = "top") +
+  ggplot2::theme(strip.text.x = ggplot2::element_text(size = 11, face = "bold"),
+                 axis.title.x = ggplot2::element_text(),
+                 axis.text.x  = ggplot2::element_text(),
+                 axis.text.y  = ggplot2::element_text(size = 10),
+                 axis.title.y = ggplot2::element_blank(),
+                 legend.position = "none",
+                 text         = ggplot2::element_text(size = 11, family = "Calibri")) +
+  ggplot2::scale_x_continuous(
+    breaks = fixed_continuous$row,
+    labels = fixed_continuous$r2
+  ) +
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", size = 0.75) +
+  ggplot2::coord_flip() +
+  ggplot2::labs(
+    title = unique(fixed_continuous$Outcome)
+  )
+print(f_continuous)
+names <- unique(fixed_binary$Outcome)
+
+for(i in names){
+  fixed_bin <- fixed_binary %>%
+    dplyr::filter(Outcome == i)
+  
+  f_bin <- ggplot2::ggplot(
+    fixed_bin,
+    ggplot2::aes(x = row, y = OR)
+    ) +
+    ggplot2::geom_errorbar(
+      ggplot2::aes(ymin = as.numeric(Lower), ymax = as.numeric(Higher))
+    ) +
+    ggplot2::geom_point(
+      ggplot2::aes(y = OR)
+    ) +
+    ggplot2::facet_wrap(~Type, strip.position = "top") +
+    ggplot2::theme(strip.text.x = ggplot2::element_text(size = 11, face = "bold"),
+                   axis.title.x = ggplot2::element_text(),
+                   axis.text.x  = ggplot2::element_text(),
+                   axis.text.y  = ggplot2::element_text(size = 10),
+                   axis.title.y = ggplot2::element_blank(),
+                   legend.position = "none",
+                   text         = ggplot2::element_text(size = 11, family = "Calibri")) +
+    ggplot2::scale_x_continuous(
+      breaks = fixed_bin$row,
+      labels = fixed_bin$r2
+    ) +
+    ggplot2::geom_hline(yintercept = 1, linetype = "dashed", size = 0.75) +
+    ggplot2::coord_flip() +
+    ggplot2::labs(
+      title = unique(fixed_bin$Outcome)
+    )
+  print(f_bin)
+}
+
+  
+```
+
+

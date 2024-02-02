@@ -1,0 +1,58 @@
+# ============================================================================ #
+#                             MendelianRandomisation                           #
+#                        2023 - Marta Alcalde-Herraiz                          #
+# ---------------------------------------------------------------------------- #
+# Summary:                                                                     #
+# This script performs generalised IVW when there is more than one instrument, #
+# and Wald Ratio when there is only one instrument.                            #
+# ============================================================================ #
+source(here::here("Functions","loadOutcomeGwas.R"))
+source(here::here("Functions","harmonisingData.R"))
+source(here::here("Functions","mendelianRandomisation.R"))
+source(here::here("Functions","mendelianRandomisationPCA.R"))
+
+# Exposure:
+list_of_files <- list.files(path = paste0(pathResults,"InstrumentSelection/"),
+                            recursive  = TRUE,
+                            pattern    = "^iv_",
+                            full.names = TRUE)
+
+
+
+for(i in list_of_files){
+
+  file <- list_of_files[[i]]
+
+  # Extract meta-analysis method (fixed or random)
+  metaMethod <- gsub(".*iv_","",file)
+  metaMethod <- gsub("_gene.*","",metaMethod)
+
+  # Extract r2 value from the file name
+  r2 <- gsub(".*r2","",file)
+  r2 <- gsub("_.*","",r2)
+
+  # Extract clumping window
+  clumpw <- gsub(".*clumpw","",file)
+  clumpw <- gsub(".txt*.","", clumpw)
+
+  # CLUMPING METHOD ------------------------------------------------------------
+  # Read exposure file
+  exposure <- readr::read_delim(file)
+
+  # BMI outcome
+  outcome  <- loadOutcomeGwas(outcome = "bmd", exposure = exposure) # Outcome: bmd, hf, cad, mi, is, hypertension, t2dm
+
+  # Mendelian randomisation using clumping
+  mr_res   <- mendelianRandomisation(exposure, outcome, gwasID = "ebi-a-GCST006979", binary = FALSE, name = "BMD")
+
+  varname <- paste0(name,"_",metaMethod,"_",r2,"_",clumpw)
+  resultsMR[[varname]] <- mr_res$Results
+
+  # PCA ------------------------------------------------------------------------
+  exposurePCA <- readr::read_delim(here::here("Study1/MetaAnalysis/ResultsMetaAnalysis/GWAMA_Fixed.out"))
+  mr_res_pca  <- mendelianRandomisationPCA(exposure, outcome, gwasID = "ebi-a-GCST006979", binary = FALSE, name = "CAD")
+
+  varname <- paste0(name,"_",metaMethod,"_PCA")
+  resultsMR[[varname]] <- mr_results$Results
+}
+

@@ -1,0 +1,62 @@
+Running GWAMA 1.4
+Reading command line options.
+The filelist has been set to D:/Projects/MR_Sclerostin/OtherSoftware/gwama.in
+Quantitative trait (BETA+SE)The output file root has been set to C:/Users/martaa/Documents/GitHub/MR_SclerostinInhibition/Study1/MetaAnalysis/ResultsMetaAnalysis/GWAMA_Fixed
+Reading input file list:
+	D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt
+	D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt
+	D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt
+END-OF-FILE
+Study count: 3
+ [1] Reading file: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt
+Warning: No strand column found from: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt, expecting all markers to have positive strand. (W000000001)
+ [2] Reading file: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt
+Warning: No strand column found from: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt, expecting all markers to have positive strand. (W000000002)
+Warning: Marker rs9916184 has wrong strand. (W000000003)
+Warning: Marker rs373902103 has wrong strand. (W000000004)
+Warning: Marker rs9747195 has wrong strand. (W000000005)
+Warning: Marker rs4114261 has wrong strand. (W000000006)
+Warning: Marker rs555553266 has wrong strand. (W000000007)
+Warning: Marker rs62051178 has wrong strand. (W000000008)
+Warning: Marker rs9709158 has wrong strand. (W000000009)
+Warning: Marker rs530040463 has wrong strand. (W000000010)
+Error: Marker rs544273342 has wrong effect allele. (E000000011)
+Error: Marker rs571176996 has wrong effect allele. (E000000012)
+Warning: Marker rs3896624 has wrong strand. (W000000013)
+Warning: Marker rs35175968 has wrong strand. (W000000014)
+Warning: Marker rs576434855 has wrong strand. (W000000015)
+Warning: Marker rs9747476 has wrong strand. (W000000016)
+Warning: Marker rs9909512 has wrong strand. (W000000017)
+Warning: Marker rs12601950 has wrong strand. (W000000018)
+Error: Marker rs62061381 has wrong effect allele. (E000000019)
+ [3] Reading file: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt
+Warning: No strand column found from: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt, expecting all markers to have positive strand. (W000000020)
+Warning: Marker rs530040463 has wrong strand. (W000000021)
+Warning: Marker rs57842663 has wrong strand. (W000000022)
+Error: Marker rs62061381 has wrong effect allele. (E000000023)
+Warning: Marker rs9747620 has minimum and maximum effect allele frequencies difference > 30%. (W000000024)
+Warning: Marker rs9747624 has minimum and maximum effect allele frequencies difference > 30%. (W000000025)
+Warning: Marker rs531952330 has minimum and maximum effect allele frequencies difference > 30%. (W000000026)
+Warning: Marker rs9646407 has minimum and maximum effect allele frequencies difference > 30%. (W000000027)
+Warning: Marker rs9646408 has minimum and maximum effect allele frequencies difference > 30%. (W000000028)
+Warning: Marker rs2654681 has minimum and maximum effect allele frequencies difference > 30%. (W000000029)
+Warning: Marker rs80097000 has minimum and maximum effect allele frequencies difference > 30%. (W000000030)
+Warning: Marker rs191447684 has minimum and maximum effect allele frequencies difference > 30%. (W000000031)
+Warning: Marker rs182185121 has minimum and maximum effect allele frequencies difference > 30%. (W000000032)
+Warning: Marker rs9910324 has minimum and maximum effect allele frequencies difference > 30%. (W000000033)
+Warning: Marker rs62066916 has minimum and maximum effect allele frequencies difference > 30%. (W000000034)
+Warning: Marker rs76956927 has minimum and maximum effect allele frequencies difference > 30%. (W000000035)
+Warning: Marker rs9904784 has minimum and maximum effect allele frequencies difference > 30%. (W000000036)
+Warning: Marker rs34864328 has minimum and maximum effect allele frequencies difference > 30%. (W000000037)
+Warning: Marker rs2959968 has minimum and maximum effect allele frequencies difference > 30%. (W000000038)
+Warning: Marker rs201856760 has minimum and maximum effect allele frequencies difference > 30%. (W000000039)
+Warning: Marker rs371227803 has minimum and maximum effect allele frequencies difference > 30%. (W000000040)
+Warning: Marker rs374180853 has minimum and maximum effect allele frequencies difference > 30%. (W000000041)
+Warning: Marker rs139481767 has minimum and maximum effect allele frequencies difference > 30%. (W000000042)
+Warning: Marker rs112318852 has minimum and maximum effect allele frequencies difference > 30%. (W000000043)
+Warning: Marker rs28479295 has minimum and maximum effect allele frequencies difference > 30%. (W000000044)
+Warning: Marker rs113595059 has minimum and maximum effect allele frequencies difference > 30%. (W000000045)
+Warning: Marker rs186003413 has minimum and maximum effect allele frequencies difference > 30%. (W000000046)
+Warning: Marker rs116669827 has minimum and maximum effect allele frequencies difference > 30%. (W000000047)
+Warning: Marker rs814747 has minimum and maximum effect allele frequencies difference > 30%. (W000000048)
+Warning: Marker rs814745 has minimum and maximum effect allele frequencies difference > 30%. (W000000049)

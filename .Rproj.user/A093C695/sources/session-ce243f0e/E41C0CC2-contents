@@ -1,0 +1,276 @@
+---
+title: " "
+format:
+  docx:
+    reference-doc: reference-doc.docx
+execute:
+  echo: false
+---
+
+# Triangulating evidence of the cause-effect relationship between sclerostin inhibition and cardiovascular outcomes
+
+
+## Tables
+
+
+Authors: Marta Alcalde-Herraiz, Junqing Xie, 
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  results = "hide", 
+  message = FALSE, 
+  warning = FALSE, 
+  chache.comments = FALSE)
+```
+
+```{r}
+library('magrittr')
+pathData <- "C:/Users/martaa/Desktop/Projects/MR_Sclerostin_NEW/"
+pathResults <- paste0(pathData,'Results/Study1/')
+tab_count <- 1
+
+method <- c("Fixed","Random")
+tables <- list()
+
+for(method_i in method){
+  # Table results
+  listOfFiles <- list.files(path = paste0(pathResults,"MendelianRandomisation/TemporaryFiles"),
+                            recursive  = TRUE,
+                            pattern    = method_i,
+                            full.names = TRUE)
+  
+  listOfFiles_Binary     <- tibble::tibble(listOfFiles) %>% dplyr::filter(!grepl("bmd",listOfFiles))
+  listOfFiles_Continuous <- tibble::tibble(listOfFiles) %>% dplyr::filter( grepl("bmd",listOfFiles))
+  
+  # Binary results
+  for(i in 1:nrow(listOfFiles_Binary)){
+    file <- listOfFiles_Binary$listOfFiles[[i]]
+    
+    if(grepl("PCA",file)){
+      f <- readr::read_delim(file) %>%
+        dplyr::rename("r2" = `Variance explained`) %>%
+        dplyr::rename("w"  = `Number of principal components`) %>%
+        dplyr::mutate("Instruments" = 
+                        readr::read_delim(paste0(pathResults,"InstrumentSelection/Instruments/iv_",method_i,"_PCA.txt")) %>%
+                        dplyr::tally() %>% as.numeric(),
+                      r2 = as.character(r2),
+                      w  = as.character(w))
+    }else{
+      # r2
+      r2 <- gsub(paste0(".*",method_i,"_"),"",file)
+      r2 <- gsub("_.*","",r2)
+      
+      # Window
+      w <- gsub(".*_","",file)
+      
+      f <- readr::read_delim(file) %>%
+        dplyr::mutate("r2" = r2) %>%
+        dplyr::mutate("w"  = w)
+    }
+    
+    if(i == 1){
+      t_Binary <- f
+    }else{
+      t_Binary <- t_Binary %>%
+        dplyr::union_all(f)
+    }
+  }
+  
+  # Continuous results
+  for(i in 1:nrow(listOfFiles_Continuous)){
+    file <- listOfFiles_Continuous$listOfFiles[[i]]
+    
+    if(grepl("PCA",file)){
+      f <- readr::read_delim(file) %>%
+        dplyr::rename("r2" = `Variance explained`) %>%
+        dplyr::rename("w"  = `Number of principal components`) %>%
+        dplyr::mutate("Instruments" = 
+                        readr::read_delim(paste0(pathResults,"InstrumentSelection/Instruments/iv_",method_i,"_PCA.txt")) %>%
+                        dplyr::tally() %>% as.numeric(),
+                      r2 = as.character(r2),
+                      w  = as.character(w))
+    }else{
+      # r2
+      r2 <- gsub(paste0(".*",method_i,"_"),"",file)
+      r2 <- gsub("_.*","",r2)
+      
+      # Window
+      w <- gsub(".*_","",file)
+      
+      f <- readr::read_delim(file) %>%
+        dplyr::mutate("r2" = r2) %>%
+        dplyr::mutate("w"  = w)
+    }
+    
+    if(i == 1){
+      t_Cont <- f
+    }else{
+      t_Cont <- t_Cont %>%
+        dplyr::union_all(f)
+    }
+  }
+  
+  
+  tables <- c(tables, list(t_Cont %>% 
+                             dplyr::mutate(r2 = as.numeric(r2)) %>%
+                             dplyr::arrange(r2) %>%
+                             dplyr::filter(w  != "500000") %>% 
+                             dplyr::group_by(Outcome) %>%
+                             dplyr::mutate(Method = c("Top SNP","Pruning"," "," "," ","PCA"," ")) %>%
+                             dplyr::relocate("Outcome") %>%
+                             dplyr::relocate("Method", .after = "Outcome") %>%
+                             dplyr::relocate("r2",     .after = "Method")  %>%
+                             dplyr::relocate("w",      .after = "r2") %>%
+                             dplyr::rename("w (kb)" = "w") %>%
+                             dplyr::mutate(Beta = round(Beta, digits = 2)) %>%
+                             dplyr::mutate(r2   = round(r2,   digits = 2)) %>%
+                             dplyr::mutate(`95% CI` = paste0(round(L95CI, digits = 2),
+                                                             ", ",
+                                                             round(U95CI, digits = 2))) %>%
+                             dplyr::relocate(`95% CI`, .after = "Beta") %>%
+                             dplyr::select(-U95CI,-L95CI) %>%
+                             dplyr::mutate(SE = round(SE, digits = 2)) %>%
+                             dplyr::mutate(Pval = format(Pval, digits=2)) %>%
+                             dplyr::mutate("row" = dplyr::row_number()) %>%
+                             dplyr::rename_at(dplyr::vars(r2:Instruments), function(x){paste0(method_i,"_",x)})))
+  
+  
+  # Binary outcomes
+  tables <- c(tables, list(t_Binary %>% 
+                             dplyr::mutate(r2 = as.numeric(r2)) %>%
+                             dplyr::arrange(Outcome,r2) %>%
+                             dplyr::filter(w != "500000") %>% 
+                             dplyr::group_by(Outcome) %>%
+                             dplyr::mutate(Method = c("Top SNP","Pruning"," "," "," ","PCA"," ")) %>%
+                             dplyr::relocate("Outcome") %>%
+                             dplyr::relocate("Method", .after = "Outcome") %>%
+                             dplyr::relocate("r2",     .after = "Method")  %>%
+                             dplyr::relocate("w",      .after = "r2") %>%
+                             dplyr::rename("w (kb)" = "w") %>%
+                             dplyr::mutate(OR   = round(OR, digits = 2)) %>%
+                             dplyr::mutate(r2   = round(r2,   digits = 2)) %>%
+                             dplyr::mutate(`95% CI` = paste0(round(L95CI, digits = 2),
+                                                             ", ",
+                                                             round(U95CI, digits = 2))) %>%
+                             dplyr::relocate(`95% CI`, .after = "OR") %>%
+                             dplyr::select(-U95CI,-L95CI) %>%
+                             dplyr::mutate(SE = round(SE, digits = 2)) %>%
+                             dplyr::mutate(Pval = format(Pval, digits=2)) %>%
+                             dplyr::mutate(order_id = dplyr::case_when(
+                               .data$Outcome == "hf" ~ 1,
+                               .data$Outcome == "cad" ~ 2,
+                               .data$Outcome == "mi" ~ 3,
+                               .data$Outcome == "is" ~ 4,
+                               .data$Outcome == "hypertension" ~ 5,
+                               .data$Outcome == "t2dm" ~ 6
+                             )) %>%
+                             dplyr::arrange(.data$order_id) %>%
+                             dplyr::select(-"order_id")  %>%
+                             dplyr::mutate("row" = dplyr::row_number()) %>%
+                             dplyr::rename_at(dplyr::vars(r2:Instruments), function(x){paste0(method_i,"_",x)})))
+}
+
+readr::write_tsv(tables[[1]],paste0(pathResults,"MendelianRandomisation/Fixed_continuous.txt"))
+readr::write_tsv(tables[[2]],paste0(pathResults,"MendelianRandomisation/Fixed_binary.txt"))
+readr::write_tsv(tables[[3]],paste0(pathResults,"MendelianRandomisation/Random_continuous.txt"))
+readr::write_tsv(tables[[4]],paste0(pathResults,"MendelianRandomisation/Random_binary.txt"))
+
+flextables <- list()
+flextables[[1]] <- tables[[1]] %>%
+  dplyr::left_join(tables[[3]], by = c("Outcome","Method","row")) %>%
+  dplyr::select(-row) %>%
+  flextable::flextable() %>%
+  ftExtra::span_header(sep = "_") %>%
+  flextable::align(align = 'center', part = 'all') %>%
+  flextable::bold(i = c(1,2), part = "header") %>%
+  flextable::vline(j = c(2,9), part = "all") 
+flextables[[2]] <- tables[[2]] %>%
+  dplyr::left_join(tables[[4]], by = c("Outcome","Method","row")) %>%
+  dplyr::select(-row) %>%
+  flextable::flextable() %>%
+  ftExtra::span_header(sep = "_") %>%
+  flextable::align(align = 'center', part = 'all') %>%
+  flextable::bold(i = c(1,2), part = "header") %>%
+  flextable::vline(j = c(2,9), part = "all") %>%
+  flextable::hline(i = c(7,14,21,28,35),part = "body")
+
+```
+
+```{r, fig.width = 8, fig.height = 5,  fig.dpi = 600,  results = "asis"}
+flextables[[1]]
+```
+
+
+```{r, fig.width = 8, fig.height = 5,  fig.dpi = 600,  results = "asis"}
+flextables[[2]]
+```
+
+```{r}
+table <- list()
+
+
+for(method_i in c("Fixed","Random")){
+  # Clumping tables
+  listOfFiles <- list.files(path = paste0(pathResults,"InstrumentSelection/Instruments"),
+                            recursive  = TRUE,
+                            pattern    = method_i,
+                            full.names = TRUE)
+  listOfFiles_clumping <- tibble::tibble(listOfFiles) %>% dplyr::filter(!grepl("500000",listOfFiles), grepl("clumpw",listOfFiles))
+  
+  for(i in 1:length(listOfFiles_clumping$listOfFiles)){
+    f <- listOfFiles_clumping$listOfFiles[[i]]
+    
+    # r2
+    r2 <- gsub(".*r2","",f)
+    r2 <- gsub("_.*","",r2)
+    
+    # Table
+    t <- readr::read_delim(f) %>%
+      dplyr::select("SNP", "effect_allele.exposure", "eaf.exposure", "beta.exposure", "se.exposure", "pval.exposure") %>%
+      dplyr::left_join(
+        readr::read_delim(paste0(pathResults,"InstrumentSelection/",method_i,"Mapped.txt")) %>%
+          dplyr::select("SNP", "N" = "sample_size", "i2"),
+        by = "SNP") %>%
+      dplyr::mutate(r2 = as.numeric(r2)) %>%
+      dplyr::mutate(Method  = paste0("r2 = ", r2)) %>%
+      dplyr::mutate(Method1 = "Pruning") %>%
+      dplyr::relocate("Method1") %>%
+      dplyr::relocate("Method", .after = "Method1") %>%
+      dplyr::mutate(i2 = as.numeric(i2)) %>%
+      dplyr::mutate(pval.exposure = format(pval.exposure, digits=2)) %>%
+      dplyr::mutate_at(dplyr::vars(c(eaf.exposure:se.exposure,i2)),function(x){round(x, digits = 2)}) %>%
+      dplyr::rename("EA"   = "effect_allele.exposure",
+                    "EAF"  = "eaf.exposure",
+                    "Beta" = "beta.exposure",
+                    "SE"   = "se.exposure",
+                    "PVal" = "pval.exposure")
+    if(i == 1){
+      tables <- t
+    }else{
+      tables <- tables %>% 
+        dplyr::union_all(t)
+    }
+  }
+  
+  table <- c(table, list(tables %>% 
+                           dplyr::arrange(r2) %>%
+                           dplyr::select(-r2) %>%
+                           flextable::flextable()))
+}
+```
+\newpage
+```{r, fig.width = 8, fig.height = 5,  fig.dpi = 600,  results = "asis"}
+table[[1]] %>%
+  flextable::bold(i = 1, part = "header") %>%
+  flextable::hline(i = c(1), part = "body")
+  
+```
+\newpage
+```{r, fig.width = 8, fig.height = 5,  fig.dpi = 600,  results = "asis"}
+table[[2]] %>%
+  flextable::bold(i = 1, part = "header") %>%
+  flextable::hline(i = c(1), part = "body")
+  
+```
+
+

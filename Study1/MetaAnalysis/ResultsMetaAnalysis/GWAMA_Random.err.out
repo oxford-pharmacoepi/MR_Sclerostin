@@ -1,0 +1,155 @@
+W000000001 Warning: No strand column found from: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt, expecting all markers to have positive strand.
+W000000002 Warning: No strand column found from: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt, expecting all markers to have positive strand.
+W000000003 Warning: Marker rs9916184 has wrong strand. Strand flipped.
+W000000003 1 has EA: T NEA: G
+W000000003 2 has EA: A NEA: C
+W000000004 Warning: Marker rs373902103 has wrong strand. Strand flipped.
+W000000004 1 has EA: C NEA: T
+W000000004 2 has EA: A NEA: G
+W000000005 Warning: Marker rs9747195 has wrong strand. Strand flipped.
+W000000005 1 has EA: G NEA: A
+W000000005 2 has EA: T NEA: C
+W000000006 Warning: Marker rs4114261 has wrong strand. Strand flipped.
+W000000006 1 has EA: G NEA: A
+W000000006 2 has EA: T NEA: C
+W000000007 Warning: Marker rs555553266 has wrong strand. Strand flipped.
+W000000007 1 has EA: T NEA: G
+W000000007 2 has EA: A NEA: G
+W000000008 Warning: Marker rs62051178 has wrong strand. Strand flipped.
+W000000008 1 has EA: T NEA: C
+W000000008 2 has EA: A NEA: G
+W000000009 Warning: Marker rs9709158 has wrong strand. Strand flipped.
+W000000009 1 has EA: C NEA: T
+W000000009 2 has EA: A NEA: G
+W000000010 Warning: Marker rs530040463 has wrong strand. Strand flipped.
+W000000010 1 has EA: T NEA: G
+W000000010 2 has EA: A NEA: G
+E000000011 Error: Marker rs544273342 has wrong effect allele. Skipping marker.
+E000000011 1 has EA: C NEA: T
+E000000011 2 has EA: A NEA: T
+E000000012 Error: Marker rs571176996 has wrong effect allele. Skipping marker.
+E000000012 1 has EA: A NEA: G
+E000000012 2 has EA: C NEA: G
+W000000013 Warning: Marker rs3896624 has wrong strand. Strand flipped.
+W000000013 1 has EA: A NEA: C
+W000000013 2 has EA: T NEA: G
+W000000014 Warning: Marker rs35175968 has wrong strand. Strand flipped.
+W000000014 1 has EA: A NEA: G
+W000000014 2 has EA: T NEA: C
+W000000015 Warning: Marker rs576434855 has wrong strand. Strand flipped.
+W000000015 1 has EA: A NEA: C
+W000000015 2 has EA: T NEA: G
+W000000016 Warning: Marker rs9747476 has wrong strand. Strand flipped.
+W000000016 1 has EA: G NEA: A
+W000000016 2 has EA: T NEA: C
+W000000017 Warning: Marker rs9909512 has wrong strand. Strand flipped.
+W000000017 1 has EA: A NEA: C
+W000000017 2 has EA: T NEA: G
+W000000018 Warning: Marker rs12601950 has wrong strand. Strand flipped.
+W000000018 1 has EA: G NEA: A
+W000000018 2 has EA: T NEA: C
+E000000019 Error: Marker rs62061381 has wrong effect allele. Skipping marker.
+E000000019 1 has EA: A NEA: G
+E000000019 2 has EA: C NEA: G
+W000000020 Warning: No strand column found from: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt, expecting all markers to have positive strand.
+W000000021 Warning: Marker rs530040463 has wrong strand. Strand flipped.
+W000000021 1 has EA: T NEA: G
+W000000021 2 has EA: A NEA: G
+W000000021 3 has EA: A NEA: G
+W000000022 Warning: Marker rs57842663 has wrong strand. Strand flipped.
+W000000022 1 has EA: A NEA: T
+W000000022 2 has EA: A NEA: T
+W000000022 3 has EA: C NEA: T
+E000000023 Error: Marker rs62061381 has wrong effect allele. Skipping marker.
+E000000023 1 has EA: A NEA: G
+E000000023 2 has EA: C NEA: G
+E000000023 3 has EA: C NEA: G
+W000000024 Warning: Marker rs9747620 has minimum and maximum effect allele frequencies difference > 30%.
+W000000024 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.78169
+W000000024 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.0188
+W000000025 Warning: Marker rs9747624 has minimum and maximum effect allele frequencies difference > 30%.
+W000000025 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.78183
+W000000025 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.0964
+W000000026 Warning: Marker rs531952330 has minimum and maximum effect allele frequencies difference > 30%.
+W000000026 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.58409
+W000000026 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.0465
+W000000027 Warning: Marker rs9646407 has minimum and maximum effect allele frequencies difference > 30%.
+W000000027 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.53147
+W000000027 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.2287
+W000000028 Warning: Marker rs9646408 has minimum and maximum effect allele frequencies difference > 30%.
+W000000028 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.53147
+W000000028 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.2108
+W000000029 Warning: Marker rs2654681 has minimum and maximum effect allele frequencies difference > 30%.
+W000000029 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.00051
+W000000029 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.5089
+W000000030 Warning: Marker rs80097000 has minimum and maximum effect allele frequencies difference > 30%.
+W000000030 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.52364
+W000000030 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.2088
+W000000031 Warning: Marker rs191447684 has minimum and maximum effect allele frequencies difference > 30%.
+W000000031 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.09713
+W000000031 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.6161
+W000000031 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt has EAF: NA
+W000000032 Warning: Marker rs182185121 has minimum and maximum effect allele frequencies difference > 30%.
+W000000032 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.47079
+W000000032 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.0197
+W000000032 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt has EAF: NA
+W000000033 Warning: Marker rs9910324 has minimum and maximum effect allele frequencies difference > 30%.
+W000000033 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.54067
+W000000033 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.1446
+W000000033 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt has EAF: NA
+W000000034 Warning: Marker rs62066916 has minimum and maximum effect allele frequencies difference > 30%.
+W000000034 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.62919
+W000000034 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.1936
+W000000034 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt has EAF: NA
+W000000035 Warning: Marker rs76956927 has minimum and maximum effect allele frequencies difference > 30%.
+W000000035 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.67644
+W000000035 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.1697
+W000000036 Warning: Marker rs9904784 has minimum and maximum effect allele frequencies difference > 30%.
+W000000036 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.3404
+W000000036 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.6775
+W000000037 Warning: Marker rs34864328 has minimum and maximum effect allele frequencies difference > 30%.
+W000000037 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.34545
+W000000037 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.0283
+W000000038 Warning: Marker rs2959968 has minimum and maximum effect allele frequencies difference > 30%.
+W000000038 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.80555
+W000000038 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.0266
+W000000039 Warning: Marker rs201856760 has minimum and maximum effect allele frequencies difference > 30%.
+W000000039 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.63334
+W000000039 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.0619
+W000000039 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt has EAF: NA
+W000000040 Warning: Marker rs371227803 has minimum and maximum effect allele frequencies difference > 30%.
+W000000040 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.60828
+W000000040 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.2725
+W000000040 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt has EAF: NA
+W000000041 Warning: Marker rs374180853 has minimum and maximum effect allele frequencies difference > 30%.
+W000000041 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.60828
+W000000041 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.2736
+W000000041 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt has EAF: NA
+W000000042 Warning: Marker rs139481767 has minimum and maximum effect allele frequencies difference > 30%.
+W000000042 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.5917
+W000000042 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.2754
+W000000042 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt has EAF: NA
+W000000043 Warning: Marker rs112318852 has minimum and maximum effect allele frequencies difference > 30%.
+W000000043 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.5917
+W000000043 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.2754
+W000000043 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt has EAF: NA
+W000000044 Warning: Marker rs28479295 has minimum and maximum effect allele frequencies difference > 30%.
+W000000044 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.61506
+W000000044 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.2995
+W000000044 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt has EAF: NA
+W000000045 Warning: Marker rs113595059 has minimum and maximum effect allele frequencies difference > 30%.
+W000000045 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.44678
+W000000045 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.1046
+W000000046 Warning: Marker rs186003413 has minimum and maximum effect allele frequencies difference > 30%.
+W000000046 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.44683
+W000000046 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.0905
+W000000047 Warning: Marker rs116669827 has minimum and maximum effect allele frequencies difference > 30%.
+W000000047 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.56388
+W000000047 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.0433
+W000000047 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Sun_Nature_GWAS.txt has EAF: NA
+W000000048 Warning: Marker rs814747 has minimum and maximum effect allele frequencies difference > 30%.
+W000000048 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.7195
+W000000048 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.0271
+W000000049 Warning: Marker rs814745 has minimum and maximum effect allele frequencies difference > 30%.
+W000000049 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Ferkingstad_NatureGenetics_GWAS.txt has EAF: 0.97564
+W000000049 Population: D:/Projects/MR_Sclerostin/OtherSoftware/Pietzner_Science_GWAS.txt has EAF: 0.2054

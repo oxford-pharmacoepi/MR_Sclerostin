@@ -1,0 +1,72 @@
+
+t <- readr::read_delim(paste0(pathResults,'MetaAnalysis/Fixed.txt'))
+
+# if (!require("BiocManager", quietly = TRUE))
+#   install.packages("BiocManager")
+# BiocManager::install("biomaRt")
+
+pf <- numbers::primeFactors(t %>% nrow())
+pf <- sort(pf, decreasing = TRUE)
+#pf <- pf[1]*pf[length(pf)]
+pf <- 10000
+k  <- (t %>% nrow())/pf
+snps <- t$SNP
+
+# 55 vegades
+# 24, 27,
+for(i in 1:ceiling(k)){
+  snps1 <- snps[(1:pf)+(i-1)*pf]
+
+  snp_locations <- biomaRt::getBM(attributes = c("refsnp_id", "chr_name", "chrom_start"),
+                                  filters    = "snp_filter",
+                                  values     = snps1,
+                                  mart       = biomaRt::useMart("ENSEMBL_MART_SNP", dataset="hsapiens_snp"))
+  snps_locations <- tibble::as_tibble(snp_locations) %>%
+    dplyr::mutate(chr_name = as.character(chr_name)) %>%
+    dplyr::filter(chr_name == "17")
+  table_locations <- snps_locations
+
+  table_locations <- table_locations %>%
+    dplyr::rename(SNP = refsnp_id,
+                  chr = chr_name,
+                  pos = chrom_start)
+  readr::write_tsv(table_locations,paste0(pathResults,"InstrumentSelection/MappingGRCh38_",i*pf,".txt"))
+}
+
+
+listOfFiles <- list.files(path = paste0(pathResults,"InstrumentSelection/"),
+                          recursive  = TRUE,
+                          pattern    = "^MappingGRCh38_",
+                          full.names = TRUE)
+mapping <- readr::read_delim(listOfFiles)
+
+# See which SNPs are not mapped and try it again (it might be possible that in
+# that iteration the program has failed or something like this)
+snpsMissing <- mapping %>%
+  dplyr::select("SNP") %>%
+  dplyr::anti_join(snps)
+
+
+snp_locations <- biomaRt::getBM(attributes = c("refsnp_id", "chr_name", "chrom_start"),
+                                filters    = "snp_filter",
+                                values     = snps1,
+                                mart       = biomaRt::useMart("ENSEMBL_MART_SNP", dataset="hsapiens_snp"))
+table_locations <- tibble::as_tibble(snp_locations) %>%
+  dplyr::mutate(chr_name = as.character(chr_name)) %>%
+  dplyr::filter(chr_name == "17") %>%
+  dplyr::rename(SNP = refsnp_id,
+                chr = chr_name,
+                pos = chrom_start)
+readr::write_tsv(table_locations,paste0(pathResults,"InstrumentSelection/MappingGRCh38_Missing.txt"))
+
+# Read all the files again
+listOfFiles <- list.files(path = paste0(pathResults,"InstrumentSelection/"),
+                          recursive  = TRUE,
+                          pattern    = "^MappingGRCh38_",
+                          full.names = TRUE)
+mapping <- readr::read_delim(listOfTables)
+
+# Build a fixed effects - random effects complete tables
+fixed <- readr::read_delim(here::here('Study1/MetaAnalysis/ResultsMetaAnalysis/GWAMA_Fixed.out'))
+readr::write_tsv(mapping,paste0(pathResults,"InstrumentSelection/MappingGRCh38.txt"))
+

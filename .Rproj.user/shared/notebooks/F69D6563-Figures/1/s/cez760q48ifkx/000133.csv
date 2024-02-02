@@ -1,0 +1,106 @@
+"0","for(method in c(""Fixed"",""Random"")){
+  t <- readr::read_delim(paste0(pathResults,""/InstrumentSelection/"",method,""Mapped.txt"")) %>%
+    dplyr::mutate(log10p = -log10(pval)) %>%
+    dplyr::mutate(
+      sost = dplyr::if_else(pos >= gene_start & pos <= gene_end,
+                            0,3)) %>%
+    dplyr::arrange(desc(sost))
+  
+  g1 <- ggplot2::ggplot(
+    data = t,
+    ggplot2::aes(x = pos, y = log10p)
+  ) +
+    ggplot2::geom_point(
+      ggplot2::aes(colour = factor(sost, labels = c(""SOST gene"",""Other"")))
+    ) +
+    ggplot2::scale_color_manual(
+      values = c(""#0C3061"",""#E6E6E6""),
+      labels = c(""SOST gene"", ""Other""),
+      breaks = c(""SOST gene"", ""Other"")
+    ) + 
+    ggplot2::theme_classic() +
+    ggplot2::theme(
+      text = ggplot2::element_text(size = 11, family = ""Calibri""),
+      legend.position = ""top"",
+      panel.border = ggplot2::element_rect(fill = NA),
+      legend.margin = ggplot2::margin(0,0,0,0),
+      legend.box.margin = ggplot2::margin(-10,-10,-10,-10),
+      legend.text = ggplot2::element_text(size = 10.5)
+    ) +
+    ggplot2::labs(
+      title = ""A)"", 
+      x = ""Chromosome 17"",
+      y = expression(-log[10](p)),
+      color = """",
+    ) +
+    ggplot2::scale_y_continuous(
+      breaks = seq(0,10,2.5),
+      limits = c(0,10.5),
+      expand = c(0,0)
+    ) +
+    ggplot2::scale_x_continuous(
+      breaks = seq(1e7,9e7,2e7),
+      expand = c(0,0)
+    )
+  print(g1)
+  
+  t1 <- t %>%
+    dplyr::mutate(
+      sost = dplyr::if_else(pos >= gene_start-100e3-1 & pos <= gene_end+100e3+1 & sost == 3,
+                            1,sost)
+    ) %>%
+    dplyr::mutate(
+      sost = dplyr::if_else(pos >= gene_start-500e3-1 & pos <= gene_end+500e3+1 & sost == 3,
+                            2,sost)
+    ) %>%
+    dplyr::filter(
+      pos >= gene_start-600e3-1 & pos <= gene_end+600e3+1
+    )
+  
+  g2[[method]] <- ggplot2::ggplot(
+    data = t1,
+    ggplot2::aes(x = pos, y = log10p)) +
+    ggplot2::geom_point(
+      ggplot2::aes(colour = factor(sost))
+    ) +
+    ggplot2::scale_color_manual(
+      values = c(""0"" = ""#0C3061"", ""1"" = ""#5A9FCA"", ""2"" = ""#ACD3E6"", ""3"" = ""#E6E6E6""),
+      labels = c(""SOST gene"", ""±100kb"",""±500kb"",""Others"")
+    ) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(
+      text = ggplot2::element_text(size = 11, family = ""Calibri""),
+      legend.position = ""top"",
+      panel.border = ggplot2::element_rect(fill = NA),
+      legend.text = ggplot2::element_text(size = 10.5),
+      legend.margin = ggplot2::margin(0,0,0,0),
+      legend.box.margin = ggplot2::margin(-10,-10,-10,-10)
+    ) +
+    ggplot2::labs(
+      title = ""B)"", 
+      x = ""Chromosome 17"",
+      y = expression(-log[10](p)),
+      color = """",
+    ) +
+    ggplot2::scale_y_continuous(
+      breaks = seq(0,10,2.5),
+      limits = c(0,10.5),
+      expand = c(0,0)
+    ) +
+    ggplot2::scale_x_continuous(
+      breaks = c(gene_start-500e3-1,gene_start-100e3-1,gene_end+100e3+1,gene_end+500e3+1),
+      expand = c(0,0)
+    )
+  print(g2[[method]])
+  
+  cat(paste0(""**Figure "", fig_count,"".** Manhattan plot of the meta-analysed SNPs ("",
+             tolower(method),
+             ""-effects method). **(A)**Manhattan plot of the whole chromosome 17. Dark blue dots correspond to SNPs within the SOST gene. "",
+             ""**(B)**Manhattan plot from ±600kb of the start/end of the SOST gene. Dark blued dots correspond to SNPs within the SOST gene. "",
+             ""Dark-light blue dots correspond to SNPs within ±100kb from the start/end of the SOST gene. "",
+             ""Light blue dots correspond to SNPs withi ±500kb from the start/end of the SOST gene.""))
+  fig_count <- fig_count + 1
+}
+"
+"1","**Figure 3.** Manhattan plot of the meta-analysed SNPs (fixed-effects method). **(A)**Manhattan plot of the whole chromosome 17. Dark blue dots correspond to SNPs within the SOST gene. **(B)**Manhattan plot from ±600kb of the start/end of the SOST gene. Dark blued dots correspond to SNPs within the SOST gene. Dark-light blue dots correspond to SNPs within ±100kb from the start/end of the SOST gene. Light blue dots correspond to SNPs withi ±500kb from the start/end of the SOST gene."
+"1","**Figure 4.** Manhattan plot of the meta-analysed SNPs (random-effects method). **(A)**Manhattan plot of the whole chromosome 17. Dark blue dots correspond to SNPs within the SOST gene. **(B)**Manhattan plot from ±600kb of the start/end of the SOST gene. Dark blued dots correspond to SNPs within the SOST gene. Dark-light blue dots correspond to SNPs within ±100kb from the start/end of the SOST gene. Light blue dots correspond to SNPs withi ±500kb from the start/end of the SOST gene."

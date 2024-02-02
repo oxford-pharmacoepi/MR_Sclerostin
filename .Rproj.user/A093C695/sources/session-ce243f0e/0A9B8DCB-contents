@@ -1,0 +1,71 @@
+mendelianRandomisationPCA <- function(exposure, outcome, gwasID = NULL, binary = TRUE, name = NULL){
+  ld_matrix <- ieugwasr::ld_matrix(
+    exposure$SNP,
+    bfile    = paste0(pathData,'LD_ReferencePannel/EUR'),
+    plink_bin = paste0(pathData,'Plink/plink.exe'))
+
+  pattern <- ld_matrix %>%
+    tibble::as_tibble() %>%
+    colnames() %>%
+    tibble::tibble() %>%
+    tidyr::separate(col = ".", into = c("SNP", "effect_allele","other_allele"), sep = "_")
+
+  dat_harmonised <- pattern %>%
+    dplyr::select(SNP) %>%
+    dplyr::left_join(
+      harmonisingData(exposure = exposure,
+                      outcome  = outcome,
+                      gwasID   = gwasID),
+      by = "SNP"
+    )
+  dat <- TwoSampleMR::harmonise_ld_dat(dat_harmonised,ld_matrix)
+
+  betaXG <- dat$x$beta.exposure
+  sebetaXG <- dat$x$se.exposure
+  betaYG <- dat$x$beta.outcome
+  sebetaYG <- dat$x$se.outcome
+  rho <- dat$ld
+
+  Phi <-(betaXG/sebetaYG)%o%(betaXG/sebetaYG)*rho
+  # sum <- summary(prcomp(Phi, scale = FALSE))
+  # biplot(prcomp(Phi, scale = FALSE))
+
+  K = which(cumsum(prcomp(Phi, scale=FALSE)$sdev^2/sum((prcomp(Phi, scale=FALSE)$sdev^2)))>0.99)[1]
+  betaXG0 = as.numeric(betaXG%*%prcomp(Phi, scale=FALSE)$rotation[,1:K])
+  betaYG0 = as.numeric(betaYG%*%prcomp(Phi, scale=FALSE)$rotation[,1:K])
+  Omega = sebetaYG%o%sebetaYG*rho
+  pcOmega = t(prcomp(Phi, scale=FALSE)$rotation[,1:K])%*%Omega%*%prcomp(Phi, scale=FALSE)$rotation[,1:K]
+  beta_IVWcorrel.pc = solve(t(betaXG0)%*%solve(pcOmega)%*%betaXG0)*t(betaXG0)%*%solve(pcOmega)%*%betaYG0
+  se_IVWcorrel.fixed.pc = sqrt(solve(t(betaXG0)%*%solve(pcOmega)%*%betaXG0))
+  z = beta_IVWcorrel.pc/se_IVWcorrel.fixed.pc
+  P_IVWcorrel.fixed.pc = exp(-0.717*z-0.416*z^2)
+
+  tableResults <- list()
+  tableResults$Phi <- Phi
+
+  if(binary){
+    tableResults$Results <- tibble::tibble(
+      "Variance explained" = sum$importance[3,K]*100,
+      "Number of principal components" = K,
+      "Method"      = "IVW (fixed)",
+      "Outcome"     = .env$name,
+      "OR" = exp(-beta_IVWcorrel.pc),
+      "U95CI" = exp(-beta_IVWcorrel.pc+1.96*se_IVWcorrel.fixed.pc),
+      "L95CI" = exp(-beta_IVWcorrel.pc-1.96*se_IVWcorrel.fixed.pc),
+      "SE" =  se_IVWcorrel.fixed.pc,
+      "Pval" = P_IVWcorrel.fixed.pc)
+  }else{
+    tableResults$Results <- tibble::tibble(
+      "Variance explained" = sum$importance[3,K]*100,
+      "Number of principal components" = K,
+      "Method"      = "IVW (fixed)",
+      "Outcome"     = .env$name,
+      "OR" = -beta_IVWcorrel.pc,
+      "U95CI" = -beta_IVWcorrel.pc+1.96*se_IVWcorrel.fixed.pc,
+      "L95CI" = -beta_IVWcorrel.pc-1.96*se_IVWcorrel.fixed.pc,
+      "SE" =  se_IVWcorrel.fixed.pc,
+      "Pval" = P_IVWcorrel.fixed.pc)
+  }
+  return(tableResults)
+
+}

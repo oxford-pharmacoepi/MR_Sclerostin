@@ -1,0 +1,64 @@
+library('magrittr')
+# readr, tibble, dplyr, base, numbers, biomaRt, tidyr, wesanderson
+pathData <- "C:/Users/martaa/Desktop/Projects/MR_Sclerostin_NEW/"
+
+# Study 1 ----------------------------------------------------------------------
+dir.create(paste0(pathData,'Results'))
+dir.create(paste0(pathData,'Results/Study1'))
+pathResults <- paste0(pathData,'Results/Study1/')
+
+source(here::here("Study1/MetaAnalysis/Preprocessing.R"))
+
+file.copy(from = paste0(pathResults,'MetaAnalysis/Ferkingstad_NatureGenetics_GWAS.txt'),
+          to   = here::here("Study1/MetaAnalysis/Ferkingstad_NatureGenetics_GWAS.txt"))
+file.copy(from = paste0(pathResults,'MetaAnalysis/Pietzner_Science_GWAS.txt'),
+          to   = here::here("Study1/MetaAnalysis/Pietzner_Science_GWAS.txt"))
+file.copy(from = paste0(pathResults,'MetaAnalysis/Sun_Nature_GWAS.txt'),
+          to   = here::here("Study1/MetaAnalysis/Sun_Nature_GWAS.txt"))
+dir.create(here::here("Study1/MetaAnalysis/ResultsMetaAnalysis"))
+
+# Instructions to use GWAMA:
+#  1. First install gwama (can be found on this directory).
+#  2. Create a "gwama.in" file with the following lines:
+#       Ferkingstad_NatureGenetics_GWAS.txt
+#       Pietzner_Science_GWAS.txt
+#       Sun_Nature_GWAS.txt
+#     It will be read by GWAMA software to know which files it has to read.
+#  3. Open command prompt in the directory
+# Fixed effect method:
+#  4. Write in the command line the following:
+# gwama -o ResultsMetaAnalysis/GWAMA_Fixed -qt
+# Random effect method:
+#  5. Write in the command line the following:
+# gwama -o ResultsMetaAnalysis/GWAMA_Random -qt -r
+# Instructions to use METAL
+#  6. Click on metal.exe to open the command window.
+#  7. Write the following instructions:
+#     SCHEME STDERR
+#     MARKER MARKERNAME
+#     ALLELELABELS EA NEA
+#     PVALUELABEL pval
+#     FREQLABEL EAF
+#     AVERAGEFREQ ON
+#     WEIGHTLABEL N
+#     STDERRLABEL SE
+#     EFFECTLABEL BETA
+#     PROCESS Ferkingstad_NatureGenetics_GWAS.txt
+#     PROCESS Pietzner_Science_GWAS.txt
+#     PROCESS Sun_Nature_GWAS.txt
+#     ANALYZE
+#    The file: METAANALYSIS1.TBL.info will contain the results
+file.copy(from = here::here("Study1/MetaAnalysis/METAANALYSIS1.TBL"),
+          to   = here::here("Study1/MetaAnalysis/ResultsMetaAnalysis/METAL_Fixed.TBL"))
+file.remove(here::here("Study1/MetaAnalysis/METAANALYSIS1.TBL"))
+file.remove(here::here("Study1/MetaAnalysis/Ferkingstad_NatureGenetics_GWAS.txt"))
+file.remove(here::here("Study1/MetaAnalysis/Pietzner_Science_GWAS.txt"))
+file.remove(here::here("Study1/MetaAnalysis/Sun_Nature_GWAS.txt"))
+
+source(here::here("Study1/MetaAnalysis/Processing.R"))
+
+source(here::here("Study1/InstrumentSelection/ObtainPositions.R"))
+source(here::here("Study1/InstrumentSelection/InstrumentSelection.R"))
+source(here::here("Study1/InstrumentSelection/Validation.R"))
+
+

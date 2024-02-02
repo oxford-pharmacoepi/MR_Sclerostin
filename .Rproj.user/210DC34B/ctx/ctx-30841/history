@@ -1,0 +1,512 @@
+pop     = pop)
+ukb_table <- phenotypingUKB(outcome = outcomes[[i]],
+ukb = ukb,
+pop = pop,
+type_val = type_i)
+mergedTable <- hes_table %>%
+dplyr::left_join(gp_table,  by = "eid") %>%
+dplyr::left_join(ukb_table, by = "eid") %>%
+dplyr::filter(state_hes == 1 | state_hes == 0,
+state_gp  == 1 | state_gp  == 0,
+state_ukb == 1 | state_ukb == 0) %>%
+dplyr::mutate(
+state = dplyr::if_else(state_hes == 1 | state_gp == 1 | state_ukb == 1,1,0),
+age   = dplyr::if_else(state == 1, pmin(age_hes, age_gp, age_ukb, na.rm = TRUE), age_hes)
+)
+statistic_table <- mergedTable %>%
+dplyr::group_by(state_hes, state_gp, state_ukb) %>%
+dplyr::tally() %>%
+dplyr::mutate(Phenotype = outcomes[[i]])
+if(i == 1){
+st <- statistic_table
+}else{
+st <- st %>%
+dplyr::union_all(statistic_table)
+}
+readr::write.delim(mergedTable %>% dplyr::select(), paste0(pathResults,"CasesAndControls/Phenotypes/Phenotype_",type_i,outcomes[[i]]))
+}
+readr::write_delim(mergedTable %>% dplyr::select(), paste0(pathResults,"CasesAndControls/Phenotypes/Phenotype_",type_i,outcomes[[i]]))
+i <- 2
+hes_table <- phenotypingHes(outcome = outcomes[[i]],
+ukb     = ukb,
+hesin   = hesin,
+hesin_diag = hesin_diag,
+pop     = pop)
+gp_table  <- phenotypingGP(outcome = outcomes[[i]],
+ukb     = ukb,
+gp      = gp,
+pop     = pop)
+ukb_table <- phenotypingUKB(outcome = outcomes[[i]],
+ukb = ukb,
+pop = pop,
+type_val = type_i)
+mergedTable <- hes_table %>%
+dplyr::left_join(gp_table,  by = "eid") %>%
+dplyr::left_join(ukb_table, by = "eid") %>%
+dplyr::filter(state_hes == 1 | state_hes == 0,
+state_gp  == 1 | state_gp  == 0,
+state_ukb == 1 | state_ukb == 0) %>%
+dplyr::mutate(
+state = dplyr::if_else(state_hes == 1 | state_gp == 1 | state_ukb == 1,1,0),
+age   = dplyr::if_else(state == 1, pmin(age_hes, age_gp, age_ukb, na.rm = TRUE), age_hes)
+)
+statistic_table <- mergedTable %>%
+dplyr::group_by(state_hes, state_gp, state_ukb) %>%
+dplyr::tally() %>%
+dplyr::mutate(Phenotype = outcomes[[i]])
+statistic_table
+if(i == 1){
+st <- statistic_table
+}else{
+st <- st %>%
+dplyr::union_all(statistic_table)
+}
+readr::write_delim(mergedTable %>% dplyr::select(), paste0(pathResults,"CasesAndControls/Phenotypes/Phenotype_",type_i,outcomes[[i]]))
+st
+15414+7219+2227+777+326+210+145
+hes_table
+outcome
+outcome = outcomes[[i]]
+outcome
+hes_codes <- getCodes(outcome)$HES
+hes_codes
+getCodes(outcome)
+source(here::here("Functions/getCodes.R"))
+hes_table <- phenotypingHes(outcome = outcomes[[i]],
+ukb     = ukb,
+hesin   = hesin,
+hesin_diag = hesin_diag,
+pop     = pop)
+hes_table
+mergedTable <- hes_table %>%
+dplyr::left_join(gp_table,  by = "eid") %>%
+dplyr::left_join(ukb_table, by = "eid") %>%
+dplyr::filter(state_hes == 1 | state_hes == 0,
+state_gp  == 1 | state_gp  == 0,
+state_ukb == 1 | state_ukb == 0) %>%
+dplyr::mutate(
+state = dplyr::if_else(state_hes == 1 | state_gp == 1 | state_ukb == 1,1,0),
+age   = dplyr::if_else(state == 1, pmin(age_hes, age_gp, age_ukb, na.rm = TRUE), age_hes)
+)
+statistic_table <- mergedTable %>%
+dplyr::group_by(state_hes, state_gp, state_ukb) %>%
+dplyr::tally() %>%
+dplyr::mutate(Phenotype = outcomes[[i]])
+if(i == 1){
+st <- statistic_table
+}else{
+st <- st %>%
+dplyr::union_all(statistic_table)
+}
+statistic_table
+readr::write_delim(mergedTable %>% dplyr::select(), paste0(pathResults,"CasesAndControls/Phenotypes/Phenotype_",type_i,outcomes[[i]]))
+st
+i <- 3
+hes_table <- phenotypingHes(outcome = outcomes[[i]],
+ukb     = ukb,
+hesin   = hesin,
+hesin_diag = hesin_diag,
+pop     = pop)
+gp_table  <- phenotypingGP(outcome = outcomes[[i]],
+ukb     = ukb,
+gp      = gp,
+pop     = pop)
+ukb_table <- phenotypingUKB(outcome = outcomes[[i]],
+ukb = ukb,
+pop = pop,
+type_val = type_i)
+mergedTable <- hes_table %>%
+dplyr::left_join(gp_table,  by = "eid") %>%
+dplyr::left_join(ukb_table, by = "eid") %>%
+dplyr::filter(state_hes == 1 | state_hes == 0,
+state_gp  == 1 | state_gp  == 0,
+state_ukb == 1 | state_ukb == 0) %>%
+dplyr::mutate(
+state = dplyr::if_else(state_hes == 1 | state_gp == 1 | state_ukb == 1,1,0),
+age   = dplyr::if_else(state == 1, pmin(age_hes, age_gp, age_ukb, na.rm = TRUE), age_hes)
+)
+statistic_table <- mergedTable %>%
+dplyr::group_by(state_hes, state_gp, state_ukb) %>%
+dplyr::tally() %>%
+dplyr::mutate(Phenotype = outcomes[[i]])
+if(i == 1){
+st <- statistic_table
+}else{
+st <- st %>%
+dplyr::union_all(statistic_table)
+}
+readr::write_delim(mergedTable %>% dplyr::select(), paste0(pathResults,"CasesAndControls/Phenotypes/Phenotype_",type_i,outcomes[[i]]))
+statistic_table
+492+408+ 2846+6325+234+76+2761
+i <- 4
+hes_table <- phenotypingHes(outcome = outcomes[[i]],
+ukb     = ukb,
+hesin   = hesin,
+hesin_diag = hesin_diag,
+pop     = pop)
+gp_table  <- phenotypingGP(outcome = outcomes[[i]],
+ukb     = ukb,
+gp      = gp,
+pop     = pop)
+ukb_table <- phenotypingUKB(outcome = outcomes[[i]],
+ukb = ukb,
+pop = pop,
+type_val = type_i)
+mergedTable <- hes_table %>%
+dplyr::left_join(gp_table,  by = "eid") %>%
+dplyr::left_join(ukb_table, by = "eid") %>%
+dplyr::filter(state_hes == 1 | state_hes == 0,
+state_gp  == 1 | state_gp  == 0,
+state_ukb == 1 | state_ukb == 0) %>%
+dplyr::mutate(
+state = dplyr::if_else(state_hes == 1 | state_gp == 1 | state_ukb == 1,1,0),
+age   = dplyr::if_else(state == 1, pmin(age_hes, age_gp, age_ukb, na.rm = TRUE), age_hes)
+)
+statistic_table <- mergedTable %>%
+dplyr::group_by(state_hes, state_gp, state_ukb) %>%
+dplyr::tally() %>%
+dplyr::mutate(Phenotype = outcomes[[i]])
+if(i == 1){
+st <- statistic_table
+}else{
+st <- st %>%
+dplyr::union_all(statistic_table)
+}
+readr::write_delim(mergedTable %>% dplyr::select(), paste0(pathResults,"CasesAndControls/Phenotypes/Phenotype_",type_i,outcomes[[i]]))
+statistic_table
+118+2+5540+1+98+8
+i
+i <- 5
+hes_table <- phenotypingHes(outcome = outcomes[[i]],
+ukb     = ukb,
+hesin   = hesin,
+hesin_diag = hesin_diag,
+pop     = pop)
+gp_table  <- phenotypingGP(outcome = outcomes[[i]],
+ukb     = ukb,
+gp      = gp,
+pop     = pop)
+ukb_table <- phenotypingUKB(outcome = outcomes[[i]],
+ukb = ukb,
+pop = pop,
+type_val = type_i)
+mergedTable <- hes_table %>%
+dplyr::left_join(gp_table,  by = "eid") %>%
+dplyr::left_join(ukb_table, by = "eid") %>%
+dplyr::filter(state_hes == 1 | state_hes == 0,
+state_gp  == 1 | state_gp  == 0,
+state_ukb == 1 | state_ukb == 0) %>%
+dplyr::mutate(
+state = dplyr::if_else(state_hes == 1 | state_gp == 1 | state_ukb == 1,1,0),
+age   = dplyr::if_else(state == 1, pmin(age_hes, age_gp, age_ukb, na.rm = TRUE), age_hes)
+)
+statistic_table <- mergedTable %>%
+dplyr::group_by(state_hes, state_gp, state_ukb) %>%
+dplyr::tally() %>%
+dplyr::mutate(Phenotype = outcomes[[i]])
+if(i == 1){
+st <- statistic_table
+}else{
+st <- st %>%
+dplyr::union_all(statistic_table)
+}
+readr::write_delim(mergedTable %>% dplyr::select(), paste0(pathResults,"CasesAndControls/Phenotypes/Phenotype_",type_i,outcomes[[i]]))
+statistic_table
+9+18545+19+35800+47900+15+87
+i
+i <- 6
+hes_table <- phenotypingHes(outcome = outcomes[[i]],
+ukb     = ukb,
+hesin   = hesin,
+hesin_diag = hesin_diag,
+pop     = pop)
+gp_table  <- phenotypingGP(outcome = outcomes[[i]],
+ukb     = ukb,
+gp      = gp,
+pop     = pop)
+ukb_table <- phenotypingUKB(outcome = outcomes[[i]],
+ukb = ukb,
+pop = pop,
+type_val = type_i)
+if(type_val == "logistic"){
+val <- 1
+}else{
+val <- -1
+}
+val <- 1
+codes_ukb <- getCodes(outcome)$UKB_CODE2
+ukb1 <- searchUKBcode(ukb, codes_ukb) %>%
+dplyr::rename("age_ukb1" = "age_ukb", "state_ukb1" = "state_ukb")
+outcome <- "T2DM"
+codes_ukb <- getCodes(outcome)$UKB_CODE2
+codes_ukb
+ukb1 <- searchUKBcode(ukb, codes_ukb) %>%
+dplyr::rename("age_ukb1" = "age_ukb", "state_ukb1" = "state_ukb")
+ukb2 <-  ukb %>%
+dplyr::select("eid" = "f.eid","f.2443.0.0","f.2976.0.0") %>%
+dplyr::filter(!is.na(f.2443.0.0), f.2443.0.0 != -1, f.2443.0.0 != -3, f.2443.0.0 != 0,
+!is.na(f.2976.0.0), f.2976.0.0 != -1, f.2976.0.0 != -3) %>%
+dplyr::mutate(state_ukb2 = 1) %>%
+dplyr::select("eid", "state_ukb2", "age_ukb2" = "f.2976.0.0") %>%
+dplyr::mutate(state_ukb2 = dplyr::if_else(is.nan(age_ukb2) | age_ukb2 < 0, -1, state_ukb2))
+codes_ukb <- getCodes(outcome)$UKB_CODE3
+ukb3 <- searchUKBcode1(ukb, val, codes_ukb) %>%
+dplyr::rename("state_ukb3" = "state_ukb")
+searchUKBcode1(ukb, val, codes_ukb)
+ukb3 <- searchUKBcode1(ukb, codes_ukb, val) %>%
+dplyr::rename("state_ukb3" = "state_ukb")
+ukb_table <- phenotypingUKB(outcome = outcomes[[i]],
+ukb = ukb,
+pop = pop,
+type_val = type_i)
+source(here::here("Functions/phenotypingUKB.R"))
+ukb_table <- phenotypingUKB(outcome = outcomes[[i]],
+ukb = ukb,
+pop = pop,
+type_val = type_i)
+mergedTable <- hes_table %>%
+dplyr::left_join(gp_table,  by = "eid") %>%
+dplyr::left_join(ukb_table, by = "eid") %>%
+dplyr::filter(state_hes == 1 | state_hes == 0,
+state_gp  == 1 | state_gp  == 0,
+state_ukb == 1 | state_ukb == 0) %>%
+dplyr::mutate(
+state = dplyr::if_else(state_hes == 1 | state_gp == 1 | state_ukb == 1,1,0),
+age   = dplyr::if_else(state == 1, pmin(age_hes, age_gp, age_ukb, na.rm = TRUE), age_hes)
+)
+statistic_table <- mergedTable %>%
+dplyr::group_by(state_hes, state_gp, state_ukb) %>%
+dplyr::tally() %>%
+dplyr::mutate(Phenotype = outcomes[[i]])
+if(i == 1){
+st <- statistic_table
+}else{
+st <- st %>%
+dplyr::union_all(statistic_table)
+}
+readr::write_delim(mergedTable %>% dplyr::select(), paste0(pathResults,"CasesAndControls/Phenotypes/Phenotype_",type_i,outcomes[[i]]))
+statistic_table
+codes_ukb <- getCodes(outcome)$UKB_CODE2
+ukb1 <- searchUKBcode(ukb, codes_ukb) %>%
+dplyr::rename("age_ukb1" = "age_ukb", "state_ukb1" = "state_ukb")
+ukb2 <-  ukb %>%
+dplyr::select("eid" = "f.eid","f.2443.0.0","f.2976.0.0") %>%
+dplyr::filter(!is.na(f.2443.0.0), f.2443.0.0 != -1, f.2443.0.0 != -3, f.2443.0.0 != 0,
+!is.na(f.2976.0.0), f.2976.0.0 != -1, f.2976.0.0 != -3) %>%
+dplyr::mutate(state_ukb2 = 1) %>%
+dplyr::select("eid", "state_ukb2", "age_ukb2" = "f.2976.0.0") %>%
+dplyr::mutate(state_ukb2 = dplyr::if_else(is.nan(age_ukb2) | age_ukb2 < 0, -1, state_ukb2))
+codes_ukb <- getCodes(outcome)$UKB_CODE3
+ukb3 <- searchUKBcode1(ukb, codes_ukb, val) %>%
+dplyr::rename("state_ukb3" = "state_ukb")
+ukb4 <- ukb %>%
+dplyr::select("eid" = "f.eid","f.30750.0.0") %>%
+dplyr::filter(!is.na(f.30750.0.0)) %>%
+dplyr::mutate(state_ukb4 = dplyr::if_else(f.30750.0.0 >= 48,val,0)) %>%
+dplyr::filter(state_ukb4 == val) %>%
+dplyr::select("eid", "state_ukb4")
+ukb1
+ukb2
+ukb3
+x <- ukb
+code <- codes_ukb
+val <- 1
+ukb3 <- searchUKBcode1(ukb, codes_ukb, val) %>%
+dplyr::rename("state_ukb3" = "state_ukb")
+searchUKBcode1 <- function(x, code, val, varname = "f.20003.0.") {
+x %>%
+dplyr::select("eid" = "f.eid",contains(varname)) %>%
+dplyr::filter(
+dplyr::if_any(
+dplyr::contains(varname),
+~ . %in% code
+)
+) %>%
+dplyr::mutate(state_ukb = val) %>%
+dplyr::select("eid", "state_ukb")
+}
+ukb3 <- searchUKBcode1(ukb, codes_ukb, val) %>%
+dplyr::rename("state_ukb3" = "state_ukb")
+ukb3
+source(here::here("Functions/phenotypingUKB.R"))
+ukb_table <- phenotypingUKB(outcome = outcomes[[i]],
+ukb = ukb,
+pop = pop,
+type_val = type_i)
+mergedTable <- hes_table %>%
+dplyr::left_join(gp_table,  by = "eid") %>%
+dplyr::left_join(ukb_table, by = "eid") %>%
+dplyr::filter(state_hes == 1 | state_hes == 0,
+state_gp  == 1 | state_gp  == 0,
+state_ukb == 1 | state_ukb == 0) %>%
+dplyr::mutate(
+state = dplyr::if_else(state_hes == 1 | state_gp == 1 | state_ukb == 1,1,0),
+age   = dplyr::if_else(state == 1, pmin(age_hes, age_gp, age_ukb, na.rm = TRUE), age_hes)
+)
+statistic_table <- mergedTable %>%
+dplyr::group_by(state_hes, state_gp, state_ukb) %>%
+dplyr::tally() %>%
+dplyr::mutate(Phenotype = outcomes[[i]])
+if(i == 1){
+st <- statistic_table
+}else{
+st <- st %>%
+dplyr::union_all(statistic_table)
+}
+readr::write_delim(mergedTable %>% dplyr::select(), paste0(pathResults,"CasesAndControls/Phenotypes/Phenotype_",type_i,outcomes[[i]]))
+statistic_table
+# ============================================================================ #
+#                                 Phenotyping                                  #
+# ============================================================================ #
+pop <- t %>% dplyr::select("eid")
+outcomes <- c("Fracture", "CAD", "MI", "IS", "Hypertension", "T2DM",
+"ebmd", "cholesterol", "ldl", "hdl","triglycerides", "apoA","apoB","crp","lipoprotein","hba1c","glucose")
+source(here::here("Functions/getCodes.R"))
+source(here::here("Functions/phenotypingHes.R"))
+source(here::here("Functions/phenotypingGP.R"))
+source(here::here("Functions/phenotypingUKB.R"))
+dir.create(paste0(pathResults,"CasesAndControls"))
+dir.create(paste0(pathResults,"CasesAndControls/Phenotypes"))
+type_i <- "logistic" # "survival"
+for(i in 1:length(outcomes)){
+hes_table <- phenotypingHes(outcome = outcomes[[i]],
+ukb     = ukb,
+hesin   = hesin,
+hesin_diag = hesin_diag,
+pop     = pop)
+gp_table  <- phenotypingGP(outcome = outcomes[[i]],
+ukb     = ukb,
+gp      = gp,
+pop     = pop)
+ukb_table <- phenotypingUKB(outcome = outcomes[[i]],
+ukb = ukb,
+pop = pop,
+type_val = type_i)
+mergedTable <- hes_table %>%
+dplyr::left_join(gp_table,  by = "eid") %>%
+dplyr::left_join(ukb_table, by = "eid") %>%
+dplyr::filter(state_hes == 1 | state_hes == 0,
+state_gp  == 1 | state_gp  == 0,
+state_ukb == 1 | state_ukb == 0) %>%
+dplyr::mutate(
+state = dplyr::if_else(state_hes == 1 | state_gp == 1 | state_ukb == 1,1,0),
+age   = dplyr::if_else(state == 1, pmin(age_hes, age_gp, age_ukb, na.rm = TRUE), age_hes)
+)
+statistic_table <- mergedTable %>%
+dplyr::group_by(state_hes, state_gp, state_ukb) %>%
+dplyr::tally() %>%
+dplyr::mutate(Phenotype = outcomes[[i]])
+if(i == 1){
+st <- statistic_table
+}else{
+st <- st %>%
+dplyr::union_all(statistic_table)
+}
+readr::write_delim(mergedTable %>% dplyr::select(), paste0(pathResults,"CasesAndControls/Phenotypes/Phenotype_",type_i,outcomes[[i]]))
+}
+rm(list = ls())
+library('magrittr')
+# readr, tibble, dplyr, base, numbers, biomaRt, tidyr, here
+pathData <- "D:/Projects/MR_Sclerostin/"
+# Study 1 ----------------------------------------------------------------------
+dir.create(paste0(pathData,'Results'))
+dir.create(paste0(pathData,'Results/Study1'))
+pathResults <- paste0(pathData,'Results/Study1/')
+# This gwas has the data splitted between two .txt
+Ferkingstad_NatureGenetics1 <- tibble::as_tibble(readr::read_delim(paste0(pathData,'SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/assocvariants.annotated.txt/assocvariants.annotated.txt')))
+Ferkingstad_NatureGenetics2 <- tibble::as_tibble(readr::read_delim(paste0(pathData,'SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/13101_60_SOST_SOST.txt/13101_60_SOST_SOST.txt')))
+Pietzner_Science <- tibble::as_tibble(readr::read_delim(paste0(pathData,'SummaryStatistics/Exposure/Pietzner_Science/Science_GWAS.txt'))) #hg19 coordinates
+Sun_Nature <- tibble::as_tibble(readr::read_delim(paste0(pathData,"SummaryStatistics/Exposure/Sun_Nature/GCST90242722.h.tsv/SOST.13101.60.3.tsv"))) #hg19 coordinates
+gwas <- Ferkingstad_NatureGenetics1
+gwas <- Pietzner_Science
+gwas
+tibble::tibble(Counts = gwas %>% nrow(),
+Reason = "Number of SNPs in the gwas")
+library("rland")
+library("rlang")
+recordAttrition <- function(Counts, Reason){
+attrition <- tibble::tibble(Counts = .env$Counts,
+Reason = .env$Reason)
+}
+recordAttrition(gwas %>% nrow(), "Number of SNPs in the GWAS")
+attrition <- tibble::tibble(Counts = .env$Counts,
+Reason = .env$Reason)
+recordAttrition <- function(Counts, Reason){
+attrition <- tibble::tibble(Counts = .env$Counts,
+Reason = .env$Reason)
+return(attrition)
+}
+recordAttrition(gwas %>% nrow(), "Number of SNPs in the GWAS")
+recordAttrition <- function(Name, Counts, Reason){
+attrition <- tibble::tibble(Counts = .env$Counts,
+Reason = .env$Reason)
+return(attrition)
+}
+rm(list = ls())
+library('magrittr')
+library("rlang")
+# readr, tibble, dplyr, base, numbers, biomaRt, tidyr, here
+pathData <- "D:/Projects/MR_Sclerostin/"
+# Study 1 ----------------------------------------------------------------------
+dir.create(paste0(pathData,'Results'))
+dir.create(paste0(pathData,'Results/Study1'))
+pathResults <- paste0(pathData,'Results/Study1/')
+source(here::here("Study1/MetaAnalysis/Preprocessing.R"))
+# ============================================================================ #
+#                                PREPROCESSING                                 #
+#                        2023 - Marta Alcalde-Herraiz                          #
+# ---------------------------------------------------------------------------- #
+# Summary:                                                                     #
+# Data curation of the GWAS insturment-exposure                                #
+# ============================================================================ #
+dir.create(paste0(pathResults,'MetaAnalysis'))
+recordAttrition <- function(Name, Counts, Reason){
+attrition <- tibble::tibble(Counts = .env$Counts,
+Reason = .env$Reason)
+return(attrition)
+}
+qc <- function(gwas, name){
+attrition <- recordAttrition(.env$name, gwas %>% nrow(), "Number of SNPs in the GWAS")
+gwas <- gwas %>% dplyr::filter(CHR == 17)
+attrition <- attrition %>%
+dplyr::union_all(recordAttrition(.env$name, gwas %>% nrow(), "Number of SNPs in chromosome 17"))
+gwas <- gwas %>% dplyr::filter(EA != "D") %>% dplyr::filter(NEA != "I") %>% dplyr::filter(NEA != "!")
+attrition <- attrition %>%
+dplyr::union_all(recordAttrition(.env$name, gwas %>% nrow(), "Remove SNPs with alleles equal to ´D´, ´I´, or ´!´"))
+gwas <- gwas %>% dplyr::filter(base::nchar(EA) == 1, base::nchar(NEA) == 1)
+attrition <- attrition %>%
+dplyr::union_all(recordAttrition(.env$name, gwas %>% nrow(), "Remove non biallelic SNPs"))
+gwas <- gwas %>% dplyr::filter(base::substr(MARKERNAME,1,2) == "rs") # Discard those SNPs with a non valid ID
+attrition <- attrition %>%
+dplyr::union_all(recordAttrition(.env$name, gwas %>% nrow(), "Remove SNPs with a non-valid ID"))
+gwas <- gwas %>% dplyr::filter(base::substr(MARKERNAME,1,2) == "rs") # Discard those SNPs with a non valid ID
+attrition <- attrition %>%
+dplyr::union_all(recordAttrition(.env$name, gwas %>% nrow(), "Remove SNPs with a non-valid ID"))
+gwas <- gwas %>% dplyr::filter(EA != NEA)
+attrition <- attrition %>%
+dplyr::union_all(recordAttrition(.env$name, gwas %>% nrow(), "Remove SNPs with the same effect allele and other allele"))
+return(list("attrition" = attrition, "gwas" = gwas))
+}
+# This gwas has the data splitted between two .txt
+Ferkingstad_NatureGenetics1 <- tibble::as_tibble(readr::read_delim(paste0(pathData,'SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/assocvariants.annotated.txt/assocvariants.annotated.txt')))
+Ferkingstad_NatureGenetics2 <- tibble::as_tibble(readr::read_delim(paste0(pathData,'SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/13101_60_SOST_SOST.txt/13101_60_SOST_SOST.txt')))
+tibble::as_tibble(readr::read_delim(paste0(pathData,'SummaryStatistics/Exposure/Ferkingstad_NatureGenetics/assocvariants.annotated.txt/assocvariants.annotated.txt')))
+rm(list = ls())
+library('magrittr')
+library("rlang")
+# readr, tibble, dplyr, base, numbers, biomaRt, tidyr, here
+pathData <- "D:/Projects/MR_Sclerostin/"
+pathResults <- paste0(pathData,'Results/Study1/')
+# ============================================================================ #
+#                                PREPROCESSING                                 #
+#                        2023 - Marta Alcalde-Herraiz                          #
+# ---------------------------------------------------------------------------- #
+# Summary:                                                                     #
+# Data curation of the GWAS insturment-exposure                                #
+# ============================================================================ #
+dir.create(paste0(pathResults,'MetaAnalysis'))
+recordAttrition <- function(Name, Counts, Reason){
+attrition <- tibble::tibble(Counts = .env$Counts,
+Reason = .env$Reason)
+return(attrition)
+}
