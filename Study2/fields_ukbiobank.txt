@@ -1,0 +1,46 @@
+# Covariates
+34 # Year of birth
+31 # Sex
+22000 # Genotype measurement batch
+54 # UK Biobank assessment centre
+21842 # Sample collection sign-off timestamp
+30901 # Plate used for sample run
+22009 # Genetic principal components
+21003 # Age when attended assessment centre
+53    # Date of attending assessment centre
+# Quality checks
+22001 # Genetic sex
+22019 # Sex chromosome aneuploidy
+22021 # Genetic kinship to other participants
+22027 # Outliers for heterozygosity or missing rate
+# Outcomes
+53 # Date of attending the assessment centre
+40007 # Age at death
+20002 # Non-cancer illness code
+20009 # Interpollated age when non-cancer illness diagnosed
+3005 # Fracture resulting from a simple code
+3894 # Age heart attack diagnosed
+2443 # Diabetes diagnosed by a doctor
+20003 # Treatment/medication code
+2976 # Age diabetes was diagnosed
+21001 # Body mass index (BMI)
+21003 # Age when attending assessment centre
+26410 # Index of multiple deprivation
+26426 # Index of multiple deprivation (Wales)
+26427 # Index of multiple deprivation (Scotland)
+21000 # Ethnic background
+22006 # Genetic ethnic grouping
+30630 # Apolipoprotein A
+30640 # Apolipoprotein B
+30710 # C-reactive protein
+30740 # Glucose
+30750 # HbA1c
+30760 # HDL cholesterol
+30790 # Lipoprotein A
+30870 # Triglycerides
+30690 # Cholesterol
+30780 # LDL direct
+3148 # Heel bone mineral density
+
+
+
