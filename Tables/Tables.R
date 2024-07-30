@@ -275,7 +275,7 @@ write.csv(t4, paste0(pathData,"Results/Tables/t4.csv"))
 # ============================================================================ #
 
 # Supplementary table 4 and 5---------------------------------------------------
-# Results of the Mendelian randomisation for the GWAS outcomes.
+# Results of the Mendelian randomisation for the GWAS outcomes. -----
 rm("outcome_table_cont")
 rm("outcome_table_cat")
 for(i in gwas_files){
@@ -318,8 +318,8 @@ write.csv(st5_continuous, paste0(pathData,"Results/Tables/st5_continuous.csv"))
 write.csv(st5_categorical, paste0(pathData,"Results/Tables/st5_categorical.csv"))
 
 # Supplementary table 6 --------------------------------------------------------
-# Results of the Mendelian randomisation for the UK Biobank outcomes.
-rm("outcome_table") # ------- Continuous data -------- #
+# Results of the Mendelian randomisation for the UK Biobank outcomes.  -----
+rm("outcome_table") #------- Continuous data -------- #
 for(i in cont_files){
   # Logistic
   file <- i
@@ -890,6 +890,20 @@ st11 <- outcome_table %>%
 
 write.csv(st11, paste0(pathData,"Results/Tables/st11.csv"))
 
+# Supplementary table 1 ------
+fixed <- tibble::as_tibble(read.delim(paste0(pathData,"Results/Study1/MetaAnalysis/FixedMapped.txt")))
+random <- tibble::as_tibble(read.delim(paste0(pathData,"Results/Study1/MetaAnalysis/Random.txt")))
+
+fixed |>
+  dplyr::select(-c(i2,samplesize,q_statistic,q_pvalue,zscore,eaf)) |>
+  dplyr::rename("fixed_beta" = "beta", "fixed_se" = "se", "fixed_pval" = "pval") |>
+  dplyr::inner_join(
+    random |> dplyr::select(SNP, effect_allele, other_allele, "random_beta" = "beta", "random_se" = "se", "random_pval" = "pval",
+                            i2, q_statistic, q_pvalue, samplesize)
+  ) |>
+  dplyr::select(SNP, effect_allele, other_allele, fixed_beta, random_beta, fixed_se,
+                random_se, fixed_pval, random_pval, i2, q_statistic, q_pvalue, samplesize)  |>
+  write.csv(paste0(pathData,"Results/Tables/st1.csv"))
 
 R.utils::copyDirectory(paste0(pathData,"Results/Tables"),
               "C:/Users/martaa/OneDrive - Nexus365/Marta/Projects/Sclerostin/ManucriptVersions/FirstReview/Tables",overwrite = TRUE)

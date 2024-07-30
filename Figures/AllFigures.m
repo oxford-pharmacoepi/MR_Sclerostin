@@ -18,17 +18,17 @@ for i = 1
     ax = gca;
     ax.XLim(1) = -0.12; ax.XLim(2) = 0.12;
     ax.YLim(1) = -0.12; ax.YLim(2) = 0.12;
-
-    ax.TickLabelInterpreter = 'latex';
-    text(-0.145,0.13,'A)','FontSize',17,'Interpreter','latex')
-    text(betax*1.075,betay,t.SNP,'FontSize',11,'Interpreter','latex','HorizontalAlignment','left','VerticalAlignment','bottom')
+    
+    text(-0.145,0.13,'A)','FontSize',17)
+    text(betax*1.075,betay,t.SNP,'FontSize',11,'HorizontalAlignment','left','VerticalAlignment','bottom')
 
     xline(0); yline(0);
 
-    xlabel("SNP effect size per 1-SD change in sclerostin levels","Interpreter","latex")
-    ylabel(['SNP effect size per 1-SD change in ' n1{i}],"Interpreter","latex")
+    xlabel("SNP effect size per 1-SD change in sclerostin levels")
+    ylabel(['SNP effect size per 1-SD change in ' n1{i}])
 
-    print(f,[path '\Figures\SFig3_A.png'],"-dpng","-r800")
+    % print(f,[path '\Figures\SFig3_A.png'],"-dpng","-r800")
+    saveas(f,[path '\Figures\SFig3_A.pdf'])
 end
 
 % Hip fracture risk
@@ -47,15 +47,16 @@ for i = 2
     ax.XLim(1) = -0.12; ax.XLim(2) = 0.12;
     ax.YLim(1) = -0.24; ax.YLim(2) = 0.24;
 
-    ax.TickLabelInterpreter = 'latex';
-    text(-0.145,0.26,'B)','FontSize',17,'Interpreter','latex')
-    text(betax*0.925,betay,t.SNP,'FontSize',11,'Interpreter','latex','HorizontalAlignment','right','VerticalAlignment','bottom')
+
+    text(-0.145,0.26,'B)','FontSize',17)
+    text(betax*0.925,betay,t.SNP,'FontSize',11,'HorizontalAlignment','right','VerticalAlignment','bottom')
 
     xline(0); yline(0);
 
-    xlabel("SNP effect size per 1-SD change in sclerostin levels","Interpreter","latex")
-    ylabel(['SNP effect size per log(OR) change in ' n1{i}],"Interpreter","latex")
-    print(f,[path '\Figures\SFig3_B.png'],"-dpng","-r800")
+    xlabel("SNP effect size per 1-SD change in sclerostin levels")
+    ylabel(['SNP effect size per log(OR) change in ' n1{i}])
+    % print(f,[path '\Figures\SFig3_B.png'],"-dpng","-r800")
+    saveas(f,[path '\Figures\SFig3_B.pdf'])
 end
 
 
@@ -93,17 +94,17 @@ fill([-0.6 1.2 1.2 -0.6],[12 12 10.5 10.5],[0.7 0.7 0.7],"FaceAlpha",0.2,"EdgeCo
 ax = gca;
 ax.YTick = 1:11;
 ax.YTickLabel = flip(n0);
-ax.TickLabelInterpreter = 'latex';
+
 ax.XLim = [-.4 1.2]; ax.XTick = [-0.4:0.2:1.2];
 ax.YLim = [0.5 11.5];
 ax.FontSize = 11;
 xline(0,"LineWidth",1.5,"LineStyle","--","Color",'k')
-l1 = legend('GWAS','UK Biobank','FontSize',12);
-l1.Interpreter = 'latex'; l1.NumColumns = 3; l1.Location = "northoutside";
-text(-1, 12.1, 'A)','Interpreter','latex','FontSize',17)
-xlabel("Unit increase per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
+l1 = legend('GWAS','UK Biobank','FontSize',12); l1.NumColumns = 3; l1.Location = "northoutside";
+text(-1, 12.1, 'A)','FontSize',17)
+xlabel("SD change per 1-SD decrease in sclerostin levels",'FontSize',12)
 
-print(f,[path '\Figures\Fig1_A.png'],"-dpng","-r800")
+saveas(f,[path '\Figures\Fig1_A.pdf'])
+% print(f,[path '\Figures\Fig1_A.png'],"-dpng","-r800")
 
 %% Figure 1.B
 clear all; close all;
@@ -150,7 +151,7 @@ fill([0.075 4 4 0.075],[5.5 5.5 6.5 6.5],[0.7 0.7 0.7],"FaceAlpha",0.2,"EdgeColo
 ax = gca;
 ax.YTick = 1:6;
 ax.YTickLabel = flip(n0);
-ax.TickLabelInterpreter = 'latex';
+
 ax.YLim = [0.5 6.5];
 ax.XScale = 'log';
 ax.XLim = [0.075 4];
@@ -158,11 +159,12 @@ ax.XTick = [0.1 0.25 0.5 1 2 4];
 xline(1,"LineWidth",1.5,"LineStyle","--","Color",'k')
 ax.FontSize = 11;
 l = legend('GWAS [Odds]','UKB-LR [Odds]','UKB-SA(Birth) [Hazard]','FontSize',10.5);
-l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside"; l.Position = [0.1050 0.9370 0.8804 0.0373];
-xlabel("Ratio per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
-text(0.015, 6.8, 'B)','Interpreter','latex','FontSize',17)
+l.NumColumns = 3; l.Location = "northoutside"; l.Position = [0.1050 0.9370 0.8804 0.0373];
+xlabel("Ratio per 1-SD decrease in sclerostin levels",'FontSize',12)
+text(0.015, 6.8, 'B)','FontSize',17)
 
-print(f,[path '\Figures\Fig1_B.png'],"-dpng","-r800")
+saveas(f,[path '\Figures\Fig1_B.pdf'])
+% print(f,[path '\Figures\Fig1_B.png'],"-dpng","-r800")
 
 %% SFig5
 clear all; close all;
@@ -198,7 +200,7 @@ errorbar(t3.OR, flip([1:5])-0.1, t3.OR-t3.L95CI, t3.U95CI-t3.OR,"o","horizontal"
 ax = gca;
 ax.YTick = 1:6;
 ax.YTickLabel = flip(n0);
-ax.TickLabelInterpreter = 'latex';
+
 ax.YLim = [0.5 6.5];
 ax.XScale = 'log';
 ax.XLim = [0.075 4];
@@ -206,13 +208,15 @@ ax.XTick = [0.1 0.25 0.5 1 2 4];
 xline(1,"LineWidth",1.5,"LineStyle","--","Color",'k')
 ax.FontSize = 11;
 l = legend('SA since birth date','SA since UKB first assessment','FontSize',10.5);
-l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside"; l.Position = [0.1050 0.9370 0.8804 0.0373];
-xlabel("Hazard ratio per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
+l.NumColumns = 3; l.Location = "northoutside"; l.Position = [0.1050 0.9370 0.8804 0.0373];
+xlabel("Hazard ratio per 1-SD decrease in sclerostin levels",'FontSize',12)
 
-print(f,[path '\Figures\SFig5.png'],"-dpng","-r800")
+saveas(f,[path '\Figures\SFig5.pdf'])
+% print(f,[path '\Figures\SFig5.png'],"-dpng","-r800")
 
 %% SFig6
 clear all; close all;
+     
 path = 'D:\Projects\MR_Sclerostin\Results\';
 
 outcomes = {'hf','cad','mi','is','hypertension','t2dm','bmd','ldl','hdl','glucose','hba1c'};
@@ -221,7 +225,7 @@ outcomes_names = {'Hip fracture','Coronary artery disease','Myocardial infarctio
     'Ischaemic stroke','Hypertension','Type 2 diabetes','eBMD','LDL-Cholesterol', 'HDL-Cholesterol',...
     'Fasting glucose','HbA1c'};
 
-alt = [7,7,7,7,7,7,100,10,90,7,7];
+alt = [7,7,7,7,7,7,90,7,90,7,7];
 let = {'A)','B)','C)','D)','E)','F)','G)','H)','I)','J)','K)'};
 order = [3, 6, 9, 12, 2, 5, 8, 11, 1,4,7,10];
 f = figure(1); hold on; box on; axis off;
@@ -238,13 +242,13 @@ for i = 1:length(let)
     pval.exposure = t.pval_exposure;
 
     f.CurrentAxes = AX(order(i));
-    scatter(pos,-log10(pval.exposure),20,'k','MarkerFaceColor','k','MarkerEdgeColor','k'); hold on
-    scatter(pos,-log10(pval.outcome),20,'r','MarkerFaceColor','r')
+    scatter(pos,-log10(pval.exposure),5,'k','MarkerFaceColor','k','MarkerEdgeColor','k'); hold on
+    scatter(pos,-log10(pval.outcome),5,'r','MarkerFaceColor','r')
     ax = gca;
     ax.XTick = [genstart-20*1000, genstart, genend, genend+20*1000];
     ax.XTickLabel = '';
-    ax.TickLabelInterpreter = 'latex';
-    ax.FontSize = 8.5;
+
+    ax.FontSize = 4;
     ax.XLim = [genstart-21*1000 genend+21*1000];
 
     fill([genstart, genend, genend, genstart],[ax.YLim(1) ax.YLim(1) ax.YLim(2) ax.YLim(2)],[237 177 32]./255,'EdgeColor',[237 177 32]./255,'FaceAlpha',0.2,'EdgeAlpha',0.2)
@@ -252,26 +256,30 @@ for i = 1:length(let)
     fill([genend, genend+20*1000, genend+20*1000, genend],[ax.YLim(1) ax.YLim(1) ax.YLim(2) ax.YLim(2)],[237 177 32]./255,'EdgeColor',[237 177 32]./255,'FaceAlpha',0.05,'EdgeAlpha',0)
 
     if order(i) == 1 || order(i) == 4 || order(i) == 7 || order(i) == 11
-        xlabel('Chromosome 17 position [bp]','Interpreter','latex','FontSize',14)
+        xlabel('Chromosome 17 position [bp]','FontSize',7)
         ax.XTick = [genstart-20*1000, genstart, genend, genend+20*1000];
         ax.XAxis.Exponent = 0;
         xtickformat('%.0f');
     end
 
     if order(i) == 1 || order(i) == 2 || order(i) == 3
-        ylabel('-$log_{10}$(P-Value)','Interpreter','latex','FontSize',14)
+        ylabel('-log_{10}(P-Value)','FontSize',7)
     end
 
     if order(i) == 1
         ax.YLim(2) = 90;
     end
-    text(genstart-20*1000,alt(i),let{i},'Interpreter','latex','FontSize',17,'VerticalAlignment','bottom')
-    l = legend('Sclerostin',outcomes_names{i},'Interpreter','latex','FontSize',11,'FontWeight','bold','Location','northeast');
+    text(genstart-20*1000,alt(i),let{i},'FontSize',7,'VerticalAlignment','bottom')
+    [l,icons] = legend('Sclerostin',outcomes_names{i},'FontSize',4,'Location','northeast');
+    h = findobj(icons,'type','patch');
+    set(h,'MarkerSize',3); 
 end
 
 f.CurrentAxes = AX(10);  box off; axis off;
-print(f,[path 'Figures\SFig6.png'],"-dpng","-r800")
+orient(f,'landscape')
 
+% print(f,[path 'Figures\SFig6.png'],"-dpng","-r800")
+print(f,[path '\Figures\SFig6.pdf'],'-dpdf', '-bestfit')
 
 %% Step-wise pruning - continuous
 clear all; close all;
@@ -311,26 +319,26 @@ f.Position = [9 60 1767 920];
     n0 = {'Heel bone mineral density', 'Cholesterol','LDL-Cholesterol','HDL-Cholesterol','Triglycerides',...
         'Apolipoprotein-A', 'Apolipoprotein-B','C-Reactive protein','Lipoprotein (a)','Glucose','HbA1c'};
     f.CurrentAxes = AX(1); hold on; grid on; box on;
-    errorbar(t1.Beta, [11,9,8,2,1]+0.3, t1.Beta-t1.L95CI, t1.U95CI-t1.Beta,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255)
-    errorbar(t1_1.Beta, [11,9,8,2,1]+0.1, t1_1.Beta-t1_1.L95CI, t1_1.U95CI-t1_1.Beta,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[90 139 162]/255,"Color",[90 139 162]/255)
-    errorbar(t2.Beta, flip([1:10])-0.1, t2.Beta-t2.L95CI, t2.U95CI-t2.Beta,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[167 21 49]/255,"Color",[167 21 49]/255)
-    errorbar(t2_1.Beta, flip([1:10])-0.3, t2_1.Beta-t2_1.L95CI, t2_1.U95CI-t2_1.Beta,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[118 31 42]/255,"Color",[118 31 42]/255)
+    errorbar(t1.Beta, [11,9,8,2,1]+0.3, t1.Beta-t1.L95CI, t1.U95CI-t1.Beta,"o","horizontal","LineWidth",1,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255,"MarkerSize",3)
+    errorbar(t1_1.Beta, [11,9,8,2,1]+0.1, t1_1.Beta-t1_1.L95CI, t1_1.U95CI-t1_1.Beta,"o","horizontal","LineWidth",1,"MarkerFaceColor",[90 139 162]/255,"Color",[90 139 162]/255,"MarkerSize",3)
+    errorbar(t2.Beta, flip([1:10])-0.1, t2.Beta-t2.L95CI, t2.U95CI-t2.Beta,"o","horizontal","LineWidth",1,"MarkerFaceColor",[167 21 49]/255,"Color",[167 21 49]/255,"MarkerSize",3)
+    errorbar(t2_1.Beta, flip([1:10])-0.3, t2_1.Beta-t2_1.L95CI, t2_1.U95CI-t2_1.Beta,"o","horizontal","LineWidth",1,"MarkerFaceColor",[118 31 42]/255,"Color",[118 31 42]/255,"MarkerSize",3)
 
     fill([-0.6 1.2 1.2 -0.6],[12 12 10.5 10.5],[0.7 0.7 0.7],"FaceAlpha",0.2,"EdgeColor",[0.7 0.7 0.7],"EdgeAlpha",0.2)
 
     ax = gca;
     ax.YTick = 1:11;
     ax.YTickLabel = flip(n0);
-    ax.TickLabelInterpreter = 'latex';
+
     ax.XLim = [-.4 1.2]; ax.XTick = [-0.4:0.2:1.2];
     ax.YLim = [0.5 11.5];
-    ax.FontSize = 11;
+    ax.FontSize = 8;
     xline(0,"LineWidth",1.5,"LineStyle","--","Color",'k')
-    l1 = legend('GWAS (r2$\leq$0.3)', ['GWAS (r2$\leq$' r2{j} ')'], 'UK Biobank (r2$\leq$0.3)', ['UK Biobank (r2$\leq$' r2{j} ')'],'FontSize',12);
-    l1.Interpreter = 'latex'; l1.NumColumns = 2; l1.Location = "northoutside";
+    l1 = legend('GWAS (r^2\leq0.3)', ['GWAS (r^2\leq' r2{j} ')'], 'UK Biobank (r^2\leq0.3)', ['UK Biobank (r^2\leq' r2{j} ')'],'FontSize',7);
+    l1.NumColumns = 2; l1.Location = "northoutside";
     l1.Position    = [0.1886    0.9234    0.2078    0.0466];
-    text(-0.5, 12.05, 'A)','Interpreter','latex','FontSize',17)
-    xlabel("Unit increase per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
+    text(-0.5, 12.05, 'A)','FontSize',9)
+    xlabel("Unit increase per 1-SD decrease in sclerostin levels",'FontSize',8)
 
     % Figure B ------------------------------------------------------------
     % GWAS results
@@ -377,32 +385,34 @@ f.Position = [9 60 1767 920];
         'Hypertension','Type 2 diabetes'};
     f.CurrentAxes = AX(2); hold on; grid on; box on; hold on; grid on; box on;
 
-    errorbar(t1.OR, flip([1:6])+0.25, t1.OR-t1.L95CI, t1.U95CI-t1.OR,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255)
-    errorbar(t1_1.OR, flip([1:6])+0.15, t1_1.OR-t1_1.L95CI, t1_1.U95CI-t1_1.OR,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[90 139 162]/255,"Color",[90 139 162]/255)
-    errorbar(t2.OR, flip([1:5])+0.05, t2.OR-t2.L95CI, t2.U95CI-t2.OR,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[167 21 49]/255,"Color",[167 21 49]/255)
-    errorbar(t2_1.OR, flip([1:5])-0.05, t2_1.OR-t2_1.L95CI, t2_1.U95CI-t2_1.OR,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[118 31 42]/255,"Color",[118 31 42]/255)
-    errorbar(t3.OR, flip([1:5])-0.15, t3.OR-t3.L95CI, t3.U95CI-t3.OR,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[206 109 50]/255,"Color",[206 109 50]/255)
-    errorbar(t3_1.OR, flip([1:5])-0.25, t3_1.OR-t3_1.L95CI, t3_1.U95CI-t3_1.OR,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[128 76 43]/255,"Color",[128 76 43]/255)
+    errorbar(t1.OR, flip([1:6])+0.25, t1.OR-t1.L95CI, t1.U95CI-t1.OR,"o","horizontal","LineWidth",1,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255,"MarkerSize",3)
+    errorbar(t1_1.OR, flip([1:6])+0.15, t1_1.OR-t1_1.L95CI, t1_1.U95CI-t1_1.OR,"o","horizontal","LineWidth",1,"MarkerFaceColor",[90 139 162]/255,"Color",[90 139 162]/255,"MarkerSize",3)
+    errorbar(t2.OR, flip([1:5])+0.05, t2.OR-t2.L95CI, t2.U95CI-t2.OR,"o","horizontal","LineWidth",1,"MarkerFaceColor",[167 21 49]/255,"Color",[167 21 49]/255,"MarkerSize",3)
+    errorbar(t2_1.OR, flip([1:5])-0.05, t2_1.OR-t2_1.L95CI, t2_1.U95CI-t2_1.OR,"o","horizontal","LineWidth",1,"MarkerFaceColor",[118 31 42]/255,"Color",[118 31 42]/255,"MarkerSize",3)
+    errorbar(t3.OR, flip([1:5])-0.15, t3.OR-t3.L95CI, t3.U95CI-t3.OR,"o","horizontal","LineWidth",1,"MarkerFaceColor",[206 109 50]/255,"Color",[206 109 50]/255,"MarkerSize",3)
+    errorbar(t3_1.OR, flip([1:5])-0.25, t3_1.OR-t3_1.L95CI, t3_1.U95CI-t3_1.OR,"o","horizontal","LineWidth",1,"MarkerFaceColor",[128 76 43]/255,"Color",[128 76 43]/255,"MarkerSize",3)
 
     fill([0.075 4 4 0.075],[5.5 5.5 6.5 6.5],[0.7 0.7 0.7],"FaceAlpha",0.2,"EdgeColor",[0.7 0.7 0.7],"EdgeAlpha",0.2)
 
     ax = gca;
     ax.YTick = 1:6;
     ax.YTickLabel = flip(n0);
-    ax.TickLabelInterpreter = 'latex';
+
     ax.YLim = [0.5 6.5];
     ax.XScale = 'log';
     ax.XLim = [0.075 4];
     ax.XTick = [0.1 0.25 0.5 1 2 4];
     xline(1,"LineWidth",1.5,"LineStyle","--","Color",'k')
-    ax.FontSize = 11;
-    l = legend('GWAS [Odds, r2$\leq$0.3]', ['GWAS [Odds, r2$\leq$' r2{j} ']'], ...
-        'UKB-LR [Odds, r2$\leq$0.3]',['UKB-LR [Odds, r2$\leq$' r2{j} ']'], ...
-        'UKB-SA(Birth) [Hazard, r2$\leq$0.3]',['UKB-SA(Birth) [Hazard, r2$\leq$' r2{j} ']'],'FontSize',10.5);
-    l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside"; l.Position = [0.6052    0.9175    0.3847    0.0514];
-    xlabel("Ratio per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
-    text(0.05, 6.8, 'B)','Interpreter','latex','FontSize',17)
-    print(f,[path 'Figures\SFig7_' r2{j} '.png'],"-dpng","-r800")
+    ax.FontSize = 8;
+    [l] = legend('GWAS [Odds, r^2\leq0.3]', ['GWAS [Odds, r^2\leq' r2{j} ']'], ...
+        'UKB-LR [Odds, r^2\leq0.3]',['UKB-LR [Odds, r^2\leq' r2{j} ']'], ...
+        'UKB-SA(Birth) [Hazard, r^2\leq0.3]',['UKB-SA(Birth) [Hazard, r^2\leq' r2{j} ']'],'FontSize',7);
+    l.NumColumns = 2; l.Location = "northoutside"; l.Position = [0.6052    0.925    0.3847    0.0514];
+    xlabel("Ratio per 1-SD decrease in sclerostin levels",'FontSize',8)
+    text(0.05, 6.8, 'B)','FontSize',9)
+
+    orient(f,'landscape')
+    print(f,[path '\Figures\SFig7_' r2{j} '.pdf'],'-dpdf', '-bestfit')
 end
 
 
@@ -446,25 +456,25 @@ n0 = {'Heel bone mineral density', 'Cholesterol','LDL-Cholesterol','HDL-Choleste
 
 f.CurrentAxes = AX(1); hold on; grid on; box on;
 
-errorbar(t1.Beta, [11,9,8,2,1]+0.25, t1.Beta-t1.L95CI, t1.U95CI-t1.Beta,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255)
-errorbar(t11.Beta, [11,9,8,2,1]+0.1, t11.Beta-t11.L95CI, t11.U95CI-t11.Beta,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[90 139 162]/255,"Color",[90 139 162]/255)
-errorbar(t2.Beta, flip([1:10])-0.1, t2.Beta-t2.L95CI, t2.U95CI-t2.Beta,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[167 21 49]/255,"Color",[167 21 49]/255)
-errorbar(t22.Beta, flip([1:10])-0.25, t22.Beta-t22.L95CI, t22.U95CI-t22.Beta,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[118 31 42]/255,"Color",[118 31 42]/255)
+errorbar(t1.Beta, [11,9,8,2,1]+0.25, t1.Beta-t1.L95CI, t1.U95CI-t1.Beta,"o","horizontal","LineWidth",1,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255,"MarkerSize",3)
+errorbar(t11.Beta, [11,9,8,2,1]+0.1, t11.Beta-t11.L95CI, t11.U95CI-t11.Beta,"o","horizontal","LineWidth",1,"MarkerFaceColor",[90 139 162]/255,"Color",[90 139 162]/255,"MarkerSize",3)
+errorbar(t2.Beta, flip([1:10])-0.1, t2.Beta-t2.L95CI, t2.U95CI-t2.Beta,"o","horizontal","LineWidth",1,"MarkerFaceColor",[167 21 49]/255,"Color",[167 21 49]/255,"MarkerSize",3)
+errorbar(t22.Beta, flip([1:10])-0.25, t22.Beta-t22.L95CI, t22.U95CI-t22.Beta,"o","horizontal","LineWidth",1,"MarkerFaceColor",[118 31 42]/255,"Color",[118 31 42]/255,"MarkerSize",3)
 
 fill([-0.6 1.3 1.3 -0.6],[12 12 10.5 10.5],[0.7 0.7 0.7],"FaceAlpha",0.2,"EdgeColor",[0.7 0.7 0.7],"EdgeAlpha",0.2)
 
 ax = gca;
 ax.YTick = 1:11;
 ax.YTickLabel = flip(n0);
-ax.TickLabelInterpreter = 'latex';
+
 ax.XLim = [-.5 1.3]; ax.XTick = [-0.4:0.2:1.2];
 ax.YLim = [0.5 11.5];
-ax.FontSize = 11;
+ax.FontSize = 8;
 xline(0,"LineWidth",1.5,"LineStyle","--","Color",'k')
-l1 = legend('GWAS (Fixed)', 'GWAS (Random)','UK Biobank (Fixed)', 'UK Biobank (Random)','FontSize',12);
-l1.Interpreter = 'latex'; l1.NumColumns = 2; l1.Location = "northoutside"; l1.Position = [0.1886    0.9234    0.2078    0.0466];
-text(-0.6, 12.1, 'A)','Interpreter','latex','FontSize',17)
-xlabel("Unit increase per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
+l1 = legend('GWAS (Fixed)', 'GWAS (Random)','UK Biobank (Fixed)', 'UK Biobank (Random)','FontSize',7);
+l1.NumColumns = 2; l1.Location = "northoutside"; l1.Position = [0.1886    0.9234    0.2078    0.0466];
+text(-0.6, 12.1, 'A)','FontSize',9)
+xlabel("Unit increase per 1-SD decrease in sclerostin levels",'FontSize',8)
 
 % Figure B ------------------------------------------------------------
 % GWAS results
@@ -514,35 +524,34 @@ n0 = {'Hip fracture', 'Coronary artery disease','Myocardial infarction','Ischaem
 
 f.CurrentAxes = AX(2); hold on; grid on; box on; hold on; grid on; box on;
 
-errorbar(t1.OR, flip([1:6])+0.25, t1.OR-t1.L95CI, t1.U95CI-t1.OR,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255)
-errorbar(t11.OR, flip([1:6])+0.15, t11.OR-t11.L95CI, t11.U95CI-t11.OR,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[90 139 162]/255,"Color",[90 139 162]/255)
-errorbar(t2.OR, flip([1:5])+0.05, t2.OR-t2.L95CI, t2.U95CI-t2.OR,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[167 21 49]/255,"Color",[167 21 49]/255)
-errorbar(t22.OR, flip([1:5])-0.05, t22.OR-t22.L95CI, t22.U95CI-t22.OR,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[118 31 42]/255,"Color",[118 31 42]/255)
-errorbar(t3.OR, flip([1:5])-0.15, t3.OR-t3.L95CI, t3.U95CI-t3.OR,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[206 109 50]/255,"Color",[206 109 50]/255)
-errorbar(t33.OR, flip([1:5])-0.25, t33.OR-t33.L95CI, t33.U95CI-t33.OR,"o","horizontal","LineWidth",1.25,"MarkerFaceColor",[128 76 43]/255,"Color",[128 76 43]/255)
+errorbar(t1.OR, flip([1:6])+0.25, t1.OR-t1.L95CI, t1.U95CI-t1.OR,"o","horizontal","LineWidth",1,"MarkerFaceColor",[86 166 194]/255,"Color",[86 166 194]/255,"MarkerSize",3)
+errorbar(t11.OR, flip([1:6])+0.15, t11.OR-t11.L95CI, t11.U95CI-t11.OR,"o","horizontal","LineWidth",1,"MarkerFaceColor",[90 139 162]/255,"Color",[90 139 162]/255,"MarkerSize",3)
+errorbar(t2.OR, flip([1:5])+0.05, t2.OR-t2.L95CI, t2.U95CI-t2.OR,"o","horizontal","LineWidth",1,"MarkerFaceColor",[167 21 49]/255,"Color",[167 21 49]/255,"MarkerSize",3)
+errorbar(t22.OR, flip([1:5])-0.05, t22.OR-t22.L95CI, t22.U95CI-t22.OR,"o","horizontal","LineWidth",1,"MarkerFaceColor",[118 31 42]/255,"Color",[118 31 42]/255,"MarkerSize",3)
+errorbar(t3.OR, flip([1:5])-0.15, t3.OR-t3.L95CI, t3.U95CI-t3.OR,"o","horizontal","LineWidth",1,"MarkerFaceColor",[206 109 50]/255,"Color",[206 109 50]/255,"MarkerSize",3)
+errorbar(t33.OR, flip([1:5])-0.25, t33.OR-t33.L95CI, t33.U95CI-t33.OR,"o","horizontal","LineWidth",1,"MarkerFaceColor",[128 76 43]/255,"Color",[128 76 43]/255,"MarkerSize",3)
 
 fill([0.05 15 15 0.05],[5.5 5.5 6.5 6.5],[0.7 0.7 0.7],"FaceAlpha",0.2,"EdgeColor",[0.7 0.7 0.7],"EdgeAlpha",0.2)
 
 ax = gca;
 ax.YTick = 1:6;
 ax.YTickLabel = flip(n0);
-ax.TickLabelInterpreter = 'latex';
+
 ax.YLim = [0.5 6.5];
 ax.XScale = 'log';
 ax.XLim = [0.05 15];
 ax.XTick = [0.1 0.25 0.5 1 2 4 8];
 xline(1,"LineWidth",1.5,"LineStyle","--","Color",'k')
-ax.FontSize = 11;
+ax.FontSize = 8;
 l = legend('GWAS [Odds, Fixed]','GWAS [Odds, Random]', ...
     'UKB-LR [Odds, Fixed]','UKB-LR [Odds, Random]', ...
-    'UKB-SA(Birth) [Hazard, Fixed]','UKB-SA(Birth) [Hazard, Random]','FontSize',10.5);
-l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside"; l.Position = [0.6052    0.9175    0.3847    0.0514];
-xlabel("Ratio per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
-text(0.03, 6.8, 'B)','Interpreter','latex','FontSize',17)
+    'UKB-SA(Birth) [Hazard, Fixed]','UKB-SA(Birth) [Hazard, Random]','FontSize',7);
+l.NumColumns = 2; l.Location = "northoutside"; l.Position = [0.6052    0.92    0.3847    0.0514];
+xlabel("Ratio per 1-SD decrease in sclerostin levels",'FontSize',8)
+text(0.03, 6.8, 'B)','FontSize',9)
 
-print(f,[path '\Figures\Fig9.png'],"-dpng","-r800")
-
-
+orient(f,'landscape')
+print(f,[path '\Figures\Fig9.pdf'],'-dpdf', '-bestfit')
 
 %% Principal components analysis
 
@@ -578,15 +587,15 @@ fill([-0.6 1.3 1.3 -0.6],[5.5 5.5 4.5 4.5],[0.7 0.7 0.7],"FaceAlpha",0.2,"EdgeCo
 ax = gca;
 ax.YTick = 1:5;
 ax.YTickLabel = flip(n0);
-ax.TickLabelInterpreter = 'latex';
+
 ax.XLim = [-.5 1.3]; ax.XTick = [-0.4:0.2:1.2];
 ax.YLim = [0.5 5.5];
-ax.FontSize = 11;
+ax.FontSize = 8;
 xline(0,"LineWidth",1.5,"LineStyle","--","Color",'k')
-l1 = legend('GWAS (Pruning)', 'GWAS (PCA)','FontSize',12); 
-text(-0.65, 5.75, 'A)','Interpreter','latex','FontSize',17)
-l1.Interpreter = 'latex'; l1.NumColumns = 2; l1.Location = "northoutside";l1.Position = [0.1886    0.9234    0.2078    0.035];
-xlabel("Unit increase per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
+l1 = legend('GWAS (Pruning)', 'GWAS (PCA)','FontSize',7); 
+text(-0.65, 5.75, 'A)','FontSize',9)
+l1.NumColumns = 2; l1.Location = "northoutside";l1.Position = [0.1886    0.9234    0.2078    0.035];
+xlabel("Unit increase per 1-SD decrease in sclerostin levels",'FontSize',8)
 
 % Figure B ------------------------------------------------------------
 % GWAS results
@@ -614,19 +623,20 @@ fill([0.05 15 15 0.05],[5.5 5.5 6.5 6.5],[0.7 0.7 0.7],"FaceAlpha",0.2,"EdgeColo
 ax = gca;
 ax.YTick = 1:6;
 ax.YTickLabel = flip(n0);
-ax.TickLabelInterpreter = 'latex';
+
 ax.YLim = [0.5 6.5];
 ax.XScale = 'log';
 ax.XLim = [0.05 15];
 ax.XTick = [0.1 0.25 0.5 1 2 4 8];
 xline(1,"LineWidth",1.5,"LineStyle","--","Color",'k')
-ax.FontSize = 11;
-l = legend('GWAS (Pruning)','GWAS (PCA)','FontSize',12);
-l.Interpreter = 'latex'; l.NumColumns = 2; l.Location = "northoutside"; l.Position = [0.6875    0.9234   0.2078    0.035];
-xlabel("Odds ratio per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
-text(0.03, 6.8, 'B)','Interpreter','latex','FontSize',17)
+ax.FontSize = 8;
+l = legend('GWAS (Pruning)','GWAS (PCA)','FontSize',7);
+l.NumColumns = 2; l.Location = "northoutside"; l.Position = [0.6875    0.9234   0.2078    0.035];
+xlabel("Odds ratio per 1-SD decrease in sclerostin levels",'FontSize',8)
+text(0.03, 6.8, 'B)','FontSize',9)
 
-print(f,[path '\Figures\Fig10.png'],"-dpng","-r800")
+orient(f,'landscape')
+print(f,[path '\Figures\Fig10.pdf'],'-dpdf', '-bestfit')
 
 %% Survival analysis since enrolment - categorical and survival outcomes
 clear all; close all;
@@ -655,20 +665,20 @@ errorbar(t33.OR, flip([1:5])-0.25, t33.OR-t33.L95CI, t33.U95CI-t33.OR,"o","horiz
 ax = gca;
 ax.YTick = 1:5;
 ax.YTickLabel = flip(n0);
-ax.TickLabelInterpreter = 'latex';
+
 ax.YLim = [0.5 5.5];
 ax.XScale = 'log';
 ax.XLim = [0.05 15];
 ax.XTick = [0.1 0.25 0.5 1 2 4 8];
 xline(1,"LineWidth",1.5,"LineStyle","--","Color",'k')
-ax.FontSize = 11;
-l = legend('SA since birth', "SA since enrolment",'FontSize',10.5);
-l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside"; l.Position = [0.1050 0.9370 0.8804 0.0373];
-xlabel("HR per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
-text(0.015, 6.8, 'B)','Interpreter','latex','FontSize',17)
+ax.FontSize = 8;
+l = legend('SA since birth', "SA since enrolment",'FontSize',9);
+l.NumColumns = 3; l.Location = "northoutside"; l.Position = [0.43 0.9370 0.2078 0.0373];
+xlabel("HR per 1-SD decrease in sclerostin levels",'FontSize',8)
+text(0.015, 6.8, 'B)','FontSize',9)
 
-print(f,[path '\Figures\Fig11.png'],"-dpng","-r800")
-
+orient(f,'landscape')
+print(f,[path '\Figures\Fig11.pdf'],'-dpdf', '-bestfit')
 %% Survival analysis new package - categorical and survival outcomes
 clear all; close all;
 path = 'D:\Projects\MR_Sclerostin\Results\';
@@ -694,7 +704,7 @@ errorbar(t33.OR, flip([1:5])-0.25, t33.OR-t33.L95CI, t33.U95CI-t33.OR,"o","horiz
 ax = gca;
 ax.YTick = 1:5;
 ax.YTickLabel = flip(n0);
-ax.TickLabelInterpreter = 'latex';
+
 ax.YLim = [0.5 5.5];
 ax.XScale = 'log';
 ax.XLim = [0.05 15];
@@ -702,12 +712,12 @@ ax.XTick = [0.1 0.25 0.5 1 2 4 8];
 xline(1,"LineWidth",1.5,"LineStyle","--","Color",'k')
 ax.FontSize = 11;
 l = legend('SA', "SA with gwasurvivr",'FontSize',10.5);
-l.Interpreter = 'latex'; l.NumColumns = 3; l.Location = "northoutside"; l.Position = [0.1050 0.9370 0.8804 0.0373];
-xlabel("HR per 1-SD decrease in sclerostin levels","Interpreter","latex",'FontSize',12)
-text(0.015, 6.8, 'B)','Interpreter','latex','FontSize',17)
+l.NumColumns = 3; l.Location = "northoutside"; l.Position = [0.1050 0.9370 0.8804 0.0373];
+xlabel("HR per 1-SD decrease in sclerostin levels",'FontSize',12)
+text(0.015, 6.8, 'B)','FontSize',17)
 
-print(f,[path '\Figures\Fig12.png'],"-dpng","-r800")
-
+% print(f,[path '\Figures\Fig12.png'],"-dpng","-r800")
+saveas(f,[path '\Figures\Fig12.pdf'])
 
 %% Functions
 function [AX] = get_axes(N,lx,mx,rx,dy,my,uy)

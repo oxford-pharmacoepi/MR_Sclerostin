@@ -50,7 +50,6 @@ mendelianRandomisationPCA <- function(exposure, outcome, gwasID = NULL, binary =
   SE  <-  as.numeric(sqrt(solve(t(betaX_transformed%*%solve(omega_transformed)%*%betaX_transformed))))
   pval <-  as.numeric(exp(-0.717*abs(IVW/SE)-0.416*(IVW/SE)^2)) # calculated based on: https://www.bmj.com/content/343/bmj.d2304
 
-
   tableResults <- list()
   tableResults$Phi <- phi
 

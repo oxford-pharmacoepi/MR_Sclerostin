@@ -78,3 +78,5 @@ source(here::here("SurvivalPackage.R"))
 dir.create(paste0(pathData,"Results/Tables"))
 pathResults <- paste0(pathData,"Results/Tables")
 
+
+
