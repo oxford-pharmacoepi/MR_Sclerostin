@@ -1,4 +1,4 @@
-# MR_Sclerostin
+# Sclerostin levels' effect on cardiovascular biomarkers, risk factors, and cardiovascular disease: a Mendelian randomisation study
 **Background:** Sclerostin inhibitors have been shown to improve bone mineral density (BMD) in large trials and decrease fracture risk. However, regulators like the European Medicines Agency have warned of a possible cardiovascular risk associated with their use, and restricted indication to subjects with no previous cardiovascular history. While observational studies are ongoing, there is a scarcity of information on the causal effects of sclerostin inhibition on cardiovascular risk.
 
 **Objective:** To study the association between sclerostin and cardiovascular health, including biomarkers, risk factors, and cardiovascular events by using Mendelian randomisation (MR) methods.
