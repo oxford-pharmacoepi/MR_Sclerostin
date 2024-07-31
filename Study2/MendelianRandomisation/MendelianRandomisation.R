@@ -132,8 +132,8 @@ for(i in instruments){
           dplyr::select("eid", "outcome", "snp" = exposure_table$SNP[j], "sex", "batch", dplyr::starts_with("PC")) %>%
           dplyr::filter(!is.na(snp))
 
-        # Logistic regression - Adjusted model for sex and the first 10 principal components
-        regression <- stats::lm(outcome ~ snp + sex + batch + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10,
+        # Logistic regression - Adjusted model for sex, age and the first 10 principal components
+        regression <- stats::lm(outcome ~ snp + sex + age + batch + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10,
                                 data = table)
         regression <- coefficients(summary(regression))
 
