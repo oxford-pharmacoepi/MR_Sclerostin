@@ -44,7 +44,7 @@ for(i in instruments){
 
   # Select only snps of interest
   genetics_table <- genetics %>%
-    dplyr::select("eid", exposure_table$SNP, paste0(exposure_table$SNP,"_0"), "sex", dplyr::starts_with("PC"), "batch")
+    dplyr::select("eid", exposure_table$SNP, paste0(exposure_table$SNP,"_0"), "sex", "age_at_assessment", dplyr::starts_with("PC"), "batch")
 
   for(outcome_i in outcomes){
     # Extract regression method
@@ -63,11 +63,11 @@ for(i in instruments){
         # Table with all the necessary variables
         table <- genetics_table %>%
           dplyr::inner_join(outcome_table, by = "eid") %>%
-          dplyr::select("eid", "state", "age", "snp" = exposure_table$SNP[j], "sex", "batch", dplyr::starts_with("PC")) %>%
+          dplyr::select("eid", "state", "age", "snp" = exposure_table$SNP[j], "sex", "age_at_assessment", "batch", dplyr::starts_with("PC")) %>%
           dplyr::filter(!is.na(snp))
 
         # Survival analysis - Adjusted model for sex and the first 10 principal components
-        regression <- survival::coxph(survival::Surv(age,state) ~ snp + sex + batch + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10,
+        regression <- survival::coxph(survival::Surv(age,state) ~ snp + sex + age_at_assessment + batch + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10,
                                       data = table)
 
         regression <- coefficients(summary(regression))
@@ -96,11 +96,11 @@ for(i in instruments){
         # Table with all the necessary variables
         table <- genetics_table %>%
           dplyr::inner_join(outcome_table, by = "eid") %>%
-          dplyr::select("eid", "state", "snp" = exposure_table$SNP[j], "sex", "batch", dplyr::starts_with("PC")) %>%
+          dplyr::select("eid", "state", "snp" = exposure_table$SNP[j], "sex", "age_at_assessment", "batch", dplyr::starts_with("PC")) %>%
           dplyr::filter(!is.na(snp))
 
         # Logaritmic regression - Adjusted model for sex and the first 10 principal components
-        regression <- stats::glm(state ~ snp + sex + batch + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10,
+        regression <- stats::glm(state ~ snp + sex + age_at_assessment + batch + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10,
                                  data = table,
                                  family = "binomial")
         regression <- coefficients(summary(regression))
@@ -129,11 +129,11 @@ for(i in instruments){
         # Table with all the necessary variables
         table <- genetics_table %>%
           dplyr::inner_join(outcome_table, by = "eid") %>%
-          dplyr::select("eid", "outcome", "snp" = exposure_table$SNP[j], "sex", "batch", dplyr::starts_with("PC")) %>%
+          dplyr::select("eid", "outcome", "snp" = exposure_table$SNP[j], "age_at_assessment", "sex", "batch", dplyr::starts_with("PC")) %>%
           dplyr::filter(!is.na(snp))
 
         # Logistic regression - Adjusted model for sex and the first 10 principal components
-        regression <- stats::lm(outcome ~ snp + sex + batch + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10,
+        regression <- stats::lm(outcome ~ snp + sex + age_at_assessment + batch + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10,
                                 data = table)
         regression <- coefficients(summary(regression))
 
